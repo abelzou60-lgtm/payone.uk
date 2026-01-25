@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>免费定制全球收付款聚合页面</title>
+    <!-- Font Awesome 图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tailwind CSS 框架 -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        /* 基础样式重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Microsoft YaHei", "微软雅黑", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        /* 页面容器 */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* 主标题样式 */
+        .main-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #FFD700;
+            text-align: center;
+            margin-bottom: 40px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+            line-height: 1.3;
+        }
+
+        /* 内容卡片样式 */
+        .content-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-bottom: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .content-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        /* 步骤标题样式 */
+        .step-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .step-title::before {
+            content: '';
+            width: 8px;
+            height: 24px;
+            background: #FFD700;
+            border-radius: 4px;
+            margin-right: 15px;
+        }
+
+        /* 内容文本样式 */
+        .content-text {
+            font-size: 16px;
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        /* 链接样式 */
+        .link {
+            color: #FFD700;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .link:hover {
+            color: #FFA500;
+            text-decoration: underline;
+        }
+
+        /* 两栏布局样式 */
+        .two-column-layout {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+
+        .column {
+            flex: 1;
+        }
+
+        /* 步骤容器样式 - 用于并列显示两个内容卡片 */
+        .steps-container {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .steps-container .content-card {
+            flex: 1;
+            margin-bottom: 0;
+        }
+
+        /* 响应式步骤容器 */
+        @media (max-width: 768px) {
+            .steps-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .steps-container .content-card {
+                margin-bottom: 20px;
+            }
+        }
+
+        /* 响应式两栏布局 */
+        @media (max-width: 768px) {
+            .two-column-layout {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+
+        /* 视频播放器容器 */
+        .video-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-top: 30px;
+            text-align: center;
+            width: 100vw;
+            max-width: 100%;
+            position: relative;
+            left: 50%;
+            right: 50%;
+            margin-left: -50vw;
+            margin-right: -50vw;
+        }
+
+        .video-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .bilibili-player {
+            width: 100%;
+            height: 500px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 0 auto;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 悬浮客服图标样式 */
+        .wechat-float {
+            width: 60px;
+            height: 60px;
+            background-color: hsl(148, 45%, 88%); /* 微信绿色 */
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+        }
+
+        .wechat-float:hover {
+            transform: scale(1.1);
+        }
+
+        .wechat-icon {
+            width: 40px;
+            height: 40px;
+            background-image: url('https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%C2%B7%E5%AE%A2%E5%9B%BE%E7%89%87%E5%BA%93/wechaticon.png'); /* 用户提供的微信图标URL */
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* WhatsApp悬浮图标样式 */
+        .whatsapp-float {
+            width: 60px;
+            height: 60px;
+            background-color: #25D366; /* WhatsApp绿色 */
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+        }
+
+        .whatsapp-icon {
+            font-size: 30px;
+            color: white;
+        }
+
+        /* 悬浮图标容器 */
+        .float-icons-container {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* 微信弹出窗样式 */
+        .wechat-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .wechat-popup {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            max-width: 300px;
+            width: 90%;
+        }
+
+        .wechat-qr {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 10px;
+            display: block;
+        }
+
+        .close-btn {
+            background-color: #ff4d4f;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        .close-btn:hover {
+            background-color: #ff7875;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 15px;
+            }
+
+            .main-title {
+                font-size: 24px;
+                margin-bottom: 30px;
+            }
+
+            .content-card {
+                padding: 20px;
+                margin-bottom: 20px;
+            }
+
+            .step-title {
+                font-size: 18px;
+                margin-bottom: 15px;
+            }
+
+            .content-text {
+                font-size: 14px;
+                line-height: 1.6;
+            }
+
+            .bilibili-player {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 页面容器 -->
+    <div class="container">
+        <!-- 主标题 -->
+        <h1 class="main-title">免费定制全球收付款聚合页面</h1>
+
+        <!-- 步骤容器 -->
+        <div class="steps-container">
+            <!-- 步骤一 -->
+            <div class="content-card">
+                <h2 class="step-title">第一步</h2>
+                <div class="two-column-layout">
+                    <div class="column">
+                        <div class="content-text">
+                            查看<a href="https://blog.aibochinese.com/payment/pay" target="_blank" class="link">"中国大陆个人如何打通全球收付款渠道-2026年最优解"</a>教程，了解全球收付款渠道的开通方法和流程。
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 步骤二 -->
+            <div class="content-card">
+                <h2 class="step-title">第二步</h2>
+                <div class="two-column-layout">
+                    <div class="column">
+                        <div class="content-text">
+                            整理下自己开通的支付渠道，做好文档；页面设计的要求，做一下描述，发送给右侧悬浮客服。
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 步骤三 -->
+        <div class="content-card">
+            <h2 class="step-title">第三步</h2>
+            <div class="content-text">
+                完善和更新
+            </div>
+            <div class="content-text">
+                1、我方可以免费提供"payone.uk"的子域名，或者委托我们购买一个独立的域名
+            </div>
+            <div class="content-text">
+                2、如果需要我们定制完善的业务网站，请查看<a href="https://blog.aibochinese.com/sitesbuild" target="_blank" class="link">https://blog.aibochinese.com/sitesbuild</a>
+            </div>
+        </div>
+
+        <!-- 视频区 -->
+        <div class="video-container">
+            <h2 class="video-title">视频教程</h2>
+            <video class="bilibili-player" controls autoplay muted playsinline>
+                <source src="https://cf.aibomart.com/payone.uk/26-1/%E5%85%8D%E8%B4%B9%E5%B8%AE%E6%82%A8%E5%81%9A%E4%B8%80%E4%B8%AA%E8%81%9A%E5%90%88%E5%85%A8%E7%90%83%E6%94%B6%E4%BB%98%E6%AC%BE%E9%A1%B5%E9%9D%A2%EF%BC%8C%E5%85%8D%E8%B4%B9%E9%80%81%E5%AD%90%E5%9F%9F%E5%90%8D%EF%BC%8C%E6%8C%87%E5%AF%BC%E5%BC%80%E9%80%9A%E6%B8%A0%E9%81%93%E6%B5%81%E7%A8%8B/%E5%85%8D%E8%B4%B9%E5%B8%AE%E6%82%A8%E5%81%9A%E4%B8%80%E4%B8%AA%E8%81%9A%E5%90%88%E5%85%A8%E7%90%83%E6%94%B6%E4%BB%98%E6%AC%BE%E9%A1%B5%E9%9D%A2%EF%BC%8C%E5%85%8D%E8%B4%B9%E9%80%81%E5%AD%90%E5%9F%9F%E5%90%8D%EF%BC%8C%E6%8C%87%E5%AF%BC%E5%BC%80%E9%80%9A%E6%B8%A0%E9%81%93%E6%B5%81%E7%A8%8B.mp4" type="video/mp4">
+                您的浏览器不支持视频播放
+            </video>
+        </div>
+    </div>
+
+    <!-- 悬浮客服图标 -->
+    <div class="float-icons-container">
+        <!-- 悬浮微信客服图标 -->
+        <div class="wechat-float" onclick="toggleWechatModal()">
+            <div class="wechat-icon"></div>
+        </div>
+        
+        <!-- 悬浮WhatsApp客服图标 -->
+        <a href="https://wa.me/message/QXYAFEGTDWIBE1" target="_blank" rel="noopener noreferrer" class="whatsapp-float">
+            <i class="fab fa-whatsapp whatsapp-icon"></i>
+        </a>
+    </div>
+
+    <!-- 微信弹出窗 -->
+    <div id="wechatModal" class="wechat-modal" onclick="closeWechatModal(event)">
+        <div class="wechat-popup" onclick="event.stopPropagation()">
+            <h3>微信客服</h3>
+            <img src="https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%C2%B7%E5%AE%A2%E5%9B%BE%E7%89%87%E5%BA%93/AIBOBLOG%20WECHAT.png" alt="微信二维码" class="wechat-qr">
+            <button class="close-btn" onclick="closeWechatModal()">关闭</button>
+        </div>
+    </div>
+
+    <script>
+        // 微信弹窗控制函数
+        function toggleWechatModal() {
+            const modal = document.getElementById('wechatModal');
+            modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function closeWechatModal(event) {
+            document.getElementById('wechatModal').style.display = 'none';
+        }
+
+        // 点击模态背景关闭
+        window.onclick = function(event) {
+            const wechatModal = document.getElementById('wechatModal');
+            
+            if (event.target === wechatModal) {
+                closeWechatModal();
+            }
+        };
+    </script>
+</body>
+</html>
