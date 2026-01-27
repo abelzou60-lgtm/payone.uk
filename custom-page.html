@@ -33,6 +33,26 @@
             padding: 40px 20px;
         }
 
+        /* 首页按钮样式 */
+        .home-button {
+            display: inline-block;
+            background-color: #E91E63;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(233, 30, 99, 0.3);
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .home-button:hover {
+            background-color: #C2185B;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(233, 30, 99, 0.4);
+        }
+
         /* 主标题样式 */
         .main-title {
             font-size: 32px;
@@ -283,6 +303,12 @@
                 padding: 20px 15px;
             }
 
+            .home-button {
+                padding: 8px 16px;
+                font-size: 14px;
+                margin-bottom: 15px;
+            }
+
             .main-title {
                 font-size: 24px;
                 margin-bottom: 30px;
@@ -471,6 +497,9 @@
 <body>
     <!-- 页面容器 -->
     <div class="container">
+        <!-- 首页按钮 -->
+        <a href="index.html" class="home-button">首页</a>
+        
         <!-- 主标题 -->
         <h1 class="main-title">免费定制全球收付款聚合页面</h1>
 
