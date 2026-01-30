@@ -4,10 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CryptoCurrency payments</title>
-  <!-- 引入 Font Awesome 图标 -->
+  <!-- Font Awesome 图标库 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Tailwind CSS 框架 -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="https://cf.aibomart.com/payone.uk/payone-logo.png" sizes="16x16">
   <style>
-    /* 全局重置 */
+    /* 基础样式重置 */
     * {
       margin: 0;
       padding: 0;
@@ -15,699 +18,610 @@
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      font-family: "Microsoft YaHei", "微软雅黑", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       line-height: 1.6;
       color: #333;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
       background-color: #f8f9fa;
     }
 
-    /* 导航栏样式 */
-    header {
-      background-color: #fff;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 1000;
-    }
-
-    .navbar {
-      width: 100%;
-    }
-
-    .nav-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      height: 70px;
-      position: relative;
-    }
-
-    .nav-brand img {
-      height: 50px;
-      width: auto;
-    }
-
-    .nav-menu {
-      list-style: none;
-      display: flex;
-      gap: 40px;
-      margin: 0;
-      padding: 0;
-    }
-
-    .nav-item {
-      display: inline-block;
-    }
-
-    .nav-link {
-      text-decoration: none;
-      color: white;
-      font-weight: 500;
-      transition: all 0.3s ease;
-      padding: 8px 16px;
-      border-radius: 20px;
-      margin: 0 5px;
-      background-color: #3498db;
-      display: inline-block;
-    }
-
-    /* 不同颜色的导航链接 */
-    .nav-link-red { background-color: #e74c3c; color: white; }
-    .nav-link-blue { background-color: #3498db; color: white; }
-    .nav-link-green { background-color: #2ecc71; color: white; }
-    .nav-link-purple { background-color: #9b59b6; color: white; }
-    .nav-link-orange { background-color: #f39c12; color: white; }
-    .nav-link-teal { background-color: #1abc9c; color: white; }
-
-    /* 悬停效果 */
-    .nav-link-red:hover,
-    .nav-link-red.active { background-color: #c0392b; }
-    .nav-link-blue:hover,
-    .nav-link-blue.active { background-color: #2980b9; }
-    .nav-link-green:hover,
-    .nav-link-green.active { background-color: #27ae60; }
-    .nav-link-purple:hover,
-    .nav-link-purple.active { background-color: #8e44ad; }
-    .nav-link-orange:hover,
-    .nav-link-orange.active { background-color: #e67e22; }
-    .nav-link-teal:hover,
-    .nav-link-teal.active { background-color: #16a085; }
-
-    .nav-link:hover,
-    .nav-link.active {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    }
-
-    /* 汉堡菜单按钮 */
-    .nav-toggle {
-      display: none;
-      font-size: 28px;
-      cursor: pointer;
-      background: none;
-      border: none;
-      color: #333;
-      padding: 5px 10px;
-    }
-
-    /* 右侧垂直居中悬浮按钮组 */
-    .floating-contact {
-        position: fixed;
-        right: 20px;
-        top: 50%;
-        transform: translateY(-50%);
-        z-index: 9999;
-        display: flex;
-        flex-direction: column;
-        gap: 14px;
-    }
-
-    .floating-contact a {
-        width: 55px;
-        height: 55px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-        transition: all 0.3s ease;
-        overflow: hidden; /* 确保图标在hover缩放时不溢出 */
-    }
-
-    .floating-contact a:hover {
-        transform: translateY(-5px) scale(1.1);
-        box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-    }
-
-    .telegram   { background: hsl(200, 40%, 84%); }
-    .whatsapp   { background: hsl(142, 55%, 83%); }
-    .messenger  { background: hsl(198, 17%, 89%); }
-
-    .floating-contact img {
-        width: 55px;
-        height: 55px;
-        border-radius: 50%; /* 让图标也继承圆形裁剪 */
-    }
-
-    @media (max-width: 768px) {
-        .floating-contact {
-            right: 12px;
-            gap: 12px;
-        }
-        .floating-contact a {
-            width: 50px;
-            height: 50px;
-        }
-        .floating-contact img {
-            width: 50px;
-            height: 50px;
-        }
-    }
-
-    /* 主容器样式（通用示例） */
-    .main-content {
-      padding: 120px 20px 100px;
-      width: 100%;
-    }
-
+    /* 主容器样式 */
     .container {
-
+      max-width: 720px;
+      width: 100%;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      padding: 40px;
       margin: 0 auto;
       padding: 0 15px;
     }
 
-    /* 页脚样式 */
-    footer {
-      background-color: hsl(210, 40%, 40%);
-      color: hsl(0, 11%, 96%);
-      padding: 30px 20px;
-      margin-top: 50px;
-    }
-
-    .footer {
+    h1 {
       text-align: center;
+      color: #333;
+      margin-bottom: 30px;
+      font-size: 28px;
+    }
+
+    .payment-section {
+      margin-bottom: 30px;
+    }
+
+    .section-title {
       font-size: 18px;
+      color: #555;
+      margin-bottom: 15px;
+      font-weight: 600;
     }
 
-    .footer p {
-      margin: 10px 0;
+    .binance-pay-btn {
+      width: 100%;
+      background: linear-gradient(135deg, hsl(45, 15%, 90%) 0%, #dad3bb 100%);
+      border: none;
+      border-radius: 12px;
+      padding: 20px;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
     }
 
-    .footer a {
-      color: hsl(0, 0%, 100%);
-      text-decoration: none;
+    .pay-buttons-container {
+      display: flex;
+      gap: 15px;
+      margin-top: 15px;
     }
 
-    .footer a:hover {
-      text-decoration: underline;
+    .binance-pay-btn,
+    .krak-pay-btn {
+      flex: 1;
+      background: linear-gradient(135deg, hsl(45, 15%, 90%) 0%, #dad3bb 100%);
+      border: none;
+      border-radius: 12px;
+      padding: 20px;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
     }
 
-    /* 移动端底部导航栏 */
-    .mobile-nav {
+    .binance-pay-btn:hover,
+    .krak-pay-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(240, 185, 11, 0.3);
+    }
+
+    .binance-pay-btn img,
+    .krak-pay-btn img {
+      height: 40px;
+    }
+
+    .binance-pay-btn span,
+    .krak-pay-btn span {
+      font-size: 20px;
+      font-weight: bold;
+      color: #1e2329;
+    }
+
+    .crypto-options {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .crypto-btn {
+      background: #f8f9fa;
+      border: 2px solid #e0e0e0;
+      border-radius: 12px;
+      padding: 20px 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-align: center;
+    }
+
+    .crypto-btn:hover {
+      border-color: #667eea;
+      background: #f0f2ff;
+      transform: translateY(-3px);
+    }
+
+    .crypto-btn.active {
+      border-color: #667eea;
+      background: #e8ebff;
+    }
+
+    .crypto-btn img {
+      height: 50px;
+      margin-bottom: 10px;
+    }
+
+    .crypto-btn .crypto-name {
+      font-weight: 600;
+      color: #333;
+      font-size: 14px;
+    }
+
+    .network-selection {
       display: none;
+      margin-top: 20px;
+      padding: 20px;
+      background: #f8f9fa;
+      border-radius: 12px;
+    }
+
+    .network-selection.active {
+      display: block;
+    }
+
+    .network-buttons {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .network-btn {
+      flex: 1;
+      padding: 12px;
+      border: 2px solid #e0e0e0;
+      background: white;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+
+    .network-btn:hover {
+      border-color: #667eea;
+      background: #f0f2ff;
+    }
+
+    .network-btn.active {
+      background: #667eea;
+      color: white;
+      border-color: #667eea;
+    }
+
+    .address-display {
+      display: none;
+      margin-top: 20px;
+    }
+
+    .address-display.active {
+      display: block;
+    }
+
+    .address-box {
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+
+    .address-label {
+      font-size: 12px;
+      color: #888;
+      margin-bottom: 8px;
+    }
+
+    .address-content {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .address-text {
+      flex: 1;
+      font-family: monospace;
+      font-size: 13px;
+      color: #333;
+      word-break: break-all;
+      padding: 10px;
+      background: #f8f9fa;
+      border-radius: 6px;
+    }
+
+    .copy-btn {
+      padding: 10px 20px;
+      background: #667eea;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.3s;
+      white-space: nowrap;
+    }
+
+    .copy-btn:hover {
+      background: #5568d3;
+    }
+
+    .copy-btn.copied {
+      background: #10b981;
+    }
+
+    .qr-code {
+      text-align: center;
+      padding: 20px;
+      background: white;
+      border-radius: 8px;
+    }
+
+    .qr-placeholder {
+      width: 200px;
+      height: 200px;
+      margin: 0 auto;
+      background: #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      font-size: 14px;
+      color: #888;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 20px;
+      padding: 30px;
+      max-width: 400px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-close {
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      color: #999;
+      line-height: 20px;
+    }
+
+    .modal-close:hover {
+      color: #333;
+    }
+
+    @media (max-width: 768px) {
+        .container {
+            padding: 25px;
+        }
+
+        .crypto-options {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .crypto-btn {
+            padding: 15px 5px;
+        }
+
+        .crypto-btn img {
+            height: 40px;
+        }
+
+        .network-buttons {
+            flex-direction: column;
+        }
+    }
+
+    /* 导航栏样式 */
+    .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.95);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        z-index: 2000;
+        backdrop-filter: blur(10px);
+    }
+
+    .navbar-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 40px;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 15px 20px;
+    }
+
+    .navbar-logo img {
+        height: 40px;
+        width: auto;
+    }
+
+    /* 桌面端菜单 */
+    .navbar-menu {
+        display: flex;
+        gap: 15px;
+    }
+
+    /* 导航按钮样式 */
+    .navbar-btn {
+        padding: 10px 20px;
+        border-radius: 25px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+    }
+
+    /* 按钮颜色 */
+    .btn-home {
+        background: rgba(220, 38, 38, 0.8);
+        color: white;
+    }
+
+    .btn-collect {
+        background: rgba(37, 99, 235, 0.8);
+        color: white;
+    }
+
+    .btn-cross {
+        background: rgba(22, 163, 74, 0.8);
+        color: white;
+    }
+
+    .btn-review {
+        background: rgba(202, 138, 4, 0.8);
+        color: white;
+    }
+
+    /* 按钮 hover 效果 */
+    .navbar-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        border-color: rgba(255, 255, 255, 0.5);
+    }
+
+    /* 移动端汉堡菜单按钮 */
+    .navbar-toggle {
+        display: none;
+        cursor: pointer;
+    }
+
+    .bar {
+        display: block;
+        width: 25px;
+        height: 3px;
+        margin: 5px auto;
+        transition: all 0.3s ease-in-out;
+        background-color: #333;
+    }
+
+    /* 移动端菜单 */
+    .navbar-mobile-menu {
+        display: none;
+        flex-direction: column;
+        gap: 10px;
+        padding: 15px 20px;
+        background: rgba(255, 255, 255, 0.95);
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+        width: 50%;
+        margin-left: auto;
+        border-radius: 0 0 0 10px;
+    }
+
+    .navbar-mobile-btn {
+        padding: 12px 20px;
+        border-radius: 8px;
+        font-weight: 600;
+        text-decoration: none;
+        text-align: center;
+        transition: all 0.3s ease;
     }
 
     /* 响应式设计 */
     @media (max-width: 768px) {
-      .nav-toggle {
-        display: block;
-      }
+        .navbar-menu {
+            display: none;
+        }
 
-      .nav-menu {
-        display: none;
-        position: absolute;
-        top: 70px;
-        right: 0;
-        background: white;
-        flex-direction: column;
-        width: 200px;
-        border-radius: 0 0 0 10px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        padding: 15px 0;
-        gap: 0;
-      }
+        .navbar-toggle {
+            display: block;
+        }
 
-      .nav-menu.show {
-        display: flex;
-      }
+        .navbar-mobile-menu.active {
+            display: flex;
+        }
 
-      .nav-item {
-        text-align: center;
-        margin: 0;
-        padding: 10px 0;
-      }
+        /* 汉堡菜单动画 */
+        .navbar-toggle.active .bar:nth-child(2) {
+            opacity: 0;
+        }
 
-      .nav-link {
-        display: block;
-        padding: 10px 15px;
-      }
+        .navbar-toggle.active .bar:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
 
-      .main-content {
-        padding: 100px 15px 100px;
-      }
+        .navbar-toggle.active .bar:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+    }
 
-      /* 显示移动端底部导航 */
-      .mobile-nav {
-        display: flex;
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background-color: #fff;
-        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-        z-index: 999;
-        justify-content: space-around;
-        align-items: center;
-        padding: 12px 0;
-      }
-
-      .mobile-nav a {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-decoration: none;
-        color: #666;
-        transition: all 0.3s ease;
-        font-size: 12px;
-      }
-
-      .mobile-nav a i {
-        font-size: 20px;
-        margin-bottom: 4px;
-      }
-
-      .mobile-nav a.active,
-      .mobile-nav a:hover {
-        color: #3498db;
-        transform: scale(1.05);
-      }
-
-      .mobile-nav .highlight {
-        position: relative;
-        margin-top: -24px;
-      }
-
-      .mobile-nav .highlight-btn {
-        background-color: #3498db;
-        color: white;
-        width: 48px;
-        height: 48px;
+    /* 悬浮客服图标样式 */
+    .wechat-float {
+        width: 60px;
+        height: 60px;
+        background-color: hsl(148, 45%, 88%); /* 微信绿色 */
         border-radius: 50%;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         display: flex;
         align-items: center;
         justify-content: center;
-        box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
-      }
-
-      .mobile-nav .highlight i {
-        font-size: 24px;
-        margin-bottom: 0;
-      }
-
-      .mobile-nav .highlight span {
-        color: #3498db;
-        margin-top: 4px;
-      }
+        transition: transform 0.3s ease;
     }
 
-    @media (max-width: 480px) {
-      .main-content {
-        padding: 100px 15px 100px;
-      }
+    .wechat-float:hover {
+        transform: scale(1.1);
     }
-            /* ==================== Pagefind 搜索样式（搜索框水平居中版） ==================== */
-.search-container {
-    position: relative;
-    margin: 0 auto;                    /* 水平居中 */
-    z-index: 1001;
-    min-width: 200px;
-    max-width: 380px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 
-#pagefind-search .pagefind-ui__search-input {
-    padding: 10px 16px;
-    border: 2px solid #ddd;
-    border-radius: 25px;
-    font-size: 16px;
-    width: 300px;                      /* 固定宽度，避免 focus 时晃动 */
-    max-width: 100%;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    background: white;
-    color: #333;
-    box-sizing: border-box;
-    outline: none;
-}
+    .wechat-icon {
+        width: 40px;
+        height: 40px;
+        background-image: url('https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%C2%B7%E5%AE%A2%E5%9B%BE%E7%89%87%E5%BA%93/wechaticon.png'); /* 用户提供的微信图标URL */
+        background-size: cover;
+        background-position: center;
+    }
 
-#pagefind-search .pagefind-ui__search-input:focus {
-    border-color: #4a6fa5;
-    box-shadow: 0 0 0 4px rgba(74, 111, 165, 0.2);
-}
+    /* WhatsApp悬浮图标样式 */
+    .whatsapp-float {
+        width: 60px;
+        height: 60px;
+        background-color: #25D366; /* WhatsApp绿色 */
+        border-radius: 50%;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.3s ease;
+    }
 
-#pagefind-search .pagefind-ui__results {
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);       /* 关键：实现下拉菜单居中 */
-    width: 380px;
-    max-height: 70vh;
-    overflow-y: auto;
-    margin-top: 8px;
-    z-index: 1000;
-    padding: 8px 0;
-}
+    .whatsapp-float:hover {
+        transform: scale(1.1);
+    }
 
-#pagefind-search .pagefind-ui__result { padding: 12px 16px; border-bottom: 1px solid #eee; transition: background-color 0.2s; }
-#pagefind-search .pagefind-ui__result:last-child { border-bottom: none; }
-#pagefind-search .pagefind-ui__result:hover { background-color: #f8f9ff; }
-#pagefind-search .pagefind-ui__result-title { font-size: 15px; font-weight: 600; color: #1f2937; margin-bottom: 4px; }
-#pagefind-search .pagefind-ui__result-link { color: #3B82F6; text-decoration: none; }
-#pagefind-search .pagefind-ui__result-link:hover { text-decoration: underline; }
-#pagefind-search .pagefind-ui__result-excerpt { font-size: 13.5px; color: #666; line-height: 1.5; margin-top: 4px; }
-.pagefind-ui__result-excerpt mark { background: #dbeafe; color: #1e40af; padding: 1px 3px; border-radius: 3px; }
-#pagefind-search .pagefind-ui__message { padding: 20px; text-align: center; color: #666; font-size: 14px; }
-  
-         .container {
-            max-width: 720px;
-            width: 100%;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            padding: 40px;
-        }
+    .whatsapp-icon {
+        font-size: 30px;
+        color: white;
+    }
 
-        h1 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 30px;
-            font-size: 28px;
-        }
+    /* 悬浮图标容器 */
+    .float-icons-container {
+        position: fixed;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 1000;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
 
-        .payment-section {
-            margin-bottom: 30px;
-        }
+    /* 微信弹出窗样式 */
+    .wechat-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 2000;
+        justify-content: center;
+        align-items: center;
+    }
 
-        .section-title {
-            font-size: 18px;
-            color: #555;
-            margin-bottom: 15px;
-            font-weight: 600;
-        }
+    .wechat-popup {
+        background-color: white;
+        border-radius: 10px;
+        padding: 20px;
+        text-align: center;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        max-width: 300px;
+        width: 90%;
+    }
 
-        .binance-pay-btn {
-            width: 100%;
-            background: linear-gradient(135deg, hsl(45, 15%, 90%) 0%, #dad3bb 100%);
-            border: none;
-            border-radius: 12px;
-            padding: 20px;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-        }
+    .wechat-qr {
+        width: 200px;
+        height: 200px;
+        margin: 0 auto 10px;
+        display: block;
+    }
 
-        .pay-buttons-container {
-            display: flex;
-            gap: 15px;
-            margin-top: 15px;
-        }
+    .close-btn {
+        background-color: #ff4d4f;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 15px;
+    }
 
-        .binance-pay-btn,
-        .krak-pay-btn {
-            flex: 1;
-            background: linear-gradient(135deg, hsl(45, 15%, 90%) 0%, #dad3bb 100%);
-            border: none;
-            border-radius: 12px;
-            padding: 20px;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-        }
+    .close-btn:hover {
+        background-color: #ff7875;
+    }
 
-        .binance-pay-btn:hover,
-        .krak-pay-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(240, 185, 11, 0.3);
-        }
+    /* 调整顶部间距，避免被导航栏遮挡 */
+    main {
+        margin-top: 100px;
+        padding: 20px;
+    }
 
-        .binance-pay-btn img,
-        .krak-pay-btn img {
-            height: 40px;
-        }
-
-        .binance-pay-btn span,
-        .krak-pay-btn span {
-            font-size: 20px;
-            font-weight: bold;
-            color: #1e2329;
-        }
-
-        .crypto-options {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .crypto-btn {
-            background: #f8f9fa;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            padding: 20px 10px;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-align: center;
-        }
-
-        .crypto-btn:hover {
-            border-color: #667eea;
-            background: #f0f2ff;
-            transform: translateY(-3px);
-        }
-
-        .crypto-btn.active {
-            border-color: #667eea;
-            background: #e8ebff;
-        }
-
-        .crypto-btn img {
-            height: 50px;
-            margin-bottom: 10px;
-        }
-
-        .crypto-btn .crypto-name {
-            font-weight: 600;
-            color: #333;
-            font-size: 14px;
-        }
-
-        .network-selection {
-            display: none;
-            margin-top: 20px;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 12px;
-        }
-
-        .network-selection.active {
-            display: block;
-        }
-
-        .network-buttons {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .network-btn {
-            flex: 1;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            background: white;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-
-        .network-btn:hover {
-            border-color: #667eea;
-            background: #f0f2ff;
-        }
-
-        .network-btn.active {
-            background: #667eea;
-            color: white;
-            border-color: #667eea;
-        }
-
-        .address-display {
-            display: none;
-            margin-top: 20px;
-        }
-
-        .address-display.active {
-            display: block;
-        }
-
-        .address-box {
-            background: white;
+    @media (max-width: 768px) {
+        main {
+            margin-top: 80px;
             padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 15px;
         }
-
-        .address-label {
-            font-size: 12px;
-            color: #888;
-            margin-bottom: 8px;
-        }
-
-        .address-content {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .address-text {
-            flex: 1;
-            font-family: monospace;
-            font-size: 13px;
-            color: #333;
-            word-break: break-all;
-            padding: 10px;
-            background: #f8f9fa;
-            border-radius: 6px;
-        }
-
-        .copy-btn {
-            padding: 10px 20px;
-            background: #667eea;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: background 0.3s;
-            white-space: nowrap;
-        }
-
-        .copy-btn:hover {
-            background: #5568d3;
-        }
-
-        .copy-btn.copied {
-            background: #10b981;
-        }
-
-        .qr-code {
-            text-align: center;
-            padding: 20px;
-            background: white;
-            border-radius: 8px;
-        }
-
-        .qr-placeholder {
-            width: 200px;
-            height: 200px;
-            margin: 0 auto;
-            background: #f0f0f0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 8px;
-            font-size: 14px;
-            color: #888;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
-            max-width: 400px;
-            width: 90%;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        .modal-close {
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-            color: #999;
-            line-height: 20px;
-        }
-
-        .modal-close:hover {
-            color: #333;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 25px;
-            }
-
-            .crypto-options {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 10px;
-            }
-
-            .crypto-btn {
-                padding: 15px 5px;
-            }
-
-            .crypto-btn img {
-                height: 40px;
-            }
-
-            .network-buttons {
-                flex-direction: column;
-            }
-        } 
+    }
   </style>
 </head>
 <body>
-  <header>
+    <!-- 导航栏 -->
     <nav class="navbar">
-      <div class="nav-container">
-        <div class="nav-brand">
-          <a href="https://aibochinese.com/" target="_blank">
-            <img src="https://cf.aibochinese.com/%E7%B4%A0%E6%9D%90%E7%AB%99/1-on-1%20logo%20126%2050.png" alt="网站Logo">
-          </a>
+        <div class="navbar-container">
+            <!-- Logo -->
+            <a href="index.html" class="navbar-logo">
+                <img src="https://cf.aibomart.com/payone.uk/payone-hor-logo.PNG" alt="PayOne Logo">
+            </a>
+            
+            <!-- 桌面端菜单 -->
+            <div class="navbar-menu">
+                <a href="index.html" class="navbar-btn btn-home">首页</a>
+                <a href="https://payone.uk/colloct" class="navbar-btn btn-collect">全球收款</a>
+                <a href="https://blog.aibochinese.com/payment/apply%20V-cards" class="navbar-btn btn-cross">跨境支付</a>
+                <a href="https://payone.uk/reviews" class="navbar-btn btn-review">评价</a>
+            </div>
+            
+            <!-- 移动端汉堡菜单按钮 -->
+            <div class="navbar-toggle" onclick="toggleMobileMenu()">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
         </div>
-
-        <button class="nav-toggle" id="nav-toggle">☰</button>
-
-        <ul class="nav-menu" id="nav-menu">
-          <li class="nav-item"><a href="top-tutors.html" class="nav-link nav-link-red active">Top Tutors</a></li>
-          <li class="nav-item"><a href="hskexpress.html" class="nav-link nav-link-blue">Premium Courses</a></li>
-          <li class="nav-item"><a href="library.html" class="nav-link nav-link-green">Library</a></li>
-          <li class="nav-item"><a href="groups.html" class="nav-link nav-link-purple">Join Groups</a></li>
-          <li class="nav-item"><a href="payments.html" class="nav-link nav-link-orange">Payments</a></li>
-          <li class="nav-item"><a href="client.html" class="nav-link nav-link-teal">Client Download</a></li>
-        </ul>
-      </div>
+        
+        <!-- 移动端菜单 -->
+        <div class="navbar-mobile-menu">
+            <a href="index.html" class="navbar-mobile-btn btn-home">首页</a>
+            <a href="https://payone.uk/colloct" class="navbar-mobile-btn btn-collect">全球收款</a>
+            <a href="https://blog.aibochinese.com/payment/apply%20V-cards" class="navbar-mobile-btn btn-cross">跨境支付</a>
+            <a href="https://payone.uk/reviews" class="navbar-mobile-btn btn-review">评价</a>
+        </div>
     </nav>
-  </header>
+
   <main>
-    <div class="container">
-        <p>_</p>  
-        <p>_</p>             
+    <div class="container">            
          <!-- App Scan-to-Transfer Section -->
         <div class="payment-section">
             <div class="section-title">🔸 App Scan-to-Transfer |<a href="https://accounts.bmwweb.ac/register?ref=569491541" style="color:red" target="_blank" rel="noopener noreferrer"> Open Account</a></div>
@@ -816,6 +730,28 @@
              <img src="https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%C2%B7%E5%AE%A2%E5%9B%BE%E7%89%87%E5%BA%93/%E5%B8%B8%E7%94%A8%E6%A8%A1%E6%9D%BF%E5%9B%BE%E7%89%87/Krak%20code.jpg" 
          style="max-width: 100%; height: auto;" />
             </div>
+        </div>
+    </div>
+
+    <!-- 悬浮客服图标 -->
+    <div class="float-icons-container">
+        <!-- 悬浮微信客服图标 -->
+        <div class="wechat-float" onclick="toggleWechatModal()">
+            <div class="wechat-icon"></div>
+        </div>
+        
+        <!-- 悬浮WhatsApp客服图标 -->
+        <a href="https://wa.me/message/QXYAFEGTDWIBE1" target="_blank" rel="noopener noreferrer" class="whatsapp-float">
+            <i class="fab fa-whatsapp whatsapp-icon"></i>
+        </a>
+    </div>
+
+    <!-- 微信弹出窗 -->
+    <div id="wechatModal" class="wechat-modal" onclick="closeWechatModal(event)">
+        <div class="wechat-popup" onclick="event.stopPropagation()">
+            <h3>微信客服</h3>
+            <img src="https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%C2%B7%E5%AE%A2%E5%9B%BE%E7%89%87%E5%BA%93/AIBOBLOG%20WECHAT.png" alt="微信二维码" class="wechat-qr">
+            <button class="close-btn" onclick="closeWechatModal()">关闭</button>
         </div>
     </div>
 
@@ -1020,153 +956,26 @@
                 closeKrakPay();
             }
         }
-    </script>
 
-</main>
-   <footer>
-    <div class="footer">
-      <p style="margin-bottom: 10px;">
-        🙏Follow us:
-        <a href="https://www.youtube.com/@AiboChinese" style="color:white; display:inline-block; vertical-align:middle;" target="_blank" rel="noopener noreferrer">
-          <img src="https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%C2%B7%E5%AE%A2%E5%9B%BE%E7%89%87%E5%BA%93/%E5%B8%B8%E7%94%A8%E6%A8%A1%E6%9D%BF%E5%9B%BE%E7%89%87/youtube%20logo%2030.png" style="width: 30px; height: 30px; display:block;" />
-        </a>
-        <a href="https://x.com/i/communities/1988587472637554689" style="color:white; display:inline-block; vertical-align:middle;" target="_blank" rel="noopener noreferrer">
-          <img src="https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%E6%B1%89%E8%AF%AD%E5%AE%A2%E6%88%B7%E7%AB%AF/icons8-x-30.png" style="width: 30px; height: 30px; display:block;" />
-        </a>
-        <a href="https://www.facebook.com/site.aibochinese" style="color:white; display:inline-block; vertical-align:middle;" target="_blank" rel="noopener noreferrer">
-          <img src="https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%C2%B7%E5%AE%A2%E5%9B%BE%E7%89%87%E5%BA%93/%E5%B8%B8%E7%94%A8%E6%A8%A1%E6%9D%BF%E5%9B%BE%E7%89%87/facebook%20log0%2030.png" style="width: 30px; height: 30px; display:block;" />
-        </a>
-        <a href="https://cf.aibochinese.com/%E7%B4%A0%E6%9D%90%E7%AB%99/%E6%B7%BB%E5%8A%A0%E5%BE%AE%E4%BF%A1.png" style="color:white; display:inline-block; vertical-align:middle;" rel="noopener noreferrer">
-          <img src="https://cf.aibochinese.com/%E7%B4%A0%E6%9D%90%E7%AB%99/icons8-%E5%BE%AE%E4%BF%A1-30.png" style="width: 30px; height: 30px; display:block;" />
-        </a>
-        <a href="https://www.tiktok.com/@mr.abelzou" style="color:white; display:inline-block; vertical-align:middle;" rel="noopener noreferrer">
-          <img src="https://cf.aibochinese.com/%E7%B4%A0%E6%9D%90%E7%AB%99/icons8-%E7%9A%84tiktok-30.png" style="width: 30px; height: 30px; display:block;" />
-        </a>
-        <a href="https://www.instagram.com/aibochinese/" style="color:white; display:inline-block; vertical-align:middle;" rel="noopener noreferrer">
-          <img src="https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%E6%B1%89%E8%AF%AD%E5%AE%A2%E6%88%B7%E7%AB%AF/icons8-instagram-30.png" style="width: 30px; height: 30px; display:block;" />
-        </a>
-      </p>
-      <p style="font-size: 15px; color: lch(94.6% 0.71 18.56);">
-        © 2025 <a href="https://blog.aibochinese.com/" style="color:hsl(271, 96%, 41%)" target="_blank" rel="noopener noreferrer">爱博·客</a> - 所有权利保留【<a href="https://blog.aibochinese.com/education/tutor%20guide" style="color:rgb(236, 8, 8)" target="_blank" rel="noopener noreferrer">教师入驻指南</a>】
-      </p>
-      <p>_</p>
-    </div>
-  </footer>
-
-  <!-- 移动端底部导航栏 -->
-  <div class="mobile-nav">
-    <a href="index.html">
-      <i class="fa fa-home"></i>
-      <span>Home</span>
-    </a>
-    <a href="library.html">
-      <i class="fa fa-book"></i>
-      <span>Library</span>
-    </a>
-    <a href="https://x.com/i/communities/1988587472637554689" class="highlight">
-      <div class="highlight-btn">
-        <i class="fa fa-video-camera"></i>
-      </div>
-      <span>Newest</span>
-    </a>
-    <a href="groups.html">
-      <i class="fa fa-users"></i>
-      <span>Groups</span>
-    </a>
-    <a href="payments.html" class="active">
-      <i class="fa fa-credit-card"></i>
-      <span>To Pay</span>
-    </a>
-  </div>
-
-  <!-- 右侧悬浮客服组 -->
-  <div class="floating-contact">
-    <!-- Telegram（推荐两种方式任选其一） -->
-    <!-- 方式1：直接跳转到 tg:// 手机会自动打开Telegram -->
-    <a href="https://t.me/abelzou" class="telegram" target="_blank" title="Telegram">
-        <img src="https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%C2%B7%E5%AE%A2%E5%9B%BE%E7%89%87%E5%BA%93/%E5%B8%B8%E7%94%A8%E6%A8%A1%E6%9D%BF%E5%9B%BE%E7%89%87/icons8-%E7%94%B5%E6%8A%A5%E5%BA%94%E7%94%A8-60.png" alt="Telegram">
-    </a>
-    <!-- 方式2：网页端通用（手机也会自动唤起） -->
-    <!-- <a href="https://t.me/你的用户名" class="telegram" target="_blank" title="Telegram">
-        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/telegram.svg" alt="Telegram">
-    </a> -->
-
-    <!-- WhatsApp -->
-    <a href="https://wa.me/message/QXYAFEGTDWIBE1" 
-       class="whatsapp" target="_blank" title="WhatsApp 联系我">
-        <img src="https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%C2%B7%E5%AE%A2%E5%9B%BE%E7%89%87%E5%BA%93/%E5%B8%B8%E7%94%A8%E6%A8%A1%E6%9D%BF%E5%9B%BE%E7%89%87/icons8-whatsapp-60.png" alt="WhatsApp">
-    </a>
-
-    <!-- Facebook Messenger -->
-    <!-- 方式1：m.me 短链接（推荐） -->
-    <a href="https://m.me/abelzouhuanglin" 
-       class="messenger" target="_blank" title="Messenger 联系我">
-        <img src="https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%C2%B7%E5%AE%A2%E5%9B%BE%E7%89%87%E5%BA%93/%E5%B8%B8%E7%94%A8%E6%A8%A1%E6%9D%BF%E5%9B%BE%E7%89%87/icons8-facebook%E7%9A%84%E4%BF%A1%E4%BB%B6-60.png" alt="Messenger">
-    </a>
-
-    <!-- 方式2：如果你有个人Facebook账号（不推荐用于商业） -->
-    <!-- <a href="https://m.me/你的Facebook个人数字ID" class="messenger" target="_blank">
-        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/messenger.svg" alt="Messenger">
-    </a> -->
-  </div>
-
-  <script>
-    // 汉堡菜单和导航功能
-    document.addEventListener('DOMContentLoaded', function() {
-      const navToggle = document.getElementById('nav-toggle');
-      const navMenu = document.getElementById('nav-menu');
-      
-      if (navToggle && navMenu) {
-        navToggle.addEventListener('click', function(e) {
-          // 移除preventDefault()和stopPropagation()，因为按钮没有默认行为需要阻止
-          navMenu.classList.toggle('show');
-        });
-
-        // 点击页面其他地方关闭菜单
-        document.addEventListener('click', function(e) {
-          if (!navToggle.contains(e.target) && !navMenu.contains(e.target) && navMenu.classList.contains('show')) {
-            navMenu.classList.remove('show');
-          }
-        });
-        
-        // 确保点击菜单内部不会关闭菜单
-        navMenu.addEventListener('click', function(e) {
-          e.stopPropagation();
-        });
-      }
-      
-      // 移动端底部导航栏交互
-      const mobileNavItems = document.querySelectorAll('.mobile-nav a');
-      mobileNavItems.forEach(item => {
-        item.addEventListener('click', function() {
-          mobileNavItems.forEach(i => i.classList.remove('active'));
-          this.classList.add('active');
-        });
-      });
-    });
-  </script>
-    <!-- Pagefind 搜索脚本 -->
-<script src="/post/pagefind/pagefind-ui.js"></script>
-<script>
-    window.addEventListener('DOMContentLoaded', function () {
-        console.log("Initializing Pagefind search...");
-        try {
-            new PagefindUI({
-                element: "#pagefind-search",
-                showImages: false,
-                showSubResults: true,
-                resetStyles: false,
-                translations: {
-                    placeholder: "🔍Words、sentence..."
-                }
-            });
-            console.log("Pagefind search initialized successfully");
-        } catch (error) {
-            console.error("Pagefind search initialization failed:", error);
+        // 微信弹窗控制函数
+        function toggleWechatModal() {
+            const modal = document.getElementById('wechatModal');
+            modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
         }
-    });
-</script>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6203499194676961"
-     crossorigin="anonymous"></script>
+
+        function closeWechatModal(event) {
+            document.getElementById('wechatModal').style.display = 'none';
+        }
+
+        // 汉堡菜单控制函数
+        function toggleMobileMenu() {
+            const navbarToggle = document.querySelector('.navbar-toggle');
+            const mobileMenu = document.querySelector('.navbar-mobile-menu');
+            
+            navbarToggle.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+        }
+    </script>
+</main>
 </body>
 </html>

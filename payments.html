@@ -306,11 +306,6 @@
       text-decoration: underline;
     }
 
-    /* 移动端底部导航栏 */
-    .mobile-nav {
-      display: none;
-    }
-
     /* 响应式设计 */
     @media (max-width: 768px) {
       .nav-toggle {
@@ -350,69 +345,6 @@
 
       .main-content {
         padding: 100px 15px 100px;
-      }
-
-      /* 显示移动端底部导航 */
-      .mobile-nav {
-        display: flex;
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background-color: #fff;
-        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-        z-index: 999;
-        justify-content: space-around;
-        align-items: center;
-        padding: 12px 0;
-      }
-
-      .mobile-nav a {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-decoration: none;
-        color: #666;
-        transition: all 0.3s ease;
-        font-size: 12px;
-      }
-
-      .mobile-nav a i {
-        font-size: 20px;
-        margin-bottom: 4px;
-      }
-
-      .mobile-nav a.active,
-      .mobile-nav a:hover {
-        color: #3498db;
-        transform: scale(1.05);
-      }
-
-      .mobile-nav .highlight {
-        position: relative;
-        margin-top: -24px;
-      }
-
-      .mobile-nav .highlight-btn {
-        background-color: #3498db;
-        color: white;
-        width: 48px;
-        height: 48px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
-      }
-
-      .mobile-nav .highlight i {
-        font-size: 24px;
-        margin-bottom: 0;
-      }
-
-      .mobile-nav .highlight span {
-        color: #3498db;
-        margin-top: 4px;
       }
     }
 
@@ -526,8 +458,8 @@
 
         .payment-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 25px;
             margin-bottom: 40px;
         }
 
@@ -859,15 +791,123 @@
             margin-top: 4px;
         }
 
-        /* 内容布局 */
-        .content-wrapper {
+        /* 悬浮客服图标样式 */
+        .wechat-float {
+            width: 60px;
+            height: 60px;
+            background-color: hsl(148, 45%, 88%); /* 微信绿色 */
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             display: flex;
-            gap: 30px;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+        }
+
+        .wechat-float:hover {
+            transform: scale(1.1);
+        }
+
+        .wechat-icon {
+            width: 40px;
+            height: 40px;
+            background-image: url('https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%C2%B7%E5%AE%A2%E5%9B%BE%E7%89%87%E5%BA%93/wechaticon.png'); /* 用户提供的微信图标URL */
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* WhatsApp悬浮图标样式 */
+        .whatsapp-float {
+            width: 60px;
+            height: 60px;
+            background-color: #25D366; /* WhatsApp绿色 */
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+        }
+
+        .whatsapp-icon {
+            font-size: 30px;
+            color: white;
+        }
+
+        /* 悬浮图标容器 */
+        .float-icons-container {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* 微信弹出窗样式 */
+        .wechat-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            justify-content: center;
             align-items: center;
         }
 
+        .wechat-popup {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            max-width: 300px;
+            width: 90%;
+        }
+
+        .wechat-qr {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 10px;
+            display: block;
+        }
+
+        .close-btn {
+            background-color: #ff4d4f;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        .close-btn:hover {
+            background-color: #ff7875;
+        }
+
+        /* 内容布局 */
+        .content-wrapper {
+            display: flex;
+            gap: 40px;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
         .image-section {
-            flex: 0 0 70%;
+            flex: 1 1 60%;
+            min-width: 300px;
         }
 
         .image-section img {
@@ -878,7 +918,8 @@
         }
 
         .button-section {
-            flex: 0 0 calc(30% - 30px);
+            flex: 1 1 30%;
+            min-width: 250px;
             display: flex;
             flex-direction: column;
             gap: 20px;
@@ -971,10 +1012,6 @@
                 font-size: 22px;
             }
 
-            .mobile-bottom-nav {
-                display: block;
-            }
-
             .content-wrapper {
                 flex-direction: column;
             }
@@ -1038,26 +1075,22 @@
                 <a href="https://www.paypal.me/aibochinese" target="_blank" rel="noreferrer noopener">
                     <img src="https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%C2%B7%E5%AE%A2%E5%9B%BE%E7%89%87%E5%BA%93/%E5%B8%B8%E7%94%A8%E6%A8%A1%E6%9D%BF%E5%9B%BE%E7%89%87/Paypal%20logo-1.png" alt="PayPal">
                 </a>
-        
-                        
+            </div>
             <div class="payment-item">
                 <a href="https://buy.stripe.com/fZu9AT94319geaXfFQ8so03" target="_blank" rel="noreferrer noopener">
                     <img src="https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%C2%B7%E5%AE%A2%E5%9B%BE%E7%89%87%E5%BA%93/%E5%B8%B8%E7%94%A8%E6%A8%A1%E6%9D%BF%E5%9B%BE%E7%89%87/stripe%20logo-1.png" alt="Stripe">
                 </a>
-        
-
+            </div>
             <div class="payment-item">
                 <a href="https://wise.com/pay/me/vecjew9" target="_blank" rel="noreferrer noopener">
                     <img src="https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%C2%B7%E5%AE%A2%E5%9B%BE%E7%89%87%E5%BA%93/%E5%B8%B8%E7%94%A8%E6%A8%A1%E6%9D%BF%E5%9B%BE%E7%89%87/wise%20logo-1.png" alt="Wise">
                 </a>
             </div>
-
             <div class="payment-item">
                 <a href="https://payone.uk/cryptopay" target="_blank" rel="noreferrer noopener">
                     <img src="https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%C2%B7%E5%AE%A2%E5%9B%BE%E7%89%87%E5%BA%93/%E5%B8%B8%E7%94%A8%E6%A8%A1%E6%9D%BF%E5%9B%BE%E7%89%87/USDT%20logo-1.png" alt="AiboPay">
                 </a>
             </div>
-
         </div>
 
         <div class="bank-section">
@@ -1160,91 +1193,16 @@
             </div>
         </div>
     </div>
-
-
-
       <p style="margin-bottom: 13px;">
-        🙏Follow us:
-        <a href="https://www.youtube.com/@AiboChinese" style="color:white; display:inline-block; vertical-align:middle;" target="_blank" rel="noopener noreferrer">
-          <img src="https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%C2%B7%E5%AE%A2%E5%9B%BE%E7%89%87%E5%BA%93/%E5%B8%B8%E7%94%A8%E6%A8%A1%E6%9D%BF%E5%9B%BE%E7%89%87/youtube%20logo%2030.png" style="width: 30px; height: 30px; display:block;" />
-        </a>
-        <a href="https://x.com/i/communities/1988587472637554689" style="color:white; display:inline-block; vertical-align:middle;" target="_blank" rel="noopener noreferrer">
-          <img src="https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%E6%B1%89%E8%AF%AD%E5%AE%A2%E6%88%B7%E7%AB%AF/icons8-x-30.png" style="width: 30px; height: 30px; display:block;" />
-        </a>
-        <a href="https://www.facebook.com/site.aibochinese" style="color:white; display:inline-block; vertical-align:middle;" target="_blank" rel="noopener noreferrer">
-          <img src="https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%C2%B7%E5%AE%A2%E5%9B%BE%E7%89%87%E5%BA%93/%E5%B8%B8%E7%94%A8%E6%A8%A1%E6%9D%BF%E5%9B%BE%E7%89%87/facebook%20log0%2030.png" style="width: 30px; height: 30px; display:block;" />
-        </a>
-        <a href="https://cf.aibochinese.com/%E7%B4%A0%E6%9D%90%E7%AB%99/%E6%B7%BB%E5%8A%A0%E5%BE%AE%E4%BF%A1.png" style="color:white; display:inline-block; vertical-align:middle;" rel="noopener noreferrer">
-          <img src="https://cf.aibochinese.com/%E7%B4%A0%E6%9D%90%E7%AB%99/icons8-%E5%BE%AE%E4%BF%A1-30.png" style="width: 30px; height: 30px; display:block;" />
-        </a>
-        <a href="https://www.tiktok.com/@mr.abelzou" style="color:white; display:inline-block; vertical-align:middle;" rel="noopener noreferrer">
-          <img src="https://cf.aibochinese.com/%E7%B4%A0%E6%9D%90%E7%AB%99/icons8-%E7%9A%84tiktok-30.png" style="width: 30px; height: 30px; display:block;" />
-        </a>
-        <a href="https://www.instagram.com/aibochinese/" style="color:white; display:inline-block; vertical-align:middle;" rel="noopener noreferrer">
-          <img src="https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%E6%B1%89%E8%AF%AD%E5%AE%A2%E6%88%B7%E7%AB%AF/icons8-instagram-30.png" style="width: 30px; height: 30px; display:block;" />
-        </a>
-      </p>
-      <p style="font-size: 14px; color: oklab(0% 0 0);">
-        © 2025 <a href="https://blog.aibochinese.com/" style="color:hsl(0, 88%, 51%)" target="_blank" rel="noopener noreferrer">爱博·客</a> - 所有权利保留【<a href="https://blog.aibochinese.com/education/tutor%20guide" style="color:rgb(236, 8, 8)" target="_blank" rel="noopener noreferrer">教师入驻指南</a>】
-      </p>
-    </div>
-
-    
-
-
-        <div class="mobile-nav-container">
-            <a href="https://aibochinese.com/" class="mobile-nav-item">
-                <i class="fa fa-home"></i>
-                <span>首页</span>
-            </a>
-            
-            <a href="https://aibochinese.com/library" class="mobile-nav-item">
-                <i class="fa fa-book"></i>
-                <span>Library</span>
-            </a>
-
-            <a href="https://x.com/i/communities/1988587472637554689" class="mobile-nav-center">
-                <div class="mobile-nav-center-btn">
-                    <i class="fa fa-video-camera"></i>
-                </div>
-                <span>Newest</span>
-            </a>
-
-            <a href="https://aibochinese.com/groups" class="mobile-nav-item">
-                <i class="fa fa-users"></i>
-                <span>Groups</span>
-            </a>
-
-            <a href="https://www.aibochinese.com/payments" class="mobile-nav-item">
-                <i class="fa fa-credit-card"></i>
-                <span>To Pay</span>
-            </a>
-        </div>
-    </div>
 
     <script>
         // 汉堡菜单功能
-        const navToggle = document.getElementById('nav-toggle');
-        const navMenu = document.getElementById('nav-menu');
-
-        navToggle.addEventListener('click', function() {
-            navMenu.classList.toggle('show');
-        });
-
-        // 点击导航链接后关闭菜单
-        const navLinks = document.querySelectorAll('.nav-link');
-        navLinks.forEach(link => {
-            link.addEventListener('click', function() {
-                navMenu.classList.remove('show');
-            });
-        });
-
-        // 点击页面其他地方关闭菜单
-        document.addEventListener('click', function(e) {
-            if (!navToggle.contains(e.target) && !navMenu.contains(e.target)) {
-                navMenu.classList.remove('show');
-            }
-        });
+        function toggleMobileMenu() {
+            const mobileMenu = document.querySelector('.navbar-mobile-menu');
+            const toggle = document.querySelector('.navbar-toggle');
+            mobileMenu.classList.toggle('active');
+            toggle.classList.toggle('active');
+        }
 
         // 银行账户数据
         const bankAccounts = {
@@ -1518,6 +1476,10 @@
                 closeModal('wechatModal');
                 closeModal('E-CNYModal');
                 closeModal('accountModal');
+                const wechatModal = document.getElementById('wechatModal');
+                if (wechatModal) {
+                    wechatModal.style.display = 'none';
+                }
             }
         });
 
@@ -1529,38 +1491,48 @@
             navbarToggle.classList.toggle('active');
             mobileMenu.classList.toggle('active');
         }
+
+        // 微信弹窗控制函数
+        function toggleWechatModal() {
+            const modal = document.getElementById('wechatModal');
+            modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function closeWechatModal(event) {
+            document.getElementById('wechatModal').style.display = 'none';
+        }
+
+        // 点击模态背景关闭
+        window.onclick = function(event) {
+            const wechatModal = document.getElementById('wechatModal');
+            
+            if (event.target === wechatModal) {
+                closeWechatModal();
+            }
+        };
     </script>
-     <div class="floating-contact">
-
-        <!-- Telegram（推荐两种方式任选其一） -->
-        <!-- 方式1：直接跳转到 tg:// 手机会自动打开Telegram -->
-        <a href="https://t.me/abelzou" class="telegram" target="_blank" title="Telegram">
-            <img src="https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%C2%B7%E5%AE%A2%E5%9B%BE%E7%89%87%E5%BA%93/%E5%B8%B8%E7%94%A8%E6%A8%A1%E6%9D%BF%E5%9B%BE%E7%89%87/icons8-%E7%94%B5%E6%8A%A5%E5%BA%94%E7%94%A8-60.png" alt="Telegram">
+    <!-- 悬浮客服图标 -->
+    <div class="float-icons-container">
+        <!-- 悬浮微信客服图标 -->
+        <div class="wechat-float" onclick="toggleWechatModal()">
+            <div class="wechat-icon"></div>
+        </div>
+        
+        <!-- 悬浮WhatsApp客服图标 -->
+        <a href="https://wa.me/message/QXYAFEGTDWIBE1" target="_blank" rel="noopener noreferrer" class="whatsapp-float">
+            <i class="fab fa-whatsapp whatsapp-icon"></i>
         </a>
-        <!-- 方式2：网页端通用（手机也会自动唤起） -->
-        <!-- <a href="https://t.me/你的用户名" class="telegram" target="_blank" title="Telegram">
-            <img src="https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/telegram.svg" alt="Telegram">
-        </a> -->
-
-        <!-- WhatsApp -->
-        <a href="https://wa.me/message/QXYAFEGTDWIBE1" 
-           class="whatsapp" target="_blank" title="WhatsApp 联系我">
-            <img src="https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%C2%B7%E5%AE%A2%E5%9B%BE%E7%89%87%E5%BA%93/%E5%B8%B8%E7%94%A8%E6%A8%A1%E6%9D%BF%E5%9B%BE%E7%89%87/icons8-whatsapp-60.png" alt="WhatsApp">
-        </a>
-
-        <!-- Facebook Messenger -->
-        <!-- 方式1：m.me 短链接（推荐） -->
-        <a href="https://m.me/abelzouhuanglin" 
-           class="messenger" target="_blank" title="Messenger 联系我">
-            <img src="https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%C2%B7%E5%AE%A2%E5%9B%BE%E7%89%87%E5%BA%93/%E5%B8%B8%E7%94%A8%E6%A8%A1%E6%9D%BF%E5%9B%BE%E7%89%87/icons8-facebook%E7%9A%84%E4%BF%A1%E4%BB%B6-60.png" alt="Messenger">
-        </a>
-
-        <!-- 方式2：如果你有个人Facebook账号（不推荐用于商业） -->
-        <!-- <a href="https://m.me/你的Facebook个人数字ID" class="messenger" target="_blank">
-            <img src="https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/messenger.svg" alt="Messenger">
-        </a> -->
-
     </div>
+
+    <!-- 微信弹出窗 -->
+    <div id="wechatModal" class="wechat-modal" onclick="closeWechatModal(event)">
+        <div class="wechat-popup" onclick="event.stopPropagation()">
+            <h3>微信客服</h3>
+            <img src="https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%C2%B7%E5%AE%A2%E5%9B%BE%E7%89%87%E5%BA%93/AIBOBLOG%20WECHAT.png" alt="微信二维码" class="wechat-qr">
+            <button class="close-btn" onclick="closeWechatModal()">关闭</button>
+        </div>
+    </div>
+
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6203499194676961"
      crossorigin="anonymous"></script>
 </body>
