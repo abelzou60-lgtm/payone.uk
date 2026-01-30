@@ -16,6 +16,154 @@
             box-sizing: border-box;
         }
 
+        /* 导航栏样式 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 2000;
+            backdrop-filter: blur(10px);
+        }
+        
+        .navbar-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 20px;
+        }
+        
+        .navbar-logo img {
+            height: 40px;
+            width: auto;
+        }
+        
+        /* 桌面端菜单 */
+        .navbar-menu {
+            display: flex;
+            gap: 15px;
+        }
+        
+        /* 导航按钮样式 */
+        .navbar-btn {
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        /* 按钮颜色 */
+        .btn-home {
+            background: rgba(220, 38, 38, 0.8);
+            color: white;
+        }
+        
+        .btn-collect {
+            background: rgba(37, 99, 235, 0.8);
+            color: white;
+        }
+        
+        .btn-cross {
+            background: rgba(22, 163, 74, 0.8);
+            color: white;
+        }
+        
+        .btn-review {
+            background: rgba(202, 138, 4, 0.8);
+            color: white;
+        }
+        
+        /* 按钮 hover 效果 */
+        .navbar-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+        
+        /* 移动端汉堡菜单按钮 */
+        .navbar-toggle {
+            display: none;
+            cursor: pointer;
+        }
+        
+        .bar {
+            display: block;
+            width: 25px;
+            height: 3px;
+            margin: 5px auto;
+            transition: all 0.3s ease-in-out;
+            background-color: #333;
+        }
+        
+        /* 移动端菜单 */
+        .navbar-mobile-menu {
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            width: 50%;
+            margin-left: auto;
+            border-radius: 0 0 0 10px;
+        }
+        
+        .navbar-mobile-btn {
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .navbar-menu {
+                display: none;
+            }
+            
+            .navbar-toggle {
+                display: block;
+            }
+            
+            .navbar-mobile-menu.active {
+                display: flex;
+            }
+            
+            /* 汉堡菜单动画 */
+            .navbar-toggle.active .bar:nth-child(2) {
+                opacity: 0;
+            }
+            
+            .navbar-toggle.active .bar:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+            
+            .navbar-toggle.active .bar:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+        }
+
+        /* 调整 Hero 区域顶部间距，避免被导航栏遮挡 */
+        body {
+            margin-top: 80px;
+        }
+        
+        /* 移动端调整 */
+        @media (max-width: 768px) {
+            body {
+                margin-top: 70px;
+            }
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             line-height: 1.6;
@@ -846,28 +994,38 @@
     
 </head>
 <body>
-    <header>
-        <nav class="navbar">
-            <div class="nav-container">
-                <div class="nav-brand">
-                    <a href="https://aibochinese.com/" target="_blank">
-                        <img src="https://cf.aibochinese.com/%E7%B4%A0%E6%9D%90%E7%AB%99/1-on-1%20logo%20126%2050.png" alt="网站Logo">
-                    </a>
-                </div>
-
-                <div class="nav-toggle" id="nav-toggle">☰</div>
-
-                <ul class="nav-menu" id="nav-menu">
-          <li class="nav-item"><a href="top-tutors.html" class="nav-link nav-link-red">Top Tutors</a></li>
-          <li class="nav-item"><a href="hskexpress.html" class="nav-link nav-link-blue">Premium Courses</a></li>
-                    <li class="nav-item"><a href="library.html" class="nav-link nav-link-green">Library</a></li>
-                    <li class="nav-item"><a href="groups.html" class="nav-link nav-link-purple">Join Groups</a></li>
-                    <li class="nav-item"><a href="payments.html" class="nav-link nav-link-orange active">Payments</a></li>
-                    <li class="nav-item"><a href="client.html" class="nav-link nav-link-teal">Client Download</a></li>
-                </ul>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <!-- Logo -->
+            <a href="index.html" class="navbar-logo">
+                <img src="https://cf.aibomart.com/payone.uk/payone-hor-logo.PNG" alt="PayOne Logo">
+            </a>
+            
+            <!-- 桌面端菜单 -->
+            <div class="navbar-menu">
+                <a href="index.html" class="navbar-btn btn-home">首页</a>
+                <a href="https://payone.uk/colloct" class="navbar-btn btn-collect">全球收款</a>
+                <a href="https://blog.aibochinese.com/payment/apply%20V-cards" class="navbar-btn btn-cross">跨境支付</a>
+                <a href="https://payone.uk/reviews" class="navbar-btn btn-review">评价</a>
             </div>
-        </nav>
-    </header>
+            
+            <!-- 移动端汉堡菜单按钮 -->
+            <div class="navbar-toggle" onclick="toggleMobileMenu()">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+        
+        <!-- 移动端菜单 -->
+        <div class="navbar-mobile-menu">
+            <a href="index.html" class="navbar-mobile-btn btn-home">首页</a>
+            <a href="https://payone.uk/colloct" class="navbar-mobile-btn btn-collect">全球收款</a>
+            <a href="https://blog.aibochinese.com/payment/apply%20V-cards" class="navbar-mobile-btn btn-cross">跨境支付</a>
+            <a href="https://payone.uk/reviews" class="navbar-mobile-btn btn-review">评价</a>
+        </div>
+    </nav>
 
     <div class="container">
         <h1>💳 支付方式</h1>
@@ -880,13 +1038,13 @@
                 <a href="https://www.paypal.me/aibochinese" target="_blank" rel="noreferrer noopener">
                     <img src="https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%C2%B7%E5%AE%A2%E5%9B%BE%E7%89%87%E5%BA%93/%E5%B8%B8%E7%94%A8%E6%A8%A1%E6%9D%BF%E5%9B%BE%E7%89%87/Paypal%20logo-1.png" alt="PayPal">
                 </a>
-            </div>
+        
                         
             <div class="payment-item">
                 <a href="https://buy.stripe.com/fZu9AT94319geaXfFQ8so03" target="_blank" rel="noreferrer noopener">
                     <img src="https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%C2%B7%E5%AE%A2%E5%9B%BE%E7%89%87%E5%BA%93/%E5%B8%B8%E7%94%A8%E6%A8%A1%E6%9D%BF%E5%9B%BE%E7%89%87/stripe%20logo-1.png" alt="Stripe">
                 </a>
-            </div>
+        
 
             <div class="payment-item">
                 <a href="https://wise.com/pay/me/vecjew9" target="_blank" rel="noreferrer noopener">
@@ -895,7 +1053,7 @@
             </div>
 
             <div class="payment-item">
-                <a href="https://aibochinese.com/cryptopay" target="_blank" rel="noreferrer noopener">
+                <a href="https://payone.uk/cryptopay" target="_blank" rel="noreferrer noopener">
                     <img src="https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%C2%B7%E5%AE%A2%E5%9B%BE%E7%89%87%E5%BA%93/%E5%B8%B8%E7%94%A8%E6%A8%A1%E6%9D%BF%E5%9B%BE%E7%89%87/USDT%20logo-1.png" alt="AiboPay">
                 </a>
             </div>
@@ -1003,8 +1161,8 @@
         </div>
     </div>
 
-    <footer>
-    <div class="footer">
+
+
       <p style="margin-bottom: 13px;">
         🙏Follow us:
         <a href="https://www.youtube.com/@AiboChinese" style="color:white; display:inline-block; vertical-align:middle;" target="_blank" rel="noopener noreferrer">
@@ -1030,10 +1188,10 @@
         © 2025 <a href="https://blog.aibochinese.com/" style="color:hsl(0, 88%, 51%)" target="_blank" rel="noopener noreferrer">爱博·客</a> - 所有权利保留【<a href="https://blog.aibochinese.com/education/tutor%20guide" style="color:rgb(236, 8, 8)" target="_blank" rel="noopener noreferrer">教师入驻指南</a>】
       </p>
     </div>
-  </footer>
+
     
-    <!-- 移动端底部导航按钮 -->
-    <div class="mobile-bottom-nav">
+
+
         <div class="mobile-nav-container">
             <a href="https://aibochinese.com/" class="mobile-nav-item">
                 <i class="fa fa-home"></i>
@@ -1362,6 +1520,15 @@
                 closeModal('accountModal');
             }
         });
+
+        // 汉堡菜单控制函数
+        function toggleMobileMenu() {
+            const navbarToggle = document.querySelector('.navbar-toggle');
+            const mobileMenu = document.querySelector('.navbar-mobile-menu');
+            
+            navbarToggle.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+        }
     </script>
      <div class="floating-contact">
 
