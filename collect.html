@@ -858,6 +858,16 @@
             line-height: 1.6;
         }
 
+        .custom-columns-container {
+            display: flex;
+            gap: 20px;
+        }
+
+        .custom-columns-container .custom-section {
+            flex: 1;
+            margin-bottom: 0;
+        }
+
         @media (max-width: 768px) {
             .custom-title {
                 font-size: 28px;
@@ -874,6 +884,14 @@
 
             .custom-feature {
                 padding: 20px;
+            }
+
+            .custom-columns-container {
+                flex-direction: column;
+            }
+
+            .custom-columns-container .custom-section {
+                margin-bottom: 30px;
             }
         }
     </style>
@@ -917,30 +935,28 @@
         <div class="custom-content">
             <h1 class="custom-title">一站式解决大陆个人跨境收付款问题</h1>
 
-            <div class="custom-section">
-                <h2 class="custom-section-title">解决的痛点</h2>
-                <ul class="custom-list">
-                    <li>Paypal提现难题和节省$35手续费</li>
-                    <li>Stripe和Paypal等第三方收款手续费高：4%+</li>
-                    <li>Wise账户风控严格：关户和不交资金来源证明</li>
-                    <li>境外本地个人银行账户申请繁锁：地址证明、银行流水、护照</li>
-                    <li>换汇回国难</li>
-                </ul>
-            </div>
+            <div class="custom-columns-container">
+                <div class="custom-section">
+                    <h2 class="custom-section-title">解决的痛点</h2>
+                    <ul class="custom-list">
+                        <li>Paypal提现难题和节省$35手续费</li>
+                        <li>Stripe和Paypal等第三方收款手续费高：4%+</li>
+                        <li>Wise账户风控严格：关户和不交资金来源证明</li>
+                        <li>境外本地个人银行账户申请繁锁：地址证明、银行流水、护照</li>
+                        <li>换汇回国难</li>
+                    </ul>
+                </div>
 
-            <div class="custom-section">
-                <h2 class="custom-section-title">通过我们的渠道：</h2>
-                <div class="custom-feature">
-                    <h3 class="custom-feature-title">条件</h3>
-                    <p class="custom-feature-content">大陆身份证、中国手机号、E-mail</p>
-                </div>
-                <div class="custom-feature">
-                    <h3 class="custom-feature-title">费用</h3>
-                    <p class="custom-feature-content">￥188 <a href="https://payone.uk/payments" class="inline-block bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 transition-colors duration-300 ml-4">去支付</a></p>
-                </div>
-                <div class="custom-feature">
-                    <h3 class="custom-feature-title">服务</h3>
-                    <p class="custom-feature-content">指导开户和使用、做境外地址证明、提供资金来源证明</p>
+                <div class="custom-section">
+                    <h2 class="custom-section-title">通过我们的渠道：</h2>
+                    <div class="custom-feature">
+                        <h3 class="custom-feature-title">条件</h3>
+                        <p class="custom-feature-content">大陆身份证、中国手机号、E-mail</p>
+                         <h3 class="custom-feature-title">费用</h3>
+                        <p class="custom-feature-content">￥188【过程中不会再产生费用】 <a href="https://payone.uk/payments" class="inline-block bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 transition-colors duration-300 ml-4">去支付</a></p>
+                         <h3 class="custom-feature-title">服务</h3>
+                        <p class="custom-feature-content">指导开户和使用、做境外地址证明、提供资金来源证明</p>
+                    </div>
                 </div>
             </div>
 
@@ -948,13 +964,11 @@
                 <h2 class="custom-section-title">做高效且有结果的事</h2>
                 <div class="custom-feature">
                     <p class="custom-feature-content">a、开通境外12国独立个人银行账户和欧盟（27国）银行账户，本地收款0手续费</p>
+                     <p class="custom-feature-content">b、开通Stripe|Paypal（含信用卡收款）</p>
+                     <p class="custom-feature-content">c、额外开通3-5家银行的账户进行收款，再同名转入Wise,降低风控</p>
+                     <p class="custom-feature-content">d、免费制作全球聚合收款页面（含加密渠道），给客户提供多种支付方式，支付意愿显著提升</p>
                 </div>
-                <div class="custom-feature">
-                    <p class="custom-feature-content">b、开通Stripe|Paypal（含信用卡收款）</p>
-                </div>
-                <div class="custom-feature">
-                    <p class="custom-feature-content">c、免费制作全球聚合收款页面（含加密渠道），给客户提供多种支付方式，支付意愿显著提升</p>
-                </div>
+               
             </div>
         </div>
     </section>
