@@ -77,7 +77,9 @@
     }
 
     .binance-pay-btn,
-    .krak-pay-btn {
+    .krak-pay-btn,
+    .roogoo-pay-btn,
+    .pinkwallet-pay-btn {
       flex: 1;
       background: linear-gradient(135deg, hsl(45, 15%, 90%) 0%, #dad3bb 100%);
       border: none;
@@ -92,18 +94,24 @@
     }
 
     .binance-pay-btn:hover,
-    .krak-pay-btn:hover {
+    .krak-pay-btn:hover,
+    .roogoo-pay-btn:hover,
+    .pinkwallet-pay-btn:hover {
       transform: translateY(-2px);
       box-shadow: 0 10px 25px rgba(240, 185, 11, 0.3);
     }
 
     .binance-pay-btn img,
-    .krak-pay-btn img {
+    .krak-pay-btn img,
+    .roogoo-pay-btn img,
+    .pinkwallet-pay-btn img {
       height: 40px;
     }
 
     .binance-pay-btn span,
-    .krak-pay-btn span {
+    .krak-pay-btn span,
+    .roogoo-pay-btn span,
+    .pinkwallet-pay-btn span {
       font-size: 20px;
       font-weight: bold;
       color: #1e2329;
@@ -111,7 +119,7 @@
 
     .crypto-options {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       gap: 15px;
       margin-top: 20px;
     }
@@ -124,6 +132,11 @@
       cursor: pointer;
       transition: all 0.3s;
       text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
     }
 
     .crypto-btn:hover {
@@ -624,22 +637,29 @@
     <div class="container">            
          <!-- App Scan-to-Transfer Section -->
         <div class="payment-section">
-            <div class="section-title">🔸 App Scan-to-Transfer |<a href="https://accounts.bmwweb.ac/register?ref=569491541" style="color:red" target="_blank" rel="noopener noreferrer"> Open Account</a></div>
+            <div class="section-title">🔸 App Scan-to-Transfer</div>
             <div class="pay-buttons-container">
                 <button class="binance-pay-btn" onclick="showBinancePay()">
                     <img src="https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%E6%B1%89%E8%AF%AD%E5%AE%A2%E6%88%B7%E7%AB%AF/crypto%20pay/binance%20logo.png" alt="Binance Logo" width="40" height="40">
-                    <span>Binance Pay</span>
+                    <span>Binance</span>
                 </button>
                 <button class="krak-pay-btn" onclick="showKrakPay()">
                     <img src="https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%C2%B7%E5%AE%A2%E5%9B%BE%E7%89%87%E5%BA%93/%E5%B8%B8%E7%94%A8%E6%A8%A1%E6%9D%BF%E5%9B%BE%E7%89%87/Krak%20Logo.png" alt="Krak Logo" width="40" height="40">
-                    <span>Krak Pay</span>
+                    <span>Krak</span>
+                </button>
+                <button class="roogoo-pay-btn" onclick="showRoogooPay()">
+                    <img src="https://cf.aibomart.com/payone.uk/roogoo-logo.PNG" alt="Roogoo Logo" width="100" height="40">
+                </button>
+                <button class="pinkwallet-pay-btn" onclick="showPinkWalletPay()">
+                    <img src="https://cf.aibochinese.com/%E7%B4%A0%E6%9D%90%E7%AB%99/%E8%B7%A8%E5%A2%83%E6%94%B6%E4%BB%98%E6%AC%BE/PinkWallet-Logo.png" alt="PinkWallet Logo" width="100" height="40">
+
                 </button>
             </div>
         </div>
 
         <!-- Crypto Selection Section -->
         <div class="payment-section">
-            <div class="section-title">🔸 No platform restrictions for coin transfers</div>
+            <div class="section-title">🔸 Crypto transfers</div>
             <div class="crypto-options">
                 <button class="crypto-btn" onclick="selectCrypto('USDT')">
                     <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -699,9 +719,9 @@
     <div class="modal" id="binanceModal">
         <div class="modal-content">
             <span class="modal-close" onclick="closeBinancePay()">&times;</span>
-            <h2 style="margin-bottom: 20px; text-align: center;">Binance Pay</h2>
+            <h2 style="margin-bottom: 20px; text-align: center;">Binance</h2>
             <div class="address-box">
-                <div class="address-label">币安ID</div>
+                <div class="address-label">币安ID | <a href="https://accounts.bmwweb.ac/register?ref=569491541" style="color:red" target="_blank" rel="noopener noreferrer"> sign up</a></div>
                 <div class="address-content">
                     <div class="address-text" id="binanceAddress">569491541</div>
                     <button class="copy-btn" onclick="copyBinanceAddress()">复制</button>
@@ -718,9 +738,9 @@
     <div class="modal" id="krakModal">
         <div class="modal-content">
             <span class="modal-close" onclick="closeKrakPay()">&times;</span>
-            <h2 style="margin-bottom: 20px; text-align: center;">Krak Pay</h2>
+            <h2 style="margin-bottom: 20px; text-align: center;">Krak</h2>
             <div class="address-box">
-                <div class="address-label">Krak ID</div>
+                <div class="address-label">Krak ID | <a href="https://blog.aibochinese.com/payment/krak" style="color:red" target="_blank" rel="noopener noreferrer"> sign up</a></div>
                 <div class="address-content">
                     <div class="address-text" id="krakAddress">HUANGLINZOU</div>
                     <button class="copy-btn" onclick="copyKrakAddress()">复制</button>
@@ -729,6 +749,43 @@
             <div class="qr-code" style="margin-top: 20px;">
              <img src="https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%C2%B7%E5%AE%A2%E5%9B%BE%E7%89%87%E5%BA%93/%E5%B8%B8%E7%94%A8%E6%A8%A1%E6%9D%BF%E5%9B%BE%E7%89%87/Krak%20code.jpg" 
          style="max-width: 100%; height: auto;" />
+            </div>
+        </div>
+    </div>
+
+    <!-- Roogoo Pay Modal -->
+    <div class="modal" id="roogooModal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeRoogooPay()">&times;</span>
+            <h2 style="margin-bottom: 20px; text-align: center;">Roogoo</h2>
+            <div class="address-box">
+                <div class="address-label">Roogoo ID | <a href="https://blog.aibochinese.com/payment/roogoo" style="color:red" target="_blank" rel="noopener noreferrer"> sign up</a></div>
+                <div class="address-content">
+                    <div class="address-text" id="roogooAddress">44770593635041287</div>
+                    <button class="copy-btn" onclick="copyRoogooAddress()">复制</button>
+                </div>
+            </div>
+            <div class="qr-code" style="margin-top: 20px;">
+             <img src="https://cf.aibochinese.com/%E7%B4%A0%E6%9D%90%E7%AB%99/%E8%B7%A8%E5%A2%83%E6%94%B6%E4%BB%98%E6%AC%BE/roogoo-qr.jpg" 
+         style="max-width: 100%; height: auto;" />
+            </div>
+        </div>
+    </div>
+
+    <!-- PinkWallet Pay Modal -->
+    <div class="modal" id="pinkwalletModal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closePinkWalletPay()">&times;</span>
+            <h2 style="margin-bottom: 20px; text-align: center;">PinkWallet</h2>
+            <div class="address-box">
+                <div class="address-label">PinkWallet ID | <a href="https://blog.aibochinese.com/payment/pinkwallet" style="color:red" target="_blank" rel="noopener noreferrer"> sign up</a></div>
+                <div class="address-content">
+                    <div class="address-text" id="pinkwalletAddress">U7Nnbcah</div>
+                    <button class="copy-btn" onclick="copyPinkWalletAddress()">复制</button>
+                </div>
+            </div>
+            <div class="qr-code" style="margin-top: 20px;">
+             <div style="display: flex; align-items: center; justify-content: center; height: 200px; color: #888; font-size: 14px;">QR Code Coming Soon</div>
             </div>
         </div>
     </div>
@@ -946,14 +1003,62 @@
             });
         }
 
+        function showRoogooPay() {
+            document.getElementById('roogooModal').classList.add('active');
+        }
+
+        function closeRoogooPay() {
+            document.getElementById('roogooModal').classList.remove('active');
+        }
+
+        function copyRoogooAddress() {
+            const addressText = document.getElementById('roogooAddress').textContent;
+            navigator.clipboard.writeText(addressText).then(() => {
+                const btn = event.target;
+                btn.textContent = '已复制!';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.textContent = '复制';
+                    btn.classList.remove('copied');
+                }, 2000);
+            });
+        }
+
+        function showPinkWalletPay() {
+            document.getElementById('pinkwalletModal').classList.add('active');
+        }
+
+        function closePinkWalletPay() {
+            document.getElementById('pinkwalletModal').classList.remove('active');
+        }
+
+        function copyPinkWalletAddress() {
+            const addressText = document.getElementById('pinkwalletAddress').textContent;
+            navigator.clipboard.writeText(addressText).then(() => {
+                const btn = event.target;
+                btn.textContent = '已复制!';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.textContent = '复制';
+                    btn.classList.remove('copied');
+                }, 2000);
+            });
+        }
+
         // 点击模态框外部关闭
         window.onclick = function(event) {
             const binanceModal = document.getElementById('binanceModal');
             const krakModal = document.getElementById('krakModal');
+            const roogooModal = document.getElementById('roogooModal');
+            const pinkwalletModal = document.getElementById('pinkwalletModal');
             if (event.target == binanceModal) {
                 closeBinancePay();
             } else if (event.target == krakModal) {
                 closeKrakPay();
+            } else if (event.target == roogooModal) {
+                closeRoogooPay();
+            } else if (event.target == pinkwalletModal) {
+                closePinkWalletPay();
             }
         }
 
