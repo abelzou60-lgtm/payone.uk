@@ -810,8 +810,8 @@
         }
 
         .wechat-icon {
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             background-image: url('https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%C2%B7%E5%AE%A2%E5%9B%BE%E7%89%87%E5%BA%93/wechaticon.png'); /* 用户提供的微信图标URL */
             background-size: cover;
             background-position: center;
@@ -819,8 +819,8 @@
 
         /* WhatsApp悬浮图标样式 */
         .whatsapp-float {
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
             background-color: #25D366; /* WhatsApp绿色 */
             border-radius: 50%;
             cursor: pointer;
@@ -1461,9 +1461,9 @@
                 closeModal('wechatModal');
                 closeModal('E-CNYModal');
                 closeModal('accountModal');
-                const wechatModal = document.getElementById('wechatModal');
-                if (wechatModal) {
-                    wechatModal.style.display = 'none';
+                const wechatServiceModal = document.getElementById('wechatServiceModal');
+                if (wechatServiceModal) {
+                    wechatServiceModal.style.display = 'none';
                 }
             }
         });
@@ -1479,19 +1479,19 @@
 
         // 微信弹窗控制函数
         function toggleWechatModal() {
-            const modal = document.getElementById('wechatModal');
+            const modal = document.getElementById('wechatServiceModal');
             modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
         }
 
         function closeWechatModal(event) {
-            document.getElementById('wechatModal').style.display = 'none';
+            document.getElementById('wechatServiceModal').style.display = 'none';
         }
 
         // 点击模态背景关闭
         window.onclick = function(event) {
-            const wechatModal = document.getElementById('wechatModal');
+            const wechatServiceModal = document.getElementById('wechatServiceModal');
             
-            if (event.target === wechatModal) {
+            if (event.target === wechatServiceModal) {
                 closeWechatModal();
             }
         };
@@ -1510,11 +1510,11 @@
     </div>
 
     <!-- 微信弹出窗 -->
-    <div id="wechatModal" class="wechat-modal" onclick="closeWechatModal(event)">
+    <div id="wechatServiceModal" class="wechat-modal" onclick="closeWechatModal(event)">
         <div class="wechat-popup" onclick="event.stopPropagation()">
             <h3>微信客服</h3>
             <img src="https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%C2%B7%E5%AE%A2%E5%9B%BE%E7%89%87%E5%BA%93/AIBOBLOG%20WECHAT.png" alt="微信二维码" class="wechat-qr">
-            <button class="close-btn" onclick="closeWechatModal()">关闭</button>
+            <button class="close-btn" onclick="closeWechatModal()" style="color: black; font-size: 12px;">关闭</button>
         </div>
     </div>
 
