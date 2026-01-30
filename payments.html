@@ -1067,8 +1067,6 @@
 
     <div class="container">
         <h1>💳 支付方式</h1>
-        <p class="subtitle">Applicable to all countries - 适用于所有国家</p>
-
         <div class="section-title">在线支付平台 | Online Payment Platforms</div>
         
         <div class="payment-grid">
@@ -1103,9 +1101,6 @@
             <div class="country-links">
                 <a href="#" class="country-link" data-country="vietnam">🇻🇳 Vietnam</a>
                 <a href="#" class="country-link" data-country="usa">🇺🇸 USA</a>
-                <a href="#" class="country-link" data-country="indonesia">🇮🇩 Indonesia</a>
-                <a href="#" class="country-link" data-country="mongolia">🇲🇳 Mongolia</a>
-                <a href="#" class="country-link" data-country="cambodia">🇰🇭 Cambodia</a>
                 <a href="#" class="country-link" data-country="uk">🇬🇧 UK</a>
                 <a href="#" class="country-link" data-country="eu">🇪🇺 EU (欧盟)</a>
                 <a href="#" class="country-link" data-country="australia">🇦🇺 Australia</a>
@@ -1117,13 +1112,14 @@
                 <a href="#" class="country-link" data-country="thailand">🇹🇭 Thailand</a>
                 <a href="#" class="country-link" data-country="hungary">🇭🇺 Hungary</a>
                 <a href="#" class="country-link" data-country="Switzerland">🇨🇭 Switzerland</a>
-                <a href="#" class="country-link" data-country="russia">🇷🇺 Russia</a>
+                <a href="#" class="country-link" data-country="uae">🇦🇪 UAE</a>
+                <a href="#" class="country-link" data-country="mexico">🇲🇽 Mexico</a>
             </div>
         </div>
     </div>
     <div class="container">
-        <h1><a href="https://aibochinese.com/e-cny-guide" style="color:red" target="_blank" rel="noopener noreferrer">E-CNY</a>|Alipay|Wechat Pay + Credit Card</h1>
-        
+        <h2> Credit Card -<a href="https://payone.uk/e-cny-guide" style="color:red" target="_blank" rel="noopener noreferrer">E-CNY</a>|Alipay|Wechat Pay</h2>
+        <p>_</p>
         <div class="content-wrapper">
             <div class="image-section">
                 <img src="https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%C2%B7%E5%AE%A2%E5%9B%BE%E7%89%87%E5%BA%93/%E5%B8%B8%E7%94%A8%E6%A8%A1%E6%9D%BF%E5%9B%BE%E7%89%87/ECNYwechat%20alipay-creditcard.png" alt="支付图片">
@@ -1225,32 +1221,7 @@
                     { label: "SWIFT代码", value: "TRWIUS35XXX" }
                 ]
             },
-            indonesia: {
-                title: "🇮🇩 Indonesia 银行账户",
-                accounts: [
-                    { label: "银行名称", value: "***" },
-                    { label: "账户名称", value: "AIBO CULTURE INDONESIA" },
-                    { label: "账号", value: "***" },
-                    { label: "SWIFT代码", value: "***" }
-                ]
-            },
-            mongolia: {
-                title: "🇲🇳 Mongolia 银行账户",
-                accounts: [
-                    { label: "银行名称", value: "Khan BankTDB (Хөгжлийн банк)" },
-                    { label: "账户名称", value: "LUN GE" },
-                    { label: "账号", value: "MN240004000450076520" }
-                ]
-            },
-            cambodia: {
-                title: "🇰🇭 Cambodia 银行账户",
-                accounts: [
-                    { label: "银行名称", value: "***" },
-                    { label: "账户名称", value: "***" },
-                    { label: "账号", value: "***" }
-                ]
-            },
-            uk: {
+             uk: {
                 title: "🇬🇧 UK 银行账户",
                 accounts: [
                     { label: "账号", value: "00321902" },
@@ -1351,13 +1322,23 @@
                     { label: "银行名称", value: "SR Saphirstein AG" }
                 ]
             },
-            russia: {
-                title: "🇷🇺 Russia 银行账户",
+            uae: {
+                title: "🇦🇪 UAE 银行账户",
                 accounts: [
-                    { label: "银行名称", value: "Sberbank" },
-                    { label: "账户名称", value: "AIBO CULTURE RUSSIA" },
-                    { label: "账号", value: "***" },
-                    { label: "SWIFT代码", value: "***" }
+                    { label: "备注（必填）", value: "8cc30y" },
+                    { label: "IBAN", value: "AE69 0960 0006 9106 0000 351" },
+                    { label: "BIC", value: "ZANDAEAAXXX" },
+                    { label: "收款方", value: "Neverless Labs SL" },
+                    { label: "收款方地址", value: "Calle de Hermosilla 48, 1D, 28001 Madrid, Spain" }
+                ]
+            },
+            mexico: {
+                title: "🇲🇽 Mexico 银行账户",
+                accounts: [
+                    { label: "备注（必填）", value: "8cc30y" },
+                    { label: "CLABE", value: "710969000042105572" },
+                    { label: "收款方", value: "Neverless Labs SL" },
+                    { label: "收款方地址", value: "C. Río Lerma 232-Piso 24, Cuauhtémoc, 06500 Ciudad de México" }
                 ]
             }
         };
