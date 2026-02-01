@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wise激活和存款案例 - Payone-提供专业的全球收付款的咨询和技术服务</title>
+    <meta name="description" content="分享Wise存款案例，帮助您了解如何使用Wise进行跨境存款">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* 悬浮客服图标样式 */
+        .wechat-float {
+            width: 60px;
+            height: 60px;
+            background-color: hsl(148, 45%, 88%); /* 微信绿色 */
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+        }
+
+        .wechat-float:hover {
+            transform: scale(1.1);
+        }
+
+        .wechat-icon {
+            width: 40px;
+            height: 40px;
+            background-image: url('https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%C2%B7%E5%AE%A2%E5%9B%BE%E7%89%87%E5%BA%93/wechaticon.png'); /* 用户提供的微信图标URL */
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* WhatsApp悬浮图标样式 */
+        .whatsapp-float {
+            width: 60px;
+            height: 60px;
+            background-color: #25D366; /* WhatsApp绿色 */
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+            text-decoration: none;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+        }
+
+        .whatsapp-icon {
+            font-size: 30px;
+            color: white;
+        }
+
+        /* 悬浮图标容器 */
+        .float-icons-container {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* 微信弹出窗样式 */
+        .wechat-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .wechat-popup {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            max-width: 300px;
+            width: 90%;
+        }
+
+        .wechat-qr {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 10px;
+            display: block;
+        }
+
+        .close-btn {
+            background-color: #ff4d4f;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        .close-btn:hover {
+            background-color: #ff7875;
+        }
+
+        /* 导航栏样式 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 2000;
+            backdrop-filter: blur(10px);
+        }
+
+        .navbar-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 20px;
+        }
+
+        .navbar-logo img {
+            height: 40px;
+            width: auto;
+        }
+
+        /* 桌面端菜单 */
+        .navbar-menu {
+            display: flex;
+            gap: 15px;
+        }
+
+        /* 导航按钮样式 */
+        .navbar-btn {
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        /* 按钮颜色 */
+        .btn-home {
+            background: rgba(220, 38, 38, 0.8);
+            color: white;
+        }
+
+        .btn-collect {
+            background: rgba(37, 99, 235, 0.8);
+            color: white;
+        }
+
+        .btn-cross {
+            background: rgba(22, 163, 74, 0.8);
+            color: white;
+        }
+
+        .btn-review {
+            background: rgba(202, 138, 4, 0.8);
+            color: white;
+        }
+
+        /* 按钮 hover 效果 */
+        .navbar-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* 移动端汉堡菜单按钮 */
+        .navbar-toggle {
+            display: none;
+            cursor: pointer;
+        }
+
+        .bar {
+            display: block;
+            width: 25px;
+            height: 3px;
+            margin: 5px auto;
+            transition: all 0.3s ease-in-out;
+            background-color: #333;
+        }
+
+        /* 移动端菜单 */
+        .navbar-mobile-menu {
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            width: 50%;
+            margin-left: auto;
+            border-radius: 0 0 0 10px;
+        }
+
+        .navbar-mobile-btn {
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .navbar-menu {
+                display: none;
+            }
+
+            .navbar-toggle {
+                display: block;
+            }
+
+            .navbar-mobile-menu.active {
+                display: flex;
+            }
+
+            /* 汉堡菜单动画 */
+            .navbar-toggle.active .bar:nth-child(2) {
+                opacity: 0;
+            }
+
+            .navbar-toggle.active .bar:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+
+            .navbar-toggle.active .bar:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+        }
+
+        /* 调整页面顶部间距，避免内容被导航栏遮挡 */
+        .case-container {
+            max-width: 1200px;
+            margin: 100px auto 50px;
+            padding: 0 20px;
+        }
+
+        /* 案例卡片样式 */
+
+        .case-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 40px;
+            color: #333;
+        }
+
+        .case-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        @media (max-width: 1024px) {
+            .case-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .case-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .case-card {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .case-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .case-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+        }
+
+        /* 图片轮播容器 */
+        .image-slider {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #f5f5f5;
+        }
+
+        .slider-wrapper {
+            position: relative;
+            width: 100%;
+            height: 400px;
+        }
+
+        .slider-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .slider-image.active {
+            opacity: 1;
+        }
+
+        /* 轮播控制按钮 */
+        .slider-controls {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+            z-index: 10;
+        }
+
+        .slider-btn {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            font-size: 2rem;
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .slider-btn:hover {
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        /* 图片信息 */
+        .image-info {
+            text-align: center;
+            margin-top: 10px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* 放大查看按钮 */
+        .zoom-btn {
+            display: block;
+            margin: 15px auto 0;
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .zoom-btn:hover {
+            background-color: #2980b9;
+        }
+
+        /* 放大查看模态框 */
+        .zoom-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .zoom-modal.active {
+            display: flex;
+        }
+
+        .zoom-content {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+        }
+
+        .close-zoom {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-zoom:hover {
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <!-- Logo -->
+            <a href="index.html" class="navbar-logo">
+                <img src="https://cf.aibomart.com/payone.uk/payone-hor-logo.PNG" alt="PayOne Logo">
+            </a>
+            
+            <!-- 桌面端菜单 -->
+            <div class="navbar-menu">
+                <a href="index.html" class="navbar-btn btn-home">首页</a>
+                <a href="https://payone.uk/collect" class="navbar-btn btn-collect">全球收款</a>
+                <a href="https://blog.aibochinese.com/payment/apply%20V-cards" class="navbar-btn btn-cross">跨境支付</a>
+                <a href="https://payone.uk/reviews" class="navbar-btn btn-review">评价</a>
+            </div>
+            
+            <!-- 移动端汉堡菜单按钮 -->
+            <div class="navbar-toggle" onclick="toggleMobileMenu()">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+        
+        <!-- 移动端菜单 -->
+        <div class="navbar-mobile-menu">
+            <a href="index.html" class="navbar-mobile-btn btn-home">首页</a>
+            <a href="https://payone.uk/collect" class="navbar-mobile-btn btn-collect">全球收款</a>
+            <a href="https://blog.aibochinese.com/payment/apply%20V-cards" class="navbar-mobile-btn btn-cross">跨境支付</a>
+            <a href="https://payone.uk/reviews" class="navbar-mobile-btn btn-review">评价</a>
+        </div>
+    </nav>
+    <!-- 案例内容 -->
+    <div class="case-container">
+        <h1 class="case-title">Wise存款案例</h1>
+        
+        <div class="case-grid">
+            <!-- 案例一 -->
+            <div class="case-card">
+                <h3>案例一</h3>
+                <div class="image-slider">
+                    <div class="slider-wrapper">
+                        <img src="https://cf.aibochinese.com/wise%E6%BF%80%E6%B4%BB%E6%A1%88%E4%BE%8B/case1.jpg" alt="案例一图片1" class="slider-image active">
+                        <img src="https://cf.aibochinese.com/wise%E6%BF%80%E6%B4%BB%E6%A1%88%E4%BE%8B/case1-2.jpg" alt="案例一图片2" class="slider-image">
+                    </div>
+                    <div class="slider-controls">
+                        <button class="slider-btn prev" onclick="changeSlide(this, -1)"><</button>
+                        <button class="slider-btn next" onclick="changeSlide(this, 1)">></button>
+                    </div>
+                    <div class="image-info">图片 1 / 2</div>
+                    <button class="zoom-btn" onclick="openZoom(this)">放大查看</button>
+                </div>
+            </div>
+
+            <!-- 案例二 -->
+            <div class="case-card">
+                <h3>案例二</h3>
+                <div class="image-slider">
+                    <div class="slider-wrapper">
+                        <img src="https://cf.aibochinese.com/wise%E6%BF%80%E6%B4%BB%E6%A1%88%E4%BE%8B/case2-0.jpg" alt="案例二图片1" class="slider-image active">
+                    </div>
+                    <div class="slider-controls">
+                        <button class="slider-btn prev" onclick="changeSlide(this, -1)"><</button>
+                        <button class="slider-btn next" onclick="changeSlide(this, 1)">></button>
+                    </div>
+                    <div class="image-info">图片 1 / 1</div>
+                    <button class="zoom-btn" onclick="openZoom(this)">放大查看</button>
+                </div>
+            </div>
+
+            <!-- 案例三 -->
+            <div class="case-card">
+                <h3>案例三</h3>
+                <div class="image-slider">
+                    <div class="slider-wrapper">
+                        <img src="https://cf.aibochinese.com/%E7%B4%A0%E6%9D%90%E7%AB%99/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20260112125530_180_19.jpg" alt="案例二图片1" class="slider-image active">
+                    </div>
+                    <div class="slider-controls">
+                        <button class="slider-btn prev" onclick="changeSlide(this, -1)"><</button>
+                        <button class="slider-btn next" onclick="changeSlide(this, 1)">></button>
+                    </div>
+                    <div class="image-info">图片 1 / 1</div>
+                    <button class="zoom-btn" onclick="openZoom(this)">放大查看</button>
+                </div>
+            </div>
+
+            <!-- 案例四 -->
+            <div class="case-card">
+                <h3>案例四</h3>
+                <div class="image-slider">
+                    <div class="slider-wrapper">
+                        <img src="https://cf.aibochinese.com/wise-deposit-case12.jpg" alt="案例二图片1" class="slider-image active">
+                    </div>
+                    <div class="slider-controls">
+                        <button class="slider-btn prev" onclick="changeSlide(this, -1)"><</button>
+                        <button class="slider-btn next" onclick="changeSlide(this, 1)">></button>
+                    </div>
+                    <div class="image-info">图片 1 / 1</div>
+                    <button class="zoom-btn" onclick="openZoom(this)">放大查看</button>
+                </div>
+            </div>    
+              <!-- 案例五 -->
+            <div class="case-card">
+                <h3>案例五</h3>
+                <div class="image-slider">
+                    <div class="slider-wrapper">
+                        <img src="https://cf.aibochinese.com/%E7%B4%A0%E6%9D%90%E7%AB%99/wise-deposit-case13.jpg" alt="案例二图片1" class="slider-image active">
+                    </div>
+                    <div class="slider-controls">
+                        <button class="slider-btn prev" onclick="changeSlide(this, -1)"><</button>
+                        <button class="slider-btn next" onclick="changeSlide(this, 1)">></button>
+                    </div>
+                    <div class="image-info">图片 1 / 1</div>
+                    <button class="zoom-btn" onclick="openZoom(this)">放大查看</button>
+                </div>
+            </div>            
+            
+                          <!-- 案例 -->
+            <div class="case-card">
+                <h3>案例六</h3>
+                <div class="image-slider">
+                    <div class="slider-wrapper">
+                        <img src="https://cf.aibochinese.com/%E7%B4%A0%E6%9D%90%E7%AB%99/wise-deposit-case14.jpeg" alt="案例二图片1" class="slider-image active">
+                    </div>
+                    <div class="slider-controls">
+                        <button class="slider-btn prev" onclick="changeSlide(this, -1)"><</button>
+                        <button class="slider-btn next" onclick="changeSlide(this, 1)">></button>
+                    </div>
+                    <div class="image-info">图片 1 / 1</div>
+                    <button class="zoom-btn" onclick="openZoom(this)">放大查看</button>
+                </div>
+            </div>  
+
+                                      <!-- 案例 -->
+            <div class="case-card">
+                <h3>案例七</h3>
+                <div class="image-slider">
+                    <div class="slider-wrapper">
+                        <img src="https://cf.aibochinese.com/%E7%B4%A0%E6%9D%90%E7%AB%99/%E5%85%B6%E5%AE%83/wise-deposit-case18.png" alt="案例二图片1" class="slider-image active">
+                    </div>
+                    <div class="slider-controls">
+                        <button class="slider-btn prev" onclick="changeSlide(this, -1)"><</button>
+                        <button class="slider-btn next" onclick="changeSlide(this, 1)">></button>
+                    </div>
+                    <div class="image-info">图片 1 / 1</div>
+                    <button class="zoom-btn" onclick="openZoom(this)">放大查看</button>
+                </div>
+            </div> 
+        </div>
+    </div>
+
+    <!-- 放大查看模态框 -->
+    <div id="zoomModal" class="zoom-modal" onclick="closeZoom()">
+        <span class="close-zoom">&times;</span>
+        <img src="" alt="放大图片" class="zoom-content">
+    </div>
+
+    <!-- 图片轮播和放大功能 -->
+    <script>
+        // 切换图片
+        function changeSlide(button, direction) {
+            const slider = button.closest('.image-slider');
+            const images = slider.querySelectorAll('.slider-image');
+            const imageInfo = slider.querySelector('.image-info');
+            let currentIndex = 0;
+            
+            // 找到当前激活的图片
+            images.forEach((img, index) => {
+                if (img.classList.contains('active')) {
+                    currentIndex = index;
+                }
+            });
+            
+            // 计算新索引
+            let newIndex = currentIndex + direction;
+            if (newIndex < 0) {
+                newIndex = images.length - 1;
+            } else if (newIndex >= images.length) {
+                newIndex = 0;
+            }
+            
+            // 更新图片显示
+            images[currentIndex].classList.remove('active');
+            images[newIndex].classList.add('active');
+            
+            // 更新图片信息
+            imageInfo.textContent = `图片 ${newIndex + 1} / ${images.length}`;
+        }
+
+        // 打开放大查看
+        function openZoom(button) {
+            const slider = button.closest('.image-slider');
+            const activeImage = slider.querySelector('.slider-image.active');
+            const zoomModal = document.getElementById('zoomModal');
+            const zoomContent = zoomModal.querySelector('.zoom-content');
+            
+            zoomContent.src = activeImage.src;
+            zoomModal.classList.add('active');
+        }
+
+        // 关闭放大查看
+        function closeZoom() {
+            const zoomModal = document.getElementById('zoomModal');
+            zoomModal.classList.remove('active');
+        }
+
+        // 点击模态背景关闭
+        window.onclick = function(event) {
+            const zoomModal = document.getElementById('zoomModal');
+            const wechatModal = document.getElementById('wechatModal');
+            
+            if (event.target === zoomModal) {
+                closeZoom();
+            }
+            
+            if (event.target === wechatModal) {
+                closeWechatModal();
+            }
+        };
+
+        // 微信弹窗控制函数
+        function toggleWechatModal() {
+            const modal = document.getElementById('wechatModal');
+            modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function closeWechatModal(event) {
+            document.getElementById('wechatModal').style.display = 'none';
+        }
+
+        // 汉堡菜单控制函数
+        function toggleMobileMenu() {
+            const navbarToggle = document.querySelector('.navbar-toggle');
+            const mobileMenu = document.querySelector('.navbar-mobile-menu');
+            
+            navbarToggle.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+        }
+    </script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "name": "Wise存款案例",
+        "keywords": "Wise,存款案例,跨境存款",
+        "description": "分享Wise存款案例，帮助您了解如何使用Wise进行跨境存款",
+        "url": "https://blog.aibochinese.com/post/wise-deposit-case.html",
+        "datePublished": "2026-01-10",
+        "dateModified": "2026-01-10",
+        "author": {"@type": "Person", "name": "AbelZou"},
+        "publisher": {
+            "@type": "Organization",
+            "name": "爱博·客",
+            "logo": {"@type": "ImageObject", "url": "https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%C2%B7%E5%AE%A2%E5%9B%BE%E7%89%87%E5%BA%93/%E5%B8%B8%E7%94%A8%E6%A8%A1%E6%9D%BF%E5%9B%BE%E7%89%87/50-50%20%E7%88%B1%E5%8D%9A%E5%AE%A2logo.png"}
+        }
+    }
+    </script>   
+    
+    <!-- 悬浮客服图标 -->
+    <div class="float-icons-container">
+        <!-- 悬浮微信客服图标 -->
+        <div class="wechat-float" onclick="toggleWechatModal()">
+            <div class="wechat-icon"></div>
+        </div>
+        
+        <!-- 悬浮WhatsApp客服图标 -->
+        <a href="https://wa.me/message/QXYAFEGTDWIBE1" target="_blank" rel="noopener noreferrer" class="whatsapp-float">
+            <i class="fab fa-whatsapp whatsapp-icon"></i>
+        </a>
+    </div>
+
+    <!-- 微信弹出窗 -->
+    <div id="wechatModal" class="wechat-modal" onclick="closeWechatModal(event)">
+        <div class="wechat-popup" onclick="event.stopPropagation()">
+            <h3>微信客服</h3>
+            <img src="https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%C2%B7%E5%AE%A2%E5%9B%BE%E7%89%87%E5%BA%93/AIBOBLOG%20WECHAT.png" alt="微信二维码" class="wechat-qr">
+            <button class="close-btn" onclick="closeWechatModal()">关闭</button>
+        </div>
+    </div>
+</body>
+</html>

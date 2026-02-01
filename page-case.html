@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payone-合作案例</title>
+    <!-- Font Awesome 图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tailwind CSS 框架 -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="https://cf.aibomart.com/payone.uk/payone-logo.png" sizes="16x16">
+    <style>
+        /* 基础样式重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Microsoft YaHei", "微软雅黑", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* 导航栏样式 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 2000;
+            backdrop-filter: blur(10px);
+        }
+        
+        .navbar-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 20px;
+        }
+        
+        .navbar-logo img {
+            height: 40px;
+            width: auto;
+        }
+        
+        /* 桌面端菜单 */
+        .navbar-menu {
+            display: flex;
+            gap: 15px;
+        }
+        
+        /* 导航按钮样式 */
+        .navbar-btn {
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        /* 按钮颜色 */
+        .btn-home {
+            background: rgba(220, 38, 38, 0.8);
+            color: white;
+        }
+        
+        .btn-collect {
+            background: rgba(37, 99, 235, 0.8);
+            color: white;
+        }
+        
+        .btn-cross {
+            background: rgba(22, 163, 74, 0.8);
+            color: white;
+        }
+        
+        .btn-review {
+            background: rgba(202, 138, 4, 0.8);
+            color: white;
+        }
+        
+        /* 按钮 hover 效果 */
+        .navbar-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+        
+        /* 移动端汉堡菜单按钮 */
+        .navbar-toggle {
+            display: none;
+            cursor: pointer;
+        }
+        
+        .bar {
+            display: block;
+            width: 25px;
+            height: 3px;
+            margin: 5px auto;
+            transition: all 0.3s ease-in-out;
+            background-color: #333;
+        }
+        
+        /* 移动端菜单 */
+        .navbar-mobile-menu {
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            width: 50%;
+            margin-left: auto;
+            border-radius: 0 0 0 10px;
+        }
+        
+        .navbar-mobile-btn {
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .navbar-menu {
+                display: none;
+            }
+            
+            .navbar-toggle {
+                display: block;
+            }
+            
+            .navbar-mobile-menu.active {
+                display: flex;
+            }
+            
+            /* 汉堡菜单动画 */
+            .navbar-toggle.active .bar:nth-child(2) {
+                opacity: 0;
+            }
+            
+            .navbar-toggle.active .bar:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+            
+            .navbar-toggle.active .bar:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+        }
+
+        /* 合作案例样式 */
+        .cases-container {
+            position: relative;
+            margin: 30px 0;
+            overflow: hidden;
+            background: linear-gradient(135deg, #fff9c4, #fff59d);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.2);
+        }
+        
+        .cases-slider {
+            overflow-x: auto;
+            overflow-y: hidden;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        /* 隐藏滚动条 */
+        .cases-slider::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .cases-slider {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        .cases-track {
+            display: flex;
+            gap: 20px;
+            padding: 10px 0;
+            width: fit-content;
+        }
+        
+        .case-card {
+            flex: 0 0 calc(25% - 15px);
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            text-align: center;
+            border: 2px solid #ffc107;
+        }
+        
+        .case-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(255, 193, 7, 0.3);
+            border-color: #ff9800;
+        }
+        
+        .case-category {
+            display: inline-block;
+            background: #ffc107;
+            color: #333;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .case-link {
+            text-decoration: none;
+            color: #333;
+            display: block;
+        }
+        
+        .case-logo-container {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 15px;
+            background: #f8f9fa;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 3px solid #ffe082;
+        }
+        
+        .case-logo {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+        
+        .case-card:hover .case-logo {
+            transform: scale(1.1);
+        }
+        
+        .case-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 0;
+            color: #333;
+            transition: color 0.3s ease;
+        }
+        
+        .case-card:hover .case-name {
+            color: #ff9800;
+        }
+        
+        /* 左右切换按钮 */
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            color: #3B82F6;
+            border: none;
+            width: 50px;
+            height: 50px;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s ease;
+            line-height: 1;
+            padding: 0;
+        }
+        
+        .slider-btn:hover {
+            color: #2563EB;
+            transform: translateY(-50%) scale(1.2);
+        }
+        
+        .prev-btn {
+            left: 10px;
+        }
+        
+        .next-btn {
+            right: 10px;
+        }
+
+        /* 电脑端样式 */
+        @media (min-width: 769px) {
+            .case-card {
+                flex: 0 0 calc(25% - 15px);
+            }
+        }
+        
+        /* 移动端样式 */
+        @media (max-width: 768px) {
+            .case-card {
+                flex: 0 0 calc(50% - 10px);
+            }
+            
+            .cases-container {
+                padding: 15px;
+            }
+            
+            .cases-track {
+                gap: 15px;
+            }
+            
+            .case-logo-container {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .case-name {
+                font-size: 16px;
+            }
+        }
+
+        /* 悬浮客服图标样式 */
+        .wechat-float {
+            width: 60px;
+            height: 60px;
+            background-color: hsl(148, 45%, 88%); /* 微信绿色 */
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .wechat-float:hover {
+            transform: scale(1.1);
+        }
+        
+        .wechat-icon {
+            width: 40px;
+            height: 40px;
+            background-image: url('https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%C2%B7%E5%AE%A2%E5%9B%BE%E7%89%87%E5%BA%93/wechaticon.png'); /* 用户提供的微信图标URL */
+            background-size: cover;
+            background-position: center;
+        }
+        
+        /* WhatsApp悬浮图标样式 */
+        .whatsapp-float {
+            width: 60px;
+            height: 60px;
+            background-color: #25D366; /* WhatsApp绿色 */
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+        }
+        
+        .whatsapp-icon {
+            font-size: 30px;
+            color: white;
+        }
+        
+        /* 悬浮图标容器 */
+        .float-icons-container {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* 微信弹出窗样式 */
+        .wechat-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .wechat-popup {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            max-width: 300px;
+            width: 90%;
+        }
+        
+        .wechat-qr {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 10px;
+            display: block;
+        }
+        
+        .close-btn {
+            background-color: #ff4d4f;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        
+        .close-btn:hover {
+            background-color: #ff7875;
+        }
+
+        /* 页面内容样式 */
+        .page-content {
+            max-width: 1200px;
+            margin: 120px auto 40px;
+            padding: 0 20px;
+        }
+
+        .page-title {
+            color: hsl(0, 0%, 0%);
+            margin-bottom: 40px;
+            text-align: center;
+            font-size: 28px;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <!-- Logo -->
+            <a href="index.html" class="navbar-logo">
+                <img src="https://cf.aibomart.com/payone.uk/payone-hor-logo.PNG" alt="PayOne Logo">
+            </a>
+            
+            <!-- 桌面端菜单 -->
+            <div class="navbar-menu">
+                <a href="index.html" class="navbar-btn btn-home">首页</a>
+                <a href="https://payone.uk/collect" class="navbar-btn btn-collect">全球收款</a>
+                <a href="https://blog.aibochinese.com/payment/apply%20V-cards" class="navbar-btn btn-cross">跨境支付</a>
+                <a href="https://payone.uk/reviews" class="navbar-btn btn-review">评价</a>
+            </div>
+            
+            <!-- 移动端汉堡菜单按钮 -->
+            <div class="navbar-toggle" onclick="toggleMobileMenu()">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+        
+        <!-- 移动端菜单 -->
+        <div class="navbar-mobile-menu">
+            <a href="index.html" class="navbar-mobile-btn btn-home">首页</a>
+            <a href="https://payone.uk/collect" class="navbar-mobile-btn btn-collect">全球收款</a>
+            <a href="https://blog.aibochinese.com/payment/apply%20V-cards" class="navbar-mobile-btn btn-cross">跨境支付</a>
+            <a href="https://payone.uk/reviews" class="navbar-mobile-btn btn-review">评价</a>
+        </div>
+    </nav>
+
+    <!-- 页面内容 -->
+    <div class="page-content">
+        <h1 class="page-title">合作案例</h1>
+        
+        <div class="cases-container">
+            <div class="cases-slider">
+                <div class="cases-track">
+                    <!-- 卡片一 -->
+                    <div class="case-card">
+                        <div class="case-category">电商|独立站</div>
+                        <a href="https://30yearcraftbag.com/payments" target="_blank" class="case-link">
+                            <div class="case-logo-container">
+                                <img src="https://cf.aibochinese.com/%E7%B4%A0%E6%9D%90%E7%AB%99/30yearcraftbag/logo.png" alt="30yearcraftbag Logo" class="case-logo">
+                            </div>
+                            <h4 class="case-name">30yearcraftbag</h4>
+                        </a>
+                    </div>
+                    
+                    <!-- 卡片二 -->
+                    <div class="case-card">
+                        <div class="case-category">博客</div>
+                        <a href="https://blog.aibochinese.com/payment/pay" target="_blank" class="case-link">
+                            <div class="case-logo-container">
+                                <img src="https://cf.aibochinese.com/%E7%B4%A0%E6%9D%90%E7%AB%99/aibo-blog-logo.png" alt="爱博·客 Logo" class="case-logo">
+                            </div>
+                            <h4 class="case-name">爱博·客</h4>
+                        </a>
+                    </div>
+                    
+                    <!-- 卡片三 -->
+                    <div class="case-card">
+                        <div class="case-category">教育|课程</div>
+                        <a href="https://aibochinese.com/payments" target="_blank" class="case-link">
+                            <div class="case-logo-container">
+                                <img src="https://cf.aibochinese.com/%E7%B4%A0%E6%9D%90%E7%AB%99/1-on-1%20logo.png" alt="Aibo Chinese Logo" class="case-logo">
+                            </div>
+                            <h4 class="case-name">Aibo Chinese</h4>
+                        </a>
+                    </div>
+                    
+                    <!-- 卡片四 -->
+                    <div class="case-card">
+                        <div class="case-category">企业官网</div>
+                        <a href="https://cma.aibomart.com" target="_blank" class="case-link">
+                            <div class="case-logo-container">
+                                <img src="https://cf.aibochinese.com/%E7%B4%A0%E6%9D%90%E7%AB%99/HCMFBMA/LogoHCMDBMA.png" alt="HCMFBMA Logo" class="case-logo">
+                            </div>
+                            <h4 class="case-name">HCMFBMA</h4>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 左右切换按钮 -->
+            <button class="slider-btn prev-btn" onclick="scrollCases(-1)">
+                &lt;
+            </button>
+            <button class="slider-btn next-btn" onclick="scrollCases(1)">
+                &gt;
+            </button>
+        </div>
+        
+        <div style="text-align: center; margin-top: 40px;">
+            <p>联系我们，打通您的全球收付款渠道吧！</p>
+        </div>
+    </div>
+
+    <!-- 悬浮客服图标 -->
+    <div class="float-icons-container">
+        <!-- 悬浮微信客服图标 -->
+        <div class="wechat-float" onclick="toggleWechatModal()">
+            <div class="wechat-icon"></div>
+        </div>
+        
+        <!-- 悬浮WhatsApp客服图标 -->
+        <a href="https://wa.me/message/QXYAFEGTDWIBE1" target="_blank" rel="noopener noreferrer" class="whatsapp-float">
+            <i class="fab fa-whatsapp whatsapp-icon"></i>
+        </a>
+    </div>
+
+    <!-- 微信弹出窗 -->
+    <div id="wechatModal" class="wechat-modal" onclick="closeWechatModal(event)">
+        <div class="wechat-popup" onclick="event.stopPropagation()">
+            <h3>微信客服</h3>
+            <img src="https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%C2%B7%E5%AE%A2%E5%9B%BE%E7%89%87%E5%BA%93/AIBOBLOG%20WECHAT.png" alt="微信二维码" class="wechat-qr">
+            <button class="close-btn" onclick="closeWechatModal()">关闭</button>
+        </div>
+    </div>
+
+    <script>
+        // 微信弹窗控制函数
+        function toggleWechatModal() {
+            const modal = document.getElementById('wechatModal');
+            modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function closeWechatModal(event) {
+            document.getElementById('wechatModal').style.display = 'none';
+        }
+
+        // 点击模态背景关闭
+        window.onclick = function(event) {
+            const wechatModal = document.getElementById('wechatModal');
+            
+            if (event.target === wechatModal) {
+                closeWechatModal();
+            }
+        };
+        
+        // 汉堡菜单控制函数
+        function toggleMobileMenu() {
+            const navbarToggle = document.querySelector('.navbar-toggle');
+            const mobileMenu = document.querySelector('.navbar-mobile-menu');
+            
+            navbarToggle.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+        }
+        
+        // 合作案例滑块功能
+        function scrollCases(direction) {
+            const slider = document.querySelector('.cases-slider');
+            const cardWidth = document.querySelector('.case-card').offsetWidth + 20; // 卡片宽度 + 间距
+            const scrollAmount = direction * cardWidth * (window.innerWidth <= 768 ? 2 : 1); // 移动端每次滚动2张，桌面端每次滚动1张
+            slider.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
