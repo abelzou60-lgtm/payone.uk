@@ -753,6 +753,7 @@
             
             .cases-track {
                 gap: 15px;
+                flex-wrap: wrap;
             }
             
             .case-logo-container {
@@ -990,9 +991,13 @@
         
         // 合作案例滑块功能
         function scrollCases(direction) {
+            // 在移动端不执行滚动操作，因为使用了网格布局
+            if (window.innerWidth <= 768) {
+                return;
+            }
             const slider = document.querySelector('.cases-slider');
             const cardWidth = document.querySelector('.case-card').offsetWidth + 20; // 卡片宽度 + 间距
-            const scrollAmount = direction * cardWidth * (window.innerWidth <= 768 ? 2 : 1); // 移动端每次滚动2张，桌面端每次滚动1张
+            const scrollAmount = direction * cardWidth;
             slider.scrollBy({ left: scrollAmount, behavior: 'smooth' });
         }
 
