@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CryptoCurrency payments</title>
+  <!-- Font Awesome 图标库 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Tailwind CSS 框架 -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="https://cf.aibomart.com/payone.uk/payone-icon1.png" sizes="16x16">
+  <style>
+    /* 基础样式重置 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Microsoft YaHei", "微软雅黑", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+      background-color: #f8f9fa;
+    }
+
+    /* 主容器样式 */
+    .container {
+      max-width: 720px;
+      width: 100%;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      padding: 40px;
+      margin: 0 auto;
+      padding: 0 15px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 30px;
+      font-size: 28px;
+    }
+
+    .payment-section {
+      margin-bottom: 30px;
+    }
+
+    .section-title {
+      font-size: 18px;
+      color: #555;
+      margin-bottom: 15px;
+      font-weight: 600;
+    }
+
+    .binance-pay-btn {
+      width: 100%;
+      background: linear-gradient(135deg, hsl(45, 15%, 90%) 0%, #dad3bb 100%);
+      border: none;
+      border-radius: 12px;
+      padding: 20px;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .pay-buttons-container {
+      display: flex;
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .binance-pay-btn,
+    .krak-pay-btn,
+    .roogoo-pay-btn,
+    .pinkwallet-pay-btn {
+      flex: 1;
+      background: linear-gradient(135deg, hsl(45, 15%, 90%) 0%, #dad3bb 100%);
+      border: none;
+      border-radius: 12px;
+      padding: 20px;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .binance-pay-btn:hover,
+    .krak-pay-btn:hover,
+    .roogoo-pay-btn:hover,
+    .pinkwallet-pay-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(240, 185, 11, 0.3);
+    }
+
+    .binance-pay-btn img,
+    .krak-pay-btn img,
+    .roogoo-pay-btn img,
+    .pinkwallet-pay-btn img {
+      height: 40px;
+    }
+
+    .binance-pay-btn span,
+    .krak-pay-btn span,
+    .roogoo-pay-btn span,
+    .pinkwallet-pay-btn span {
+      font-size: 20px;
+      font-weight: bold;
+      color: #1e2329;
+    }
+
+    .crypto-options {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .crypto-btn {
+      background: #f8f9fa;
+      border: 2px solid #e0e0e0;
+      border-radius: 12px;
+      padding: 20px 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .crypto-btn:hover {
+      border-color: #667eea;
+      background: #f0f2ff;
+      transform: translateY(-3px);
+    }
+
+    .crypto-btn.active {
+      border-color: #667eea;
+      background: #e8ebff;
+    }
+
+    .crypto-btn img {
+      height: 50px;
+      margin-bottom: 10px;
+    }
+
+    .crypto-btn .crypto-name {
+      font-weight: 600;
+      color: #333;
+      font-size: 14px;
+    }
+
+    .network-selection {
+      display: none;
+      margin-top: 20px;
+      padding: 20px;
+      background: #f8f9fa;
+      border-radius: 12px;
+    }
+
+    .network-selection.active {
+      display: block;
+    }
+
+    .network-buttons {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .network-btn {
+      flex: 1;
+      padding: 12px;
+      border: 2px solid #e0e0e0;
+      background: white;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+
+    .network-btn:hover {
+      border-color: #667eea;
+      background: #f0f2ff;
+    }
+
+    .network-btn.active {
+      background: #667eea;
+      color: white;
+      border-color: #667eea;
+    }
+
+    .address-display {
+      display: none;
+      margin-top: 20px;
+    }
+
+    .address-display.active {
+      display: block;
+    }
+
+    .address-box {
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+
+    .address-label {
+      font-size: 12px;
+      color: #888;
+      margin-bottom: 8px;
+    }
+
+    .address-content {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .address-text {
+      flex: 1;
+      font-family: monospace;
+      font-size: 13px;
+      color: #333;
+      word-break: break-all;
+      padding: 10px;
+      background: #f8f9fa;
+      border-radius: 6px;
+    }
+
+    .copy-btn {
+      padding: 10px 20px;
+      background: #667eea;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.3s;
+      white-space: nowrap;
+    }
+
+    .copy-btn:hover {
+      background: #5568d3;
+    }
+
+    .copy-btn.copied {
+      background: #10b981;
+    }
+
+    .qr-code {
+      text-align: center;
+      padding: 20px;
+      background: white;
+      border-radius: 8px;
+    }
+
+    .qr-placeholder {
+      width: 200px;
+      height: 200px;
+      margin: 0 auto;
+      background: #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      font-size: 14px;
+      color: #888;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 2100;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 20px;
+      padding: 30px;
+      max-width: 400px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-close {
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      color: #999;
+      line-height: 20px;
+    }
+
+    .modal-close:hover {
+      color: #333;
+    }
+
+    @media (max-width: 768px) {
+        .container {
+            padding: 25px;
+        }
+
+        .crypto-options {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .crypto-btn {
+            padding: 15px 5px;
+        }
+
+        .crypto-btn img {
+            height: 40px;
+        }
+
+        .network-buttons {
+            flex-direction: column;
+        }
+
+        .pay-buttons-container {
+            flex-wrap: wrap;
+        }
+
+        .pay-buttons-container button {
+            flex: 0 0 calc(50% - 7.5px);
+        }
+    }
+
+    /* 导航栏样式 */
+    .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.95);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        z-index: 2000;
+        backdrop-filter: blur(10px);
+    }
+
+    .navbar-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 40px;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 15px 20px;
+    }
+
+    .navbar-logo img {
+        height: 40px;
+        width: auto;
+    }
+
+    /* 桌面端菜单 */
+    .navbar-menu {
+        display: flex;
+        gap: 15px;
+    }
+
+    /* 导航按钮样式 */
+    .navbar-btn {
+        padding: 10px 20px;
+        border-radius: 25px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+    }
+
+    /* 按钮颜色 */
+    .btn-home {
+        background: rgba(220, 38, 38, 0.8);
+        color: white;
+    }
+
+    .btn-collect {
+        background: rgba(37, 99, 235, 0.8);
+        color: white;
+    }
+
+    .btn-cross {
+        background: rgba(22, 163, 74, 0.8);
+        color: white;
+    }
+
+    .btn-review {
+        background: rgba(202, 138, 4, 0.8);
+        color: white;
+    }
+
+    /* 按钮 hover 效果 */
+    .navbar-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        border-color: rgba(255, 255, 255, 0.5);
+    }
+
+    /* 移动端汉堡菜单按钮 */
+    .navbar-toggle {
+        display: none;
+        cursor: pointer;
+    }
+
+    .bar {
+        display: block;
+        width: 25px;
+        height: 3px;
+        margin: 5px auto;
+        transition: all 0.3s ease-in-out;
+        background-color: #333;
+    }
+
+    /* 移动端菜单 */
+    .navbar-mobile-menu {
+        display: none;
+        flex-direction: column;
+        gap: 10px;
+        padding: 15px 20px;
+        background: rgba(255, 255, 255, 0.95);
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+        width: 50%;
+        margin-left: auto;
+        border-radius: 0 0 0 10px;
+    }
+
+    .navbar-mobile-btn {
+        padding: 12px 20px;
+        border-radius: 8px;
+        font-weight: 600;
+        text-decoration: none;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+
+    /* 响应式设计 */
+    @media (max-width: 768px) {
+        .navbar-menu {
+            display: none;
+        }
+
+        .navbar-toggle {
+            display: block;
+        }
+
+        .navbar-mobile-menu.active {
+            display: flex;
+        }
+
+        /* 汉堡菜单动画 */
+        .navbar-toggle.active .bar:nth-child(2) {
+            opacity: 0;
+        }
+
+        .navbar-toggle.active .bar:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+
+        .navbar-toggle.active .bar:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+    }
+
+    /* 悬浮客服图标样式 */
+    .wechat-float {
+        width: 60px;
+        height: 60px;
+        background-color: hsl(148, 45%, 88%); /* 微信绿色 */
+        border-radius: 50%;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.3s ease;
+    }
+
+    .wechat-float:hover {
+        transform: scale(1.1);
+    }
+
+    .wechat-icon {
+        width: 40px;
+        height: 40px;
+        background-image: url('https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%C2%B7%E5%AE%A2%E5%9B%BE%E7%89%87%E5%BA%93/wechaticon.png'); /* 用户提供的微信图标URL */
+        background-size: cover;
+        background-position: center;
+    }
+
+    /* WhatsApp悬浮图标样式 */
+    .whatsapp-float {
+        width: 60px;
+        height: 60px;
+        background-color: #25D366; /* WhatsApp绿色 */
+        border-radius: 50%;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.3s ease;
+    }
+
+    .whatsapp-float:hover {
+        transform: scale(1.1);
+    }
+
+    .whatsapp-icon {
+        font-size: 30px;
+        color: white;
+    }
+
+    /* 悬浮图标容器 */
+    .float-icons-container {
+        position: fixed;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 1000;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    /* 微信弹出窗样式 */
+    .wechat-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 2000;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .wechat-popup {
+        background-color: white;
+        border-radius: 10px;
+        padding: 20px;
+        text-align: center;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        max-width: 300px;
+        width: 90%;
+    }
+
+    .wechat-qr {
+        width: 200px;
+        height: 200px;
+        margin: 0 auto 10px;
+        display: block;
+    }
+
+    .close-btn {
+        background-color: #ff4d4f;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 15px;
+    }
+
+    .close-btn:hover {
+        background-color: #ff7875;
+    }
+
+    /* 调整顶部间距，避免被导航栏遮挡 */
+    main {
+        margin-top: 100px;
+        padding: 20px;
+    }
+
+    @media (max-width: 768px) {
+        main {
+            margin-top: 80px;
+            padding: 15px;
+        }
+    }
+  </style>
+<link rel="manifest" href="/manifest.webmanifest"><script id="vite-plugin-pwa:register-sw" src="/registerSW.js"></script></head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <!-- Logo -->
+            <a href="index.html" class="navbar-logo">
+                <img src="https://cf.aibomart.com/payone.uk/payone-hor-logo.PNG" alt="PayOne Logo">
+            </a>
+            
+            <!-- 桌面端菜单 -->
+            <div class="navbar-menu">
+                <a href="index.html" class="navbar-btn btn-home">首页</a>
+                <a href="https://payone.uk/collect" class="navbar-btn btn-collect">全球收款</a>
+                <a href="apply-vcc.html" class="navbar-btn btn-cross">跨境支付</a>
+                <a href="https://payone.uk/reviews" class="navbar-btn btn-review">评价</a>
+            </div>
+            
+            <!-- 移动端汉堡菜单按钮 -->
+            <div class="navbar-toggle" onclick="toggleMobileMenu()">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+        
+        <!-- 移动端菜单 -->
+        <div class="navbar-mobile-menu">
+            <a href="index.html" class="navbar-mobile-btn btn-home">首页</a>
+            <a href="https://payone.uk/collect" class="navbar-mobile-btn btn-collect">全球收款</a>
+            <a href="apply-vcc.html" class="navbar-mobile-btn btn-cross">跨境支付</a>
+            <a href="https://payone.uk/reviews" class="navbar-mobile-btn btn-review">评价</a>
+        </div>
+    </nav>
+
+  <main>
+    <div class="container">            
+         <!-- App Scan-to-Transfer Section -->
+        <div class="payment-section">
+            <div class="section-title">🔸 App Scan-to-Transfer</div>
+            <div class="pay-buttons-container">
+                <button class="binance-pay-btn" onclick="showBinancePay()">
+                    <img src="https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%E6%B1%89%E8%AF%AD%E5%AE%A2%E6%88%B7%E7%AB%AF/crypto%20pay/binance%20logo.png" alt="Binance Logo" width="40" height="40">
+                    <span>Binance</span>
+                </button>
+                <button class="krak-pay-btn" onclick="showKrakPay()">
+                    <img src="https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%C2%B7%E5%AE%A2%E5%9B%BE%E7%89%87%E5%BA%93/%E5%B8%B8%E7%94%A8%E6%A8%A1%E6%9D%BF%E5%9B%BE%E7%89%87/Krak%20Logo.png" alt="Krak Logo" width="40" height="40">
+                    <span>Krak</span>
+                </button>
+                <button class="roogoo-pay-btn" onclick="showRoogooPay()">
+                    <img src="https://cf.aibomart.com/payone.uk/roogoo-logo.PNG" alt="Roogoo Logo" width="100" height="40">
+                </button>
+                <button class="pinkwallet-pay-btn" onclick="showPinkWalletPay()">
+                    <img src="https://cf.aibochinese.com/%E7%B4%A0%E6%9D%90%E7%AB%99/%E8%B7%A8%E5%A2%83%E6%94%B6%E4%BB%98%E6%AC%BE/PinkWallet-Logo.png" alt="PinkWallet Logo" width="100" height="40">
+
+                </button>
+            </div>
+        </div>
+
+        <!-- Crypto Selection Section -->
+        <div class="payment-section">
+            <div class="section-title">🔸 Crypto transfers</div>
+            <div class="crypto-options">
+                <button class="crypto-btn" onclick="selectCrypto('USDT')">
+                    <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="25" cy="25" r="25" fill="#26A17B"/>
+                        <text x="25" y="32" font-size="20" font-weight="bold" fill="white" text-anchor="middle">₮</text>
+                    </svg>
+                    <div class="crypto-name">USDT</div>
+                </button>
+                <button class="crypto-btn" onclick="selectCrypto('USDC')">
+                    <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="25" cy="25" r="25" fill="#2775CA"/>
+                        <circle cx="25" cy="25" r="12" fill="white"/>
+                        <text x="25" y="31" font-size="16" font-weight="bold" fill="#2775CA" text-anchor="middle">$</text>
+                    </svg>
+                    <div class="crypto-name">USDC</div>
+                </button>
+                <button class="crypto-btn" onclick="selectCrypto('ETH')">
+                    <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="25" cy="25" r="25" fill="#627EEA"/>
+                        <path d="M25 10L16 25L25 30L34 25L25 10Z" fill="white" opacity="0.6"/>
+                        <path d="M25 32L16 27L25 40L34 27L25 32Z" fill="white"/>
+                    </svg>
+                    <div class="crypto-name">ETH</div>
+                </button>
+                <button class="crypto-btn" onclick="selectCrypto('XMR')">
+                    <img src="https://cf.aibochinese.com/%E7%B4%A0%E6%9D%90%E7%AB%99/%E8%B7%A8%E5%A2%83%E6%94%B6%E4%BB%98%E6%AC%BE/xmr-logo.png" alt="XMR Logo" width="50" height="50">
+                    <div class="crypto-name">XMR</div>
+                </button>
+            </div>
+
+            <!-- Network Selection -->
+            <div class="network-selection" id="networkSelection">
+                <div class="network-buttons">
+                    <!-- 网络按钮将通过JavaScript动态生成 -->
+                </div>
+
+                <!-- Address Display -->
+                <div class="address-display" id="addressDisplay">
+                    <div class="address-box">
+                        <div class="address-label">收款地址</div>
+                        <div class="address-content">
+                            <div class="address-text" id="addressText">请选择网络</div>
+                            <button class="copy-btn" onclick="copyAddress()">复制</button>
+                        </div>
+                    </div>
+                    <div class="qr-code">
+                        <div class="qr-placeholder" id="qrCode">
+                            <div style="display: flex; align-items: center; justify-content: center; height: 200px; color: #888; font-size: 14px;">请选择网络查看二维码</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Binance Pay Modal -->
+    <div class="modal" id="binanceModal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeBinancePay()">&times;</span>
+            <h2 style="margin-bottom: 20px; text-align: center;">Binance</h2>
+            <div class="address-box">
+                <div class="address-label">币安ID | <a href="https://accounts.bmwweb.ac/register?ref=569491541" style="color:red" target="_blank" rel="noopener noreferrer"> sign up</a></div>
+                <div class="address-content">
+                    <div class="address-text" id="binanceAddress">569491541</div>
+                    <button class="copy-btn" onclick="copyBinanceAddress()">复制</button>
+                </div>
+            </div>
+            <div class="qr-code" style="margin-top: 20px;">
+             <img src="https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%E6%B1%89%E8%AF%AD%E5%AE%A2%E6%88%B7%E7%AB%AF/crypto%20pay/binancepay-qr.png" 
+         style="max-width: 100%; height: auto;" />
+            </div>
+        </div>
+    </div>
+
+    <!-- Krak Pay Modal -->
+    <div class="modal" id="krakModal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeKrakPay()">&times;</span>
+            <h2 style="margin-bottom: 20px; text-align: center;">Krak</h2>
+            <div class="address-box">
+                <div class="address-label">Krak ID | <a href="https://blog.aibochinese.com/payment/krak" style="color:red" target="_blank" rel="noopener noreferrer"> sign up</a></div>
+                <div class="address-content">
+                    <div class="address-text" id="krakAddress">HUANGLINZOU</div>
+                    <button class="copy-btn" onclick="copyKrakAddress()">复制</button>
+                </div>
+            </div>
+            <div class="qr-code" style="margin-top: 20px;">
+             <img src="https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%C2%B7%E5%AE%A2%E5%9B%BE%E7%89%87%E5%BA%93/%E5%B8%B8%E7%94%A8%E6%A8%A1%E6%9D%BF%E5%9B%BE%E7%89%87/Krak%20code.jpg" 
+         style="max-width: 100%; height: auto;" />
+            </div>
+        </div>
+    </div>
+
+    <!-- Roogoo Pay Modal -->
+    <div class="modal" id="roogooModal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeRoogooPay()">&times;</span>
+            <h2 style="margin-bottom: 20px; text-align: center;">Roogoo</h2>
+            <div class="address-box">
+                <div class="address-label">Roogoo ID | <a href="https://blog.aibochinese.com/payment/roogoo" style="color:red" target="_blank" rel="noopener noreferrer"> sign up</a></div>
+                <div class="address-content">
+                    <div class="address-text" id="roogooAddress">44770593635041287</div>
+                    <button class="copy-btn" onclick="copyRoogooAddress()">复制</button>
+                </div>
+            </div>
+            <div class="qr-code" style="margin-top: 20px;">
+             <img src="https://cf.aibochinese.com/%E7%B4%A0%E6%9D%90%E7%AB%99/%E8%B7%A8%E5%A2%83%E6%94%B6%E4%BB%98%E6%AC%BE/roogoo-qr.jpg" 
+         style="max-width: 100%; height: auto;" />
+            </div>
+        </div>
+    </div>
+
+    <!-- PinkWallet Pay Modal -->
+    <div class="modal" id="pinkwalletModal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closePinkWalletPay()">&times;</span>
+            <h2 style="margin-bottom: 20px; text-align: center;">PinkWallet</h2>
+            <div class="address-box">
+                <div class="address-label">PinkWallet ID | <a href="https://blog.aibochinese.com/payment/pinkwallet" style="color:red" target="_blank" rel="noopener noreferrer"> sign up</a></div>
+                <div class="address-content">
+                    <div class="address-text" id="pinkwalletAddress">U7Nnbcah</div>
+                    <button class="copy-btn" onclick="copyPinkWalletAddress()">复制</button>
+                </div>
+            </div>
+            <div class="qr-code" style="margin-top: 20px;">
+             <div style="display: flex; align-items: center; justify-content: center; height: 200px; color: #888; font-size: 14px;">QR Code Coming Soon</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 悬浮客服图标 -->
+    <div class="float-icons-container">
+        <!-- 悬浮微信客服图标 -->
+        <div class="wechat-float" onclick="toggleWechatModal()">
+            <div class="wechat-icon"></div>
+        </div>
+        
+        <!-- 悬浮WhatsApp客服图标 -->
+        <a href="https://wa.me/message/QXYAFEGTDWIBE1" target="_blank" rel="noopener noreferrer" class="whatsapp-float">
+            <i class="fab fa-whatsapp whatsapp-icon"></i>
+        </a>
+    </div>
+
+    <!-- 微信弹出窗 -->
+    <div id="wechatModal" class="wechat-modal" onclick="closeWechatModal(event)">
+        <div class="wechat-popup" onclick="event.stopPropagation()">
+            <h3>微信客服</h3>
+            <img src="https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%C2%B7%E5%AE%A2%E5%9B%BE%E7%89%87%E5%BA%93/AIBOBLOG%20WECHAT.png" alt="微信二维码" class="wechat-qr">
+            <button class="close-btn" onclick="closeWechatModal()">关闭</button>
+        </div>
+    </div>
+
+    <script>
+        let currentCrypto = '';
+        let currentNetwork = '';
+
+        // 加密货币地址和二维码配置（实际使用时请替换为真实地址和二维码链接）
+        const cryptoConfig = {
+            USDT: {
+                BEP20: {
+                    address: '0x55c4b388c94febe2b72ad345ff5f25dcac486d5a',
+                    qrCode: 'https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%E6%B1%89%E8%AF%AD%E5%AE%A2%E6%88%B7%E7%AB%AF/crypto%20pay/usdt-bep20.png'
+                },
+                TRC20: {
+                    address: 'TUAuo8YZD4qouqNzDM1ogbAqmTguhtqkSc',
+                    qrCode: 'https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%E6%B1%89%E8%AF%AD%E5%AE%A2%E6%88%B7%E7%AB%AF/crypto%20pay/usdt-trc20.png'
+                },
+                Solana: {
+                    address: '6AcJUmCXxJq79KhhpYo1zvbZSVZNT4oBbkDT3SxCyoyG',
+                    qrCode: 'https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%E6%B1%89%E8%AF%AD%E5%AE%A2%E6%88%B7%E7%AB%AF/crypto%20pay/usdt-solana.png'
+                }
+            },
+            USDC: {
+                BEP20: {
+                    address: '0x55c4b388c94febe2b72ad345ff5f25dcac486d5a',
+                    qrCode: 'https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%E6%B1%89%E8%AF%AD%E5%AE%A2%E6%88%B7%E7%AB%AF/crypto%20pay/usdc-bep20.png'
+                },
+                'Arbitrum One': {
+                    address: '0x55c4b388c94febe2b72ad345ff5f25dcac486d5a',
+                    qrCode: 'https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%E6%B1%89%E8%AF%AD%E5%AE%A2%E6%88%B7%E7%AB%AF/crypto%20pay/usdc-arbitrumone.png'
+                },
+                Solana: {
+                    address: '6AcJUmCXxJq79KhhpYo1zvbZSVZNT4oBbkDT3SxCyoyG',
+                    qrCode: 'https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%E6%B1%89%E8%AF%AD%E5%AE%A2%E6%88%B7%E7%AB%AF/crypto%20pay/usdc-solana.png'
+                }
+            },
+            ETH: {
+                BEP20: {
+                    address: '0x55c4b388c94febe2b72ad345ff5f25dcac486d5a',
+                    qrCode: 'https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%E6%B1%89%E8%AF%AD%E5%AE%A2%E6%88%B7%E7%AB%AF/crypto%20pay/ETH-bep20.png'
+                },
+                'Arbitrum One': {
+                    address: '0x55c4b388c94febe2b72ad345ff5f25dcac486d5a',
+                    qrCode: 'https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%E6%B1%89%E8%AF%AD%E5%AE%A2%E6%88%B7%E7%AB%AF/crypto%20pay/ETH-arbitrumone.png'
+                },
+                ERC20: {
+                    address: '0x55c4b388c94febe2b72ad345ff5f25dcac486d5a',
+                    qrCode: 'https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%E6%B1%89%E8%AF%AD%E5%AE%A2%E6%88%B7%E7%AB%AF/crypto%20pay/ETH-ERC20.png'
+                }
+            },
+            XMR: {
+                Default: {
+                    address: '48PEAHnWkMZECAJYT9WtMT4inCtPQm7iDdGuPZniEVk528x3NsEqpPsaHUTE96As4qWShSaZk3vUe4exTvoxc1DWTyDJYMn',
+                    qrCode: 'https://cf.aibochinese.com/%E7%B4%A0%E6%9D%90%E7%AB%99/%E8%B7%A8%E5%A2%83%E6%94%B6%E4%BB%98%E6%AC%BE/XMR.jpg'
+                }
+            }
+        };
+
+        function selectCrypto(crypto) {
+            currentCrypto = crypto;
+            currentNetwork = '';
+
+            // 更新按钮状态
+            document.querySelectorAll('.crypto-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.closest('.crypto-btn').classList.add('active');
+
+            // 特殊处理XMR，直接显示地址和二维码
+            if (crypto === 'XMR') {
+                // 设置默认网络
+                currentNetwork = 'Default';
+                
+                // 获取配置信息
+                const config = cryptoConfig[crypto][currentNetwork];
+                const address = config.address;
+                const qrCodeUrl = config.qrCode;
+
+                // 显示地址
+                document.getElementById('addressText').textContent = address;
+                document.getElementById('addressDisplay').classList.add('active');
+
+                // 更新二维码显示
+                const qrCodeElement = document.getElementById('qrCode');
+                qrCodeElement.innerHTML = `<img src="${qrCodeUrl}" alt="${crypto} ${currentNetwork} 二维码" style="max-width: 100%; height: auto; border-radius: 8px;">`;
+
+                // 显示网络选择容器，但隐藏网络按钮
+                document.getElementById('networkSelection').classList.add('active');
+                document.querySelector('.network-buttons').innerHTML = '';
+            } else {
+                // 其他加密货币的常规处理
+                // 获取当前加密货币支持的网络
+                const networks = Object.keys(cryptoConfig[crypto]);
+                
+                // 清空现有的网络按钮
+                const networkButtonsContainer = document.querySelector('.network-buttons');
+                networkButtonsContainer.innerHTML = '';
+                
+                // 动态生成网络按钮
+                networks.forEach(network => {
+                    const button = document.createElement('button');
+                    button.className = 'network-btn';
+                    button.textContent = network;
+                    button.onclick = function(e) {
+                        selectNetwork(network, e);
+                    };
+                    networkButtonsContainer.appendChild(button);
+                });
+
+                // 显示网络选择
+                document.getElementById('networkSelection').classList.add('active');
+                document.getElementById('addressDisplay').classList.remove('active');
+            }
+        }
+
+        function selectNetwork(network, event) {
+            currentNetwork = network;
+
+            // 更新按钮状态
+            document.querySelectorAll('.network-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // 获取配置信息
+            const config = cryptoConfig[currentCrypto][network];
+            const address = config.address;
+            const qrCodeUrl = config.qrCode;
+
+            // 显示地址
+            document.getElementById('addressText').textContent = address;
+            document.getElementById('addressDisplay').classList.add('active');
+
+            // 更新二维码显示
+            const qrCodeElement = document.getElementById('qrCode');
+            qrCodeElement.innerHTML = `<img src="${qrCodeUrl}" alt="${currentCrypto} ${network} 二维码" style="max-width: 100%; height: auto; border-radius: 8px;">`;
+        }
+
+        function copyAddress() {
+            const addressText = document.getElementById('addressText').textContent;
+            navigator.clipboard.writeText(addressText).then(() => {
+                const btn = event.target;
+                btn.textContent = '已复制!';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.textContent = '复制';
+                    btn.classList.remove('copied');
+                }, 2000);
+            });
+        }
+
+        function showBinancePay() {
+            document.getElementById('binanceModal').classList.add('active');
+        }
+
+        function closeBinancePay() {
+            document.getElementById('binanceModal').classList.remove('active');
+        }
+
+        function copyBinanceAddress() {
+            const addressText = document.getElementById('binanceAddress').textContent;
+            navigator.clipboard.writeText(addressText).then(() => {
+                const btn = event.target;
+                btn.textContent = '已复制!';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.textContent = '复制';
+                    btn.classList.remove('copied');
+                }, 2000);
+            });
+        }
+
+        function showKrakPay() {
+            document.getElementById('krakModal').classList.add('active');
+        }
+
+        function closeKrakPay() {
+            document.getElementById('krakModal').classList.remove('active');
+        }
+
+        function copyKrakAddress() {
+            const addressText = document.getElementById('krakAddress').textContent;
+            navigator.clipboard.writeText(addressText).then(() => {
+                const btn = event.target;
+                btn.textContent = '已复制!';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.textContent = '复制';
+                    btn.classList.remove('copied');
+                }, 2000);
+            });
+        }
+
+        function showRoogooPay() {
+            document.getElementById('roogooModal').classList.add('active');
+        }
+
+        function closeRoogooPay() {
+            document.getElementById('roogooModal').classList.remove('active');
+        }
+
+        function copyRoogooAddress() {
+            const addressText = document.getElementById('roogooAddress').textContent;
+            navigator.clipboard.writeText(addressText).then(() => {
+                const btn = event.target;
+                btn.textContent = '已复制!';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.textContent = '复制';
+                    btn.classList.remove('copied');
+                }, 2000);
+            });
+        }
+
+        function showPinkWalletPay() {
+            document.getElementById('pinkwalletModal').classList.add('active');
+        }
+
+        function closePinkWalletPay() {
+            document.getElementById('pinkwalletModal').classList.remove('active');
+        }
+
+        function copyPinkWalletAddress() {
+            const addressText = document.getElementById('pinkwalletAddress').textContent;
+            navigator.clipboard.writeText(addressText).then(() => {
+                const btn = event.target;
+                btn.textContent = '已复制!';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.textContent = '复制';
+                    btn.classList.remove('copied');
+                }, 2000);
+            });
+        }
+
+        // 点击模态框外部关闭
+        window.onclick = function(event) {
+            const binanceModal = document.getElementById('binanceModal');
+            const krakModal = document.getElementById('krakModal');
+            const roogooModal = document.getElementById('roogooModal');
+            const pinkwalletModal = document.getElementById('pinkwalletModal');
+            if (event.target == binanceModal) {
+                closeBinancePay();
+            } else if (event.target == krakModal) {
+                closeKrakPay();
+            } else if (event.target == roogooModal) {
+                closeRoogooPay();
+            } else if (event.target == pinkwalletModal) {
+                closePinkWalletPay();
+            }
+        }
+
+        // 微信弹窗控制函数
+        function toggleWechatModal() {
+            const modal = document.getElementById('wechatModal');
+            modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function closeWechatModal(event) {
+            document.getElementById('wechatModal').style.display = 'none';
+        }
+
+        // 汉堡菜单控制函数
+        function toggleMobileMenu() {
+            const navbarToggle = document.querySelector('.navbar-toggle');
+            const mobileMenu = document.querySelector('.navbar-mobile-menu');
+            
+            navbarToggle.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+        }
+    </script>
+</main>
+</body>
+</html>

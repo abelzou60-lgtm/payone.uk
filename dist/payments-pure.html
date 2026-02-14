@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>支付方式 - Payment Options</title>
+    
+    <!-- 引入Font Awesome图标 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="https://cf.aibomart.com/payone.uk/payone-icon1.png" sizes="16x16">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, hsl(56, 88%, 76%) 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* 客服按钮样式 */
+   /* 右侧垂直居中悬浮按钮组 */
+    .floating-contact {
+        position: fixed;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .floating-contact a {
+        width: 55px;
+        height: 55px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+        transition: all 0.3s ease;
+        overflow: hidden; /* 确保图标在hover缩放时不溢出 */
+    }
+
+    .floating-contact a:hover {
+        transform: translateY(-5px) scale(1.1);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    }
+
+    .telegram   { background: hsl(200, 40%, 84%); }
+    .whatsapp   { background: hsl(142, 55%, 83%); }
+    .messenger  { background: hsl(198, 17%, 89%); }
+
+    .floating-contact img {
+        width: 55px;
+        height: 55px;
+        border-radius: 50%; /* 让图标也继承圆形裁剪 */
+    }
+
+    @media (max-width: 768px) {
+        .floating-contact {
+            right: 12px;
+            gap: 12px;
+        }
+        .floating-contact a {
+            width: 50px;
+            height: 50px;
+        }
+        .floating-contact img {
+            width: 50px;
+            height: 50px;
+        }
+    }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 50px;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 50px;
+            background: linear-gradient(90deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3, #54a0ff);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradient 3s linear infinite;
+            border-bottom: 4px solid;
+            border-image: linear-gradient(90deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3, #54a0ff) 1;
+            padding-bottom: 20px;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+        }
+
+        .section-title {
+            font-size: 1.5em;
+            color: #fff;
+            margin: 30px 0 20px 0;
+            padding: 12px 24px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #9c27b0 0%, #ffeb3b 100%);
+            display: inline-block;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            transition: transform 0.2s ease;
+        }
+
+        .section-title:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        .payment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .payment-item {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .payment-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+            border-color: #667eea;
+            background: white;
+        }
+
+        .payment-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .payment-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .bank-section {
+            margin-top: 40px;
+        }
+
+        .country-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .country-link {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(102, 126, 234, 0.3);
+            cursor: pointer;
+        }
+
+        .country-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+
+        .bank-icon {
+            width: 40px;
+            height: 40px;
+            margin-bottom: 15px;
+            vertical-align: middle;
+        }
+
+        /* 弹窗样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+            animation: fadeIn 0.3s ease;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            animation: slideUp 0.3s ease;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2d3748;
+            margin: 0;
+            text-align: center;
+            flex: 1;
+        }
+        
+        .modal-body {
+            text-align: center;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 32px;
+            color: #a0aec0;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            line-height: 1;
+            padding: 0;
+            width: 32px;
+            height: 32px;
+        }
+
+        .close-btn:hover {
+            color: #667eea;
+        }
+
+        .account-info {
+            margin-top: 20px;
+        }
+
+        .info-item {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f7fafc;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 8px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .info-value {
+            color: #2d3748;
+            font-size: 16px;
+            word-break: break-all;
+        }
+
+        .copy-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            margin-left: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .copy-btn:hover {
+            background: #5a67d8;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .copy-btn:active {
+            transform: translateY(0);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #667eea;
+            font-size: 18px;
+        }
+
+        .error {
+            text-align: center;
+            padding: 40px;
+            color: #e53e3e;
+            font-size: 16px;
+        }
+
+        .modal-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .modal-content::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .modal-content::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 10px;
+        }
+
+        .modal-content::-webkit-scrollbar-thumb:hover {
+            background: #764ba2;
+        }
+
+        /* Footer样式 */
+        footer {
+            margin-top: 40px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .footer {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            color: #0f0505;
+        }
+
+        .footer a {
+            color: #070101;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* 移动端底部导航 */
+        .mobile-bottom-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 50;
+        }
+
+        .mobile-nav-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 12px 0;
+        }
+
+        .mobile-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #666;
+            transition: all 0.3s;
+        }
+
+        .mobile-nav-item:hover {
+            color: #3B82F6;
+            transform: scale(1.1);
+        }
+
+        .mobile-nav-item i {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+
+        .mobile-nav-item span {
+            font-size: 12px;
+        }
+
+        .mobile-nav-center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .mobile-nav-center-btn {
+            background: #3B82F6;
+            color: white;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: -24px;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+            transition: all 0.3s;
+        }
+
+        .mobile-nav-center-btn:hover {
+            background: rgba(59, 130, 246, 0.9);
+        }
+
+        .mobile-nav-center span {
+            color: #3B82F6;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        /* 悬浮客服图标样式 */
+        .wechat-float {
+            width: 60px;
+            height: 60px;
+            background-color: hsl(148, 45%, 88%); /* 微信绿色 */
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+        }
+
+        .wechat-float:hover {
+            transform: scale(1.1);
+        }
+
+        .wechat-icon {
+            width: 40px;
+            height: 40px;
+            background-image: url('https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%C2%B7%E5%AE%A2%E5%9B%BE%E7%89%87%E5%BA%93/wechaticon.png'); /* 用户提供的微信图标URL */
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* WhatsApp悬浮图标样式 */
+        .whatsapp-float {
+            width: 60px;
+            height: 60px;
+            background-color: #25D366; /* WhatsApp绿色 */
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+            text-decoration: none;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+        }
+
+        .whatsapp-icon {
+            font-size: 30px;
+            color: white;
+        }
+
+        /* 悬浮图标容器 */
+        .float-icons-container {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* 微信弹出窗样式 */
+        .wechat-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .wechat-popup {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            max-width: 300px;
+            width: 90%;
+        }
+
+        .wechat-qr {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 10px;
+            display: block;
+        }
+
+        .close-btn {
+            background-color: #ff4d4f;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        .close-btn:hover {
+            background-color: #ff7875;
+        }
+
+        /* 内容布局 */
+        .content-wrapper {
+            display: flex;
+            gap: 40px;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .image-section {
+            flex: 1 1 60%;
+            min-width: 300px;
+        }
+
+        .image-section img {
+            width: 100%;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .button-section {
+            flex: 1 1 30%;
+            min-width: 250px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* 支付按钮 */
+        .payment-btn {
+            padding: 25px 30px;
+            font-size: 1.2em;
+            font-weight: bold;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            color: white;
+        }
+        .E-CNY-btn {
+            background: linear-gradient(135deg, hwb(310 9% 0%), hsl(56, 100%, 46%));
+        }
+
+        .E-CNY-btn:hover {
+            background: linear-gradient(135deg, hsl(335, 67%, 53%), hsl(56, 100%, 40%));
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(22, 119, 255, 0.4);
+        }
+        .alipay-btn {
+            background: linear-gradient(135deg, #1677ff, #00a0e9);
+        }
+
+        .alipay-btn:hover {
+            background: linear-gradient(135deg, #0d5fd8, #0088cc);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(22, 119, 255, 0.4);
+        }
+
+        .wechat-btn {
+            background: linear-gradient(135deg, #09bb07, #00d100);
+        }
+
+        .wechat-btn:hover {
+            background: linear-gradient(135deg, #079806, #00b800);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(9, 187, 7, 0.4);
+        }
+
+        /* 二维码样式 */
+        .qr-code {
+            width: 250px;
+            height: 250px;
+            margin: 20px auto;
+            background: #f0f0f0;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #999;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 0;
+            }
+            
+            .container {
+                padding: 30px 20px;
+                margin-bottom: 80px;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .payment-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+
+            .country-links {
+                gap: 10px;
+            }
+
+            .country-link {
+                padding: 8px 16px;
+                font-size: 0.9em;
+            }
+
+            .modal-content {
+                padding: 30px 20px;
+            }
+
+            .modal-title {
+                font-size: 22px;
+            }
+
+            .content-wrapper {
+                flex-direction: column;
+            }
+
+            .image-section,
+            .button-section {
+                flex: 0 0 100%;
+                width: 100%;
+            }
+
+            .button-section {
+                flex-direction: row;
+                justify-content: space-between;
+                gap: 10px;
+            }
+
+            .payment-btn {
+                padding: 15px 10px;
+                font-size: 1em;
+                flex: 1;
+                text-align: center;
+            }
+        }
+    </style>
+    
+<link rel="manifest" href="/manifest.webmanifest"><script id="vite-plugin-pwa:register-sw" src="/registerSW.js"></script></head>
+<body>
+
+    <div class="container">
+        <div class="section-title">   <img src="https://cf.aibomart.com/payone.uk/pay-logo.PNG" alt="Bank Icon" class="bank-icon">Online Platforms</div> 
+        <div class="payment-grid">
+            <div class="payment-item">
+                <a href="https://www.paypal.me/aibochinese" target="_blank" rel="noreferrer noopener">
+                    <img src="https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%C2%B7%E5%AE%A2%E5%9B%BE%E7%89%87%E5%BA%93/%E5%B8%B8%E7%94%A8%E6%A8%A1%E6%9D%BF%E5%9B%BE%E7%89%87/Paypal%20logo-1.png" alt="PayPal">
+                </a>
+            </div>
+            <div class="payment-item">
+                <a href="https://buy.stripe.com/fZu9AT94319geaXfFQ8so03" target="_blank" rel="noreferrer noopener">
+                    <img src="https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%C2%B7%E5%AE%A2%E5%9B%BE%E7%89%87%E5%BA%93/%E5%B8%B8%E7%94%A8%E6%A8%A1%E6%9D%BF%E5%9B%BE%E7%89%87/stripe%20logo-1.png" alt="Stripe">
+                </a>
+            </div>
+            <div class="payment-item">
+                <a href="https://wise.com/pay/me/vecjew9" target="_blank" rel="noreferrer noopener">
+                    <img src="https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%C2%B7%E5%AE%A2%E5%9B%BE%E7%89%87%E5%BA%93/%E5%B8%B8%E7%94%A8%E6%A8%A1%E6%9D%BF%E5%9B%BE%E7%89%87/wise%20logo-1.png" alt="Wise">
+                </a>
+            </div>
+            <div class="payment-item">
+                <a href="https://payone.uk/cryptopay" target="_blank" rel="noreferrer noopener">
+                    <img src="https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%C2%B7%E5%AE%A2%E5%9B%BE%E7%89%87%E5%BA%93/%E5%B8%B8%E7%94%A8%E6%A8%A1%E6%9D%BF%E5%9B%BE%E7%89%87/USDT%20logo-1.png" alt="AiboPay">
+                </a>
+            </div>
+        </div>
+
+        <div class="bank-section">
+            <div class="section-title">
+                <img src="https://cf.aiboculture.com/2025/11/20250909023711277.png" alt="Bank Icon" class="bank-icon">
+                Local Banks
+            </div>
+            
+            <div class="country-links">
+                <a href="#" class="country-link" data-country="vietnam">🇻🇳 Vietnam</a>
+                <a href="#" class="country-link" data-country="usa">🇺🇸 USA</a>
+                <a href="#" class="country-link" data-country="uk">🇬🇧 UK</a>
+                <a href="#" class="country-link" data-country="eu">🇪🇺 EU (欧盟)</a>
+                <a href="#" class="country-link" data-country="australia">🇦🇺 Australia</a>
+                <a href="#" class="country-link" data-country="china">🇨🇳 China</a>
+                <a href="#" class="country-link" data-country="canada">🇨🇦 Canada</a>
+                <a href="#" class="country-link" data-country="new-zealand">🇳🇿 New Zealand</a>
+                <a href="#" class="country-link" data-country="turkiye">🇹🇷 Türkiye</a>
+                <a href="#" class="country-link" data-country="singapore">🇸🇬 Singapore</a>
+                <a href="#" class="country-link" data-country="thailand">🇹🇭 Thailand</a>
+                <a href="#" class="country-link" data-country="hungary">🇭🇺 Hungary</a>
+                <a href="#" class="country-link" data-country="Switzerland">🇨🇭 Switzerland</a>
+                <a href="#" class="country-link" data-country="uae">🇦🇪 UAE</a>
+                <a href="#" class="country-link" data-country="mexico">🇲🇽 Mexico</a>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <h2 style="background-color: #D4AF37; color: white; padding: 10px 15px; border-radius: 5px; display: inline-block; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.2);"> Credit Card -<a href="https://payone.uk/e-cny-guide" style="color:white; text-decoration: none;" target="_blank" rel="noopener noreferrer">E-CNY</a>|Alipay|Wechat Pay</h2>
+        <p>_</p>
+        <div class="content-wrapper">
+            <div class="image-section">
+                <img src="https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%C2%B7%E5%AE%A2%E5%9B%BE%E7%89%87%E5%BA%93/%E5%B8%B8%E7%94%A8%E6%A8%A1%E6%9D%BF%E5%9B%BE%E7%89%87/ECNYwechat%20alipay-creditcard.png" alt="支付图片">
+            </div>
+            
+            <div class="button-section">
+               <button class="payment-btn E-CNY-btn" onclick="showQRCode('E-CNY')">
+                    E-CNY
+                </button>
+                <button class="payment-btn alipay-btn" onclick="showQRCode('alipay')">
+                    Alipay
+                </button>
+                <button class="payment-btn wechat-btn" onclick="showQRCode('wechat')">
+                    WeChat
+                </button>
+            </div>
+        </div>
+    </div>
+
+     <!-- E-CNY弹窗 -->
+<div id="E-CNYModal" class="modal" onclick="closeModal('E-CNYModal')">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <div class="modal-header">
+            <h2 class="modal-title">E-CNY支付</h2>
+            <button class="close-btn" onclick="closeModal('E-CNYModal')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <img src="https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%C2%B7%E5%AE%A2%E5%9B%BE%E7%89%87%E5%BA%93/%E5%B8%B8%E7%94%A8%E6%A8%A1%E6%9D%BF%E5%9B%BE%E7%89%87/ECNYcreditcard.png" alt="E_CNY二维码" class="qr-code">
+        </div>
+    </div>
+</div>
+
+ <!-- 支付宝弹窗 -->
+<div id="alipayModal" class="modal" onclick="closeModal('alipayModal')">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <div class="modal-header">
+            <h2 class="modal-title">支付宝支付</h2>
+            <button class="close-btn" onclick="closeModal('alipayModal')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <img src="https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%C2%B7%E5%AE%A2%E5%9B%BE%E7%89%87%E5%BA%93/%E5%B8%B8%E7%94%A8%E6%A8%A1%E6%9D%BF%E5%9B%BE%E7%89%87/alipay%20b-qr1.jpg" alt="支付宝二维码" class="qr-code">
+        </div>
+    </div>
+</div>
+
+<!-- 微信弹窗 -->
+<div id="wechatModal" class="modal" onclick="closeModal('wechatModal')">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <div class="modal-header">
+            <h2 class="modal-title">微信支付</h2>
+            <button class="close-btn" onclick="closeModal('wechatModal')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <img src="https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%C2%B7%E5%AE%A2%E5%9B%BE%E7%89%87%E5%BA%93/%E5%B8%B8%E7%94%A8%E6%A8%A1%E6%9D%BF%E5%9B%BE%E7%89%87/wechatpay%20b-qr1.jpg" alt="微信二维码" class="qr-code">
+        </div>
+    </div>
+</div>
+    
+    <!-- 弹窗 -->
+    <div class="modal" id="accountModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title" id="modalTitle">银行账户详情</div>
+                <button class="close-btn" id="closeBtn">&times;</button>
+            </div>
+            <div id="modalBody">
+                <div class="loading">加载中...</div>
+            </div>
+        </div>
+    </div>
+      <p style="margin-bottom: 13px;">
+
+    <script>
+        // 银行账户数据
+        const bankAccounts = {
+            vietnam: {
+                title: "🇻🇳 Vietnam 银行账户",
+                accounts: [
+                    { label: "银行名称", value: "VIETCOMBANK CHI NHÁNH NAM ĐỊNH" },
+                    { label: "账户名称", value: "TRẦN VĂN HÙNG " },
+                    { label: "账号", value: "0831000076783" }
+                ]
+            },
+            usa: {
+                title: "🇺🇸 USA 银行账户",
+                accounts: [
+                    { label: "银行名称", value: "Column Bank" },
+                    { label: "账户名称", value: "HUANGLIN ZOU" },
+                    { label: "账号", value: "887592954391234" },
+                    { label: "路由号码", value: "084009519" },
+                    { label: "SWIFT代码", value: "TRWIUS35XXX" }
+                ]
+            },
+             uk: {
+                title: "🇬🇧 UK 银行账户",
+                accounts: [
+                    { label: "账号", value: "00321902" },
+                    { label: "账户名称", value: "HUANGLIN ZOU" },
+                    { label: "IBAN代码", value: "GB74EZYR04000100321902" },
+                    { label: "Sort Code", value: "040001" },
+                    { label: "SWIFT代码", value: "EZYRGB2LDPB" }
+                ]
+            },
+            eu: {
+                title: "🇪🇺 EU 银行账户",
+                accounts: [
+                    { label: "账户名称", value: "HUANGLIN ZOU" },
+                    { label: "IBAN", value: "DE33100110012390926806" },
+                    { label: "SWIFT代码", value: "NTSBDEB1XXX" },
+                    { label: "地址", value: "N26 BANK GMBH, VOLTAIRESTRASSE 8, BERLIN, 10179" }
+                ]
+            },
+            australia: {
+                title: "🇦🇺 Australia 银行账户",
+                accounts: [
+                    { label: "账户名称", value: "HUANGLIN ZOU" },
+                    { label: "BSB", value: "774001" },
+                    { label: "账号", value: "228400194" },
+                    { label: "SWIFT代码", value: "TRWIAUS1XXX" },
+                    { label: "银行名称", value: "Commonwealth Bank" }
+                ]
+            },
+            china: {
+                title: "🇨🇳 China 收款账户",
+                accounts: [
+                    { label: "姓名", value: "邹黄林" },
+                    { label: "AliPay", value: "3073234095@qq.com" },
+                    { label: "WeChat ID", value: "AiboCulture" },
+                    { label: "开户行", value: "中国建设银行南昌前湖支行" },
+                    { label: "账号", value: "6217002020036678688" }
+                ]
+            },
+            canada: {
+                title: "🇨🇦 Canada 银行账户",
+                accounts: [
+                    { label: "银行名称", value: "Peoples Trust" },
+                    { label: "账户名称", value: "HUANGLIN ZOU" },
+                    { label: "账号", value: "200116794877" },
+                    { label: "Transit Number", value: "16001" },
+                    { label: "Institution Number", value: "003621" }
+                ]
+            },
+            "new-zealand": {
+                title: "🇳🇿 New Zealand 银行账户",
+                accounts: [
+                    { label: "账户名称", value: "HUANGLIN ZOU" },
+                    { label: "账号", value: "042021028744107" },
+                    { label: "SWIFT代码", value: "TRWINZ21XXX" },
+                    { label: "地址", value: "Wise Payments Ltd. - New Zealand Branch, 1st Floor, Worship Square, 65 Clifton Street, London, EC2A 4JE, United Kingdom" }
+                ]
+            },
+            turkiye: {
+                title: "🇹🇷 Türkiye 银行账户",
+                accounts: [
+                    { label: "银行名称", value: "Moka United Ödeme Hizmetleri ve Elektronik Para Kuruluşu A.Ş" },
+                    { label: "账户名称", value: "HUANGLIN ZOU" },
+                    { label: "IBAN", value: "TR140010300000000072760939" }
+                ]
+            },
+            singapore: {
+                title: "🇸🇬 Singapore 银行账户",
+                accounts: [
+                    { label: "账户名称", value: "HUANGLIN ZOU" },
+                    { label: "账号", value: "20668646" },
+                  { label: "银行代码", value: "0516" },  
+                    { label: "SWIFT代码", value: "TRWISGSGXXX" },
+                    { label: "地址", value: "Wise Asia-Pacific Pte. Ltd., 2 Tanjong Katong Road, #07-01, PLQ3, Singapore, 437161, Singapore" }
+                ]
+            },
+            thailand: {
+                title: "🇹🇭 Thailand 银行账户",
+                accounts: [
+                    { label: "银行名称", value: "KASIKORN BANK THAILAND" },
+                    { label: "账户名", value: "NGUYEN THANH HANG VI" },
+                    { label: "账号", value: "1138450941" }
+                ]
+            },
+            hungary: {
+                title: "🇭🇺 Hungary 银行账户",
+                accounts: [
+                    { label: "账户名称", value: "HUANGLIN ZOU" },
+                    { label: "IBAN", value: "HU28126000161366034302747125" },
+                    { label: "SWIFT代码", value: "TRWIBEBBXXX" },
+                    { label: "银行名称", value: "OTP Bank" }
+                ]
+            },
+             Switzerland: {
+                title: "🇨🇭 Switzerland 银行账户",
+                accounts: [
+                    { label: "账户名称", value: "Zou Huanglin" },
+                    { label: "IBAN", value: "CH6683051000000495926" },
+                    { label: "SWIFT代码", value: "SAHHCHZ2" },
+                    { label: "银行名称", value: "SR Saphirstein AG" }
+                ]
+            },
+            uae: {
+                title: "🇦🇪 UAE 银行账户",
+                accounts: [
+                    { label: "备注（必填）", value: "8cc30y" },
+                    { label: "IBAN", value: "AE69 0960 0006 9106 0000 351" },
+                    { label: "BIC", value: "ZANDAEAAXXX" },
+                    { label: "收款方", value: "Neverless Labs SL" },
+                    { label: "收款方地址", value: "Calle de Hermosilla 48, 1D, 28001 Madrid, Spain" }
+                ]
+            },
+            mexico: {
+                title: "🇲🇽 Mexico 银行账户",
+                accounts: [
+                    { label: "备注（必填）", value: "8cc30y" },
+                    { label: "CLABE", value: "710969000042105572" },
+                    { label: "收款方", value: "Neverless Labs SL" },
+                    { label: "收款方地址", value: "C. Río Lerma 232-Piso 24, Cuauhtémoc, 06500 Ciudad de México" }
+                ]
+            }
+        };
+
+        const modal = document.getElementById('accountModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalBody = document.getElementById('modalBody');
+        const closeBtn = document.getElementById('closeBtn');
+        const countryLinks = document.querySelectorAll('.country-link');
+
+        // 点击国家链接
+        countryLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const country = this.getAttribute('data-country');
+                showAccountDetails(country);
+            });
+        });
+
+        // 显示账户详情
+        function showAccountDetails(country) {
+            modal.classList.add('active');
+            modalBody.innerHTML = '<div class="loading">加载中...</div>';
+
+            setTimeout(() => {
+                const accountData = bankAccounts[country];
+                
+                if (accountData) {
+                    modalTitle.innerHTML = accountData.title;
+                    let html = '<div class="account-info">';
+                    
+                    accountData.accounts.forEach(item => {
+                        html += `
+                            <div class="info-item" style="display: flex; justify-content: space-between; align-items: center;">
+                                <div style="flex: 1;">
+                                    <div class="info-label">${item.label}</div>
+                                    <div class="info-value">${item.value}</div>
+                                </div>
+                                <button class="copy-btn" onclick="copyToClipboard('${item.value.replace(/'/g, "\\'")}')" title="复制">
+                                    <i class="fa fa-copy"></i>
+                                </button>
+                            </div>
+                        `;
+                    });
+                    
+                    html += '</div>';
+                    modalBody.innerHTML = html;
+                } else {
+                    modalBody.innerHTML = '<div class="error">暂无该国家的银行账户信息</div>';
+                }
+            }, 300);
+        }
+
+        // 复制到剪贴板功能
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                // 显示复制成功提示
+                const tempAlert = document.createElement('div');
+                tempAlert.textContent = '已复制到剪贴板';
+                tempAlert.style.cssText = `
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    background: rgba(0, 0, 0, 0.8);
+                    color: white;
+                    padding: 12px 24px;
+                    border-radius: 8px;
+                    z-index: 99999;
+                    font-size: 14px;
+                `;
+                document.body.appendChild(tempAlert);
+                setTimeout(() => {
+                    tempAlert.remove();
+                }, 1500);
+            }).catch(err => {
+                console.error('复制失败:', err);
+            });
+        }
+
+        // 显示二维码弹窗
+        function showQRCode(type) {
+            let modalId;
+            if (type === 'alipay') {
+                modalId = 'alipayModal';
+            } else if (type === 'wechat') {
+                modalId = 'wechatModal';
+            } else if (type === 'E-CNY') {
+                modalId = 'E-CNYModal';
+            }
+            const modal = document.getElementById(modalId);
+            modal.classList.add('active');
+        }
+
+        // 关闭弹窗函数
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('active');
+            }
+        }
+
+        // 绑定关闭按钮事件
+        closeBtn.addEventListener('click', function() {
+            closeModal('accountModal');
+        });
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeModal('accountModal');
+            }
+        });
+
+        // ESC键关闭所有弹窗
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal('alipayModal');
+                closeModal('wechatModal');
+                closeModal('E-CNYModal');
+                closeModal('accountModal');
+                const wechatServiceModal = document.getElementById('wechatServiceModal');
+                if (wechatServiceModal) {
+                    wechatServiceModal.style.display = 'none';
+                }
+            }
+        });
+
+        // 微信弹窗控制函数
+        function toggleWechatModal() {
+            const modal = document.getElementById('wechatServiceModal');
+            modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function closeWechatModal(event) {
+            document.getElementById('wechatServiceModal').style.display = 'none';
+        }
+
+        // 点击模态背景关闭
+        window.onclick = function(event) {
+            const wechatServiceModal = document.getElementById('wechatServiceModal');
+            
+            if (event.target === wechatServiceModal) {
+                closeWechatModal();
+            }
+        };
+    </script>
+    <!-- 悬浮客服图标 -->
+    <div class="float-icons-container">
+        <!-- 悬浮微信客服图标 -->
+        <div class="wechat-float" onclick="toggleWechatModal()">
+            <div class="wechat-icon"></div>
+        </div>
+        
+        <!-- 悬浮WhatsApp客服图标 -->
+        <a href="https://wa.me/message/QXYAFEGTDWIBE1" target="_blank" rel="noopener noreferrer" class="whatsapp-float">
+            <i class="fab fa-whatsapp whatsapp-icon"></i>
+        </a>
+    </div>
+
+    <!-- 微信弹出窗 -->
+    <div id="wechatServiceModal" class="wechat-modal" onclick="closeWechatModal(event)">
+        <div class="wechat-popup" onclick="event.stopPropagation()">
+            <h3>微信客服</h3>
+            <img src="https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%C2%B7%E5%AE%A2%E5%9B%BE%E7%89%87%E5%BA%93/AIBOBLOG%20WECHAT.png" alt="微信二维码" class="wechat-qr">
+            <button class="close-btn" onclick="closeWechatModal()" style="color: black; font-size: 12px;">关闭</button>
+        </div>
+    </div>
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6203499194676961"
+     crossorigin="anonymous"></script>
+</body>
+</html>
