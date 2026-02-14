@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payone-提供专业的全球收付款的咨询和技术服务</title>
+    <!-- PWA 相关配置 -->
+    <meta name="description" content="Payone UK - 专业的全球收付款咨询和技术服务">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" type="image/png" href="/payone-logo.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="/payone-logo.png" sizes="32x32">
+    <link rel="apple-touch-icon" href="/payone-logo.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Payone">
+    <!-- Font Awesome 图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tailwind CSS 框架 -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        /* 基础样式重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Microsoft YaHei", "微软雅黑", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* 从cankao.html提取的风车样式 */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0f172a 0%, #000000 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
+        }
+
+        .windmill-container {
+            position: relative;
+            width: 400px;
+            height: 400px;
+        }
+
+        /* Hero内容区域 - 桌面端双列布局 */
+        .hero-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* 四叶风车 */
+        .windmill {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            animation: rotate 30s linear infinite;
+            cursor: pointer;
+        }
+
+        .windmill.paused {
+            animation-play-state: paused;
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .leaf {
+            position: absolute;
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        @keyframes counter-rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(-360deg);
+            }
+        }
+
+        .leaf:hover {
+            transform: scale(1.15);
+            z-index: 10;
+        }
+
+        .leaf:hover ~ .windmill {
+            animation-play-state: paused;
+        }
+
+        .leaf-1 {
+            background: rgba(220, 38, 38, 0.8);
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .leaf-2 {
+            background: rgba(37, 99, 235, 0.8);
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+        }
+
+        .leaf-3 {
+            background: rgba(22, 163, 74, 0.8);
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .leaf-4 {
+            background: rgba(202, 138, 4, 0.8);
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+        }
+
+        .leaf-title {
+            position: relative;
+            z-index: 5;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            animation: counter-rotate 30s linear infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+            transform-style: preserve-3d;
+            backface-visibility: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            color: white;
+            font-weight: 700;
+        }
+
+        .leaf-title a {
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            display: inline-block;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .center-circle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.3) 0%, rgba(255, 215, 0, 0.1) 70%, transparent 100%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            border: 2px solid rgba(255, 215, 0, 0.5);
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* 中心"Pay"字 - 彩色粗体 */
+        .center-text {
+            font-size: 36px;
+            font-weight: 700;
+            background: linear-gradient(45deg, #FFD700, #FFA500, #FF6347, #4169E1, #32CD32);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            z-index: 20;
+            position: absolute;
+            animation: glow 2s ease-in-out infinite alternate, counter-rotate 30s linear infinite;
+        }
+
+        @keyframes glow {
+            from {
+                filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.5));
+            }
+            to {
+                filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.8));
+            }
+        }
+
+        /* 右侧内容栏样式 */
+        .right-column {
+            flex: 1;
+            max-width: 400px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        /* 高亮标题 */
+        .highlight-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1C64F2;
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 声明样式 */
+        .declaration {
+            background: #FFF3CD;
+            border: 1px solid #FFEEBA;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .declaration-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #856404;
+            margin-bottom: 10px;
+        }
+
+        .declaration-content {
+            font-size: 14px;
+            color: #721c24;
+            line-height: 1.6;
+        }
+
+        /* 内容样式 */
+        .content-section {
+            margin-top: 20px;
+        }
+
+        .content-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .content-text {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* 悬浮客服图标样式 */
+        .wechat-float {
+            width: 60px;
+            height: 60px;
+            background-color: hsl(148, 45%, 88%); /* 微信绿色 */
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+        }
+
+        .wechat-float:hover {
+            transform: scale(1.1);
+        }
+
+        .wechat-icon {
+            width: 40px;
+            height: 40px;
+            background-image: url('https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%C2%B7%E5%AE%A2%E5%9B%BE%E7%89%87%E5%BA%93/wechaticon.png'); /* 用户提供的微信图标URL */
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* WhatsApp悬浮图标样式 */
+        .whatsapp-float {
+            width: 60px;
+            height: 60px;
+            background-color: #25D366; /* WhatsApp绿色 */
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+        }
+
+        .whatsapp-icon {
+            font-size: 30px;
+            color: white;
+        }
+
+        /* 悬浮图标容器 */
+        .float-icons-container {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* 微信弹出窗样式 */
+        .wechat-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .wechat-popup {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            max-width: 300px;
+            width: 90%;
+        }
+
+        .wechat-qr {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 10px;
+            display: block;
+        }
+
+        .close-btn {
+            background-color: #ff4d4f;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        .close-btn:hover {
+            background-color: #ff7875;
+        }
+
+        /* 文本样式类 */
+        .text-white {
+            color: white;
+        }
+
+        .text-2xl {
+            font-size: 1.5rem;
+        }
+
+        /* 主标题样式 */
+        .main-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: white;
+            text-align: center;
+            margin-bottom: 40px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            line-height: 1.3;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .hero-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .windmill-container {
+                width: 300px;
+                height: 300px;
+            }
+
+            .leaf {
+                width: 120px;
+                height: 120px;
+                font-size: 18px;
+            }
+
+            .right-column {
+                max-width: 100%;
+                margin: 0 20px;
+            }
+
+            .main-title {
+                font-size: 22px;
+                margin-bottom: 30px;
+            }
+        }
+
+        /* 桌面端布局调整 */
+        @media (min-width: 769px) {
+            .main-title {
+                position: absolute;
+                top: 50px;
+                left: 50%;
+                transform: translateX(-50%);
+                max-width: 800px;
+            }
+        }
+
+        /* 合作案例样式 */
+        .cases-container {
+            position: relative;
+            margin: 30px 0;
+            overflow: hidden;
+            background: linear-gradient(135deg, #fff9c4, #fff59d);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.2);
+        }
+        
+        .cases-slider {
+            overflow-x: auto;
+            overflow-y: hidden;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        /* 隐藏滚动条 */
+        .cases-slider::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .cases-slider {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        .cases-track {
+            display: flex;
+            gap: 20px;
+            padding: 10px 0;
+            width: fit-content;
+        }
+        
+        .case-card {
+            flex: 0 0 calc(25% - 15px);
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            text-align: center;
+            border: 2px solid #ffc107;
+        }
+        
+        .case-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(255, 193, 7, 0.3);
+            border-color: #ff9800;
+        }
+        
+        .case-category {
+            display: inline-block;
+            background: #ffc107;
+            color: #333;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .case-link {
+            text-decoration: none;
+            color: #333;
+            display: block;
+        }
+        
+        .case-logo-container {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 15px;
+            background: #f8f9fa;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 3px solid #ffe082;
+        }
+        
+        .case-logo {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+        
+        .case-card:hover .case-logo {
+            transform: scale(1.1);
+        }
+        
+        .case-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 0;
+            color: #333;
+            transition: color 0.3s ease;
+        }
+        
+        .case-card:hover .case-name {
+            color: #ff9800;
+        }
+        
+        /* 左右切换按钮 */
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            color: #3B82F6;
+            border: none;
+            width: 50px;
+            height: 50px;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s ease;
+            line-height: 1;
+            padding: 0;
+        }
+        
+        .slider-btn:hover {
+            color: #2563EB;
+            transform: translateY(-50%) scale(1.2);
+        }
+        
+        .prev-btn {
+            left: 10px;
+        }
+        
+        .next-btn {
+            right: 10px;
+        }
+        
+        /* 导航栏样式 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 2000;
+            backdrop-filter: blur(10px);
+        }
+        
+        .navbar-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 20px;
+        }
+        
+        .navbar-logo img {
+            height: 40px;
+            width: auto;
+        }
+        
+        /* 桌面端菜单 */
+        .navbar-menu {
+            display: flex;
+            gap: 15px;
+        }
+        
+        /* 导航按钮样式 */
+        .navbar-btn {
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        /* 按钮颜色 */
+        .btn-home {
+            background: rgba(220, 38, 38, 0.8);
+            color: white;
+        }
+        
+        .btn-collect {
+            background: rgba(37, 99, 235, 0.8);
+            color: white;
+        }
+        
+        .btn-cross {
+            background: rgba(22, 163, 74, 0.8);
+            color: white;
+        }
+        
+        .btn-review {
+            background: rgba(202, 138, 4, 0.8);
+            color: white;
+        }
+        
+        /* 按钮 hover 效果 */
+        .navbar-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+        
+        /* 移动端汉堡菜单按钮 */
+        .navbar-toggle {
+            display: none;
+            cursor: pointer;
+        }
+        
+        .bar {
+            display: block;
+            width: 25px;
+            height: 3px;
+            margin: 5px auto;
+            transition: all 0.3s ease-in-out;
+            background-color: #333;
+        }
+        
+        /* 移动端菜单 */
+        .navbar-mobile-menu {
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            width: 50%;
+            margin-left: auto;
+            border-radius: 0 0 0 10px;
+        }
+        
+        .navbar-mobile-btn {
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .navbar-menu {
+                display: none;
+            }
+            
+            .navbar-toggle {
+                display: block;
+            }
+            
+            .navbar-mobile-menu.active {
+                display: flex;
+            }
+            
+            /* 汉堡菜单动画 */
+            .navbar-toggle.active .bar:nth-child(2) {
+                opacity: 0;
+            }
+            
+            .navbar-toggle.active .bar:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+            
+            .navbar-toggle.active .bar:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+        }
+        
+        /* 电脑端样式 */
+        @media (min-width: 769px) {
+            .case-card {
+                flex: 0 0 calc(25% - 15px);
+            }
+        }
+        
+        /* 移动端样式 */
+        @media (max-width: 768px) {
+            .case-card {
+                flex: 0 0 calc(50% - 10px);
+            }
+            
+            .cases-container {
+                padding: 15px;
+            }
+            
+            .cases-slider {
+                overflow-x: hidden;
+                overflow-y: hidden;
+            }
+            
+            .cases-track {
+                gap: 15px;
+            }
+            
+            .case-logo-container {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .case-name {
+                font-size: 16px;
+            }
+        }
+        
+        /* 调整 Hero 区域顶部间距，避免被导航栏遮挡 */
+        .hero {
+            margin-top: 80px;
+        }
+        
+        /* 移动端调整 */
+        @media (max-width: 768px) {
+            .hero {
+                margin-top: 70px;
+            }
+        }
+    </style>
+<link rel="manifest" href="/manifest.webmanifest"><script id="vite-plugin-pwa:register-sw" src="/registerSW.js"></script></head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <!-- Logo -->
+            <a href="index.html" class="navbar-logo">
+                <img src="https://cf.aibomart.com/payone.uk/payone-hor-logo.PNG" alt="PayOne Logo">
+            </a>
+            
+            <!-- 桌面端菜单 -->
+            <div class="navbar-menu">
+                <a href="index.html" class="navbar-btn btn-home">首页</a>
+                <a href="https://payone.uk/collect" class="navbar-btn btn-collect">全球收款</a>
+                <a href="apply-vcc.html" class="navbar-btn btn-cross">跨境支付</a>
+                <a href="https://payone.uk/reviews" class="navbar-btn btn-review">评价</a>
+            </div>
+            
+            <!-- 移动端汉堡菜单按钮 -->
+            <div class="navbar-toggle" onclick="toggleMobileMenu()">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+        
+        <!-- 移动端菜单 -->
+        <div class="navbar-mobile-menu">
+            <a href="index.html" class="navbar-mobile-btn btn-home">首页</a>
+            <a href="https://payone.uk/collect" class="navbar-mobile-btn btn-collect">全球收款</a>
+            <a href="apply-vcc.html" class="navbar-mobile-btn btn-cross">跨境支付</a>
+            <a href="https://payone.uk/reviews" class="navbar-mobile-btn btn-review">评价</a>
+        </div>
+    </nav>
+    <!-- Hero 区域 -->
+    <section class="hero">
+        <div class="hero-content">
+            <!-- 主标题 -->
+            <h1 class="main-title">专业的全球收付款-咨询与技术服务</h1>
+            
+            <!-- 左侧风车 -->
+            <div class="windmill-container">
+                <div class="windmill">
+                    <div class="leaf leaf-1">
+                        <div class="leaf-title"><a href="https://payone.uk/collect" target="_blank">开户指导</a></div>
+                    </div>
+                    <div class="leaf leaf-2">
+                        <div class="leaf-title"><a href="apply-vcc.html" target="_blank">跨境支付</a></div>
+                    </div>
+                    <div class="leaf leaf-3">
+                        <div class="leaf-title"><a href="custom-page.html" target="_blank">聚合收款页</a></div>
+                    </div>
+                    <div class="leaf leaf-4">
+                        <div class="leaf-title"><a href="money-from-China.html" target="_blank">Collect money from China</a></div>
+                    </div>
+                    <div class="center-circle">
+                        <div class="center-text">Pay</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右侧内容栏 -->
+            <div class="right-column">
+                <h2 class="highlight-title">免责声明</h2>
+                <div class="declaration">
+                    <div class="declaration-content">
+                        我方仅提供技术和咨询服务，"不碰资金、不碰数据、不做中转"，相关风险由支付机构和用户自行承担。
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 合作案例部分 -->
+    <div style="max-width: 1200px; margin: 0 auto; padding: 40px 20px;">
+        <h3 style="color: hsl(0, 0%, 0%); margin-top: 40px; text-align: center;">合作案例</h3>
+        <div class="cases-container">
+            <div class="cases-slider">
+                <div class="cases-track">
+                    <!-- 卡片零 -->
+                    <div class="case-card">
+                        <div class="case-category">技术|咨询</div>
+                        <a href="https://payone.uk/payments" target="_blank" class="case-link">
+                            <div class="case-logo-container">
+                                <img src="https://cf.aibomart.com/payone.uk/payone-logo.png" alt="payone Logo" class="case-logo">
+                            </div>
+                            <h4 class="case-name">聚合支付</h4>
+                        </a>
+                    </div> 
+                    <!-- 卡片一 -->
+                    <div class="case-card">
+                        <div class="case-category">电商|独立站</div>
+                        <a href="https://30yearcraftbag.com/payments" target="_blank" class="case-link">
+                            <div class="case-logo-container">
+                                <img src="https://cf.aibochinese.com/%E7%B4%A0%E6%9D%90%E7%AB%99/30yearcraftbag/logo.png" alt="30yearcraftbag Logo" class="case-logo">
+                            </div>
+                            <h4 class="case-name">30yearcraftbag</h4>
+                        </a>
+                    </div>
+                      <!-- 卡片五 -->
+                    <div class="case-card">
+                        <div class="case-category">电商独立站</div>
+                        <a href="https://moonlight.payone.uk/" target="_blank" class="case-link">
+                            <div class="case-logo-container">
+                                <img src="https://cf.aibomart.com/%E6%89%98%E7%AE%A1%E7%AB%99%E7%82%B9/moonlight/moonlight.jpg" alt="HCMFBMA Logo" class="case-logo">
+                            </div>
+                            <h4 class="case-name">MoonLight</h4>
+                        </a>
+                    </div>                     
+                    <!-- 卡片二 -->
+                    <div class="case-card">
+                        <div class="case-category">博客</div>
+                        <a href="https://blog.aibochinese.com/payment/pay" target="_blank" class="case-link">
+                            <div class="case-logo-container">
+                                <img src="https://cf.aibochinese.com/%E7%B4%A0%E6%9D%90%E7%AB%99/aibo-blog-logo.png" alt="爱博·客 Logo" class="case-logo">
+                            </div>
+                            <h4 class="case-name">爱博·客</h4>
+                        </a>
+                    </div>
+                    
+                    <!-- 卡片三 -->
+                    <div class="case-card">
+                        <div class="case-category">教育|课程</div>
+                        <a href="https://aibochinese.com/payments" target="_blank" class="case-link">
+                            <div class="case-logo-container">
+                                <img src="https://cf.aibochinese.com/%E7%B4%A0%E6%9D%90%E7%AB%99/1-on-1%20logo.png" alt="Aibo Chinese Logo" class="case-logo">
+                            </div>
+                            <h4 class="case-name">Aibo Chinese</h4>
+                        </a>
+                    </div>
+                    
+                    <!-- 卡片四 -->
+                    <div class="case-card">
+                        <div class="case-category">企业官网</div>
+                        <a href="https://cma.aibomart.com" target="_blank" class="case-link">
+                            <div class="case-logo-container">
+                                <img src="https://cf.aibochinese.com/%E7%B4%A0%E6%9D%90%E7%AB%99/HCMFBMA/LogoHCMDBMA.png" alt="HCMFBMA Logo" class="case-logo">
+                            </div>
+                            <h4 class="case-name">HCMFBMA</h4>
+                        </a>
+                    </div>
+             
+                </div>
+            </div>
+            
+            <!-- 左右切换按钮 -->
+            <button class="slider-btn prev-btn" onclick="scrollCases(-1)">
+                &lt;
+            </button>
+            <button class="slider-btn next-btn" onclick="scrollCases(1)">
+                &gt;
+            </button>
+        </div>
+        
+        <div style="text-align: center; margin-top: 40px;">
+            <p>联系我们，打通您的全球收付款渠道吧！</p>
+        </div>
+    </div>
+
+    <!-- 悬浮客服图标 -->
+    <div class="float-icons-container">
+        <!-- 悬浮微信客服图标 -->
+        <div class="wechat-float" onclick="toggleWechatModal()">
+            <div class="wechat-icon"></div>
+        </div>
+        
+        <!-- 悬浮WhatsApp客服图标 -->
+        <a href="https://wa.me/message/QXYAFEGTDWIBE1" target="_blank" rel="noopener noreferrer" class="whatsapp-float">
+            <i class="fab fa-whatsapp whatsapp-icon"></i>
+        </a>
+    </div>
+
+    <!-- 微信弹出窗 -->
+    <div id="wechatModal" class="wechat-modal" onclick="closeWechatModal(event)">
+        <div class="wechat-popup" onclick="event.stopPropagation()">
+            <h3>微信客服</h3>
+            <img src="https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%C2%B7%E5%AE%A2%E5%9B%BE%E7%89%87%E5%BA%93/AIBOBLOG%20WECHAT.png" alt="微信二维码" class="wechat-qr">
+            <button class="close-btn" onclick="closeWechatModal()">关闭</button>
+        </div>
+    </div>
+
+    <script>
+        // 微信弹窗控制函数
+        function toggleWechatModal() {
+            const modal = document.getElementById('wechatModal');
+            modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function closeWechatModal(event) {
+            document.getElementById('wechatModal').style.display = 'none';
+        }
+
+        // 点击模态背景关闭
+        window.onclick = function(event) {
+            const wechatModal = document.getElementById('wechatModal');
+            
+            if (event.target === wechatModal) {
+                closeWechatModal();
+            }
+        };
+        
+        // 汉堡菜单控制函数
+        function toggleMobileMenu() {
+            const navbarToggle = document.querySelector('.navbar-toggle');
+            const mobileMenu = document.querySelector('.navbar-mobile-menu');
+            
+            navbarToggle.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+        }
+        
+        // 合作案例滑块功能
+        function scrollCases(direction) {
+            const slider = document.querySelector('.cases-slider');
+            const cardWidth = document.querySelector('.case-card').offsetWidth + 20; // 卡片宽度 + 间距
+            const scrollAmount = direction * cardWidth * (window.innerWidth <= 768 ? 2 : 1); // 移动端每次滚动2张，桌面端每次滚动1张
+            slider.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        }
+
+        // PWA 服务工作线程注册
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('Service Worker 注册成功:', registration.scope);
+                    })
+                    .catch(error => {
+                        console.error('Service Worker 注册失败:', error);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>

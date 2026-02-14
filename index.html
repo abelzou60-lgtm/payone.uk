@@ -4,11 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payone-提供专业的全球收付款的咨询和技术服务</title>
+    <!-- PWA 相关配置 -->
+    <meta name="description" content="Payone UK - 专业的全球收付款咨询和技术服务">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" type="image/png" href="/payone-logo.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="/payone-logo.png" sizes="32x32">
+    <link rel="apple-touch-icon" href="/payone-logo.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Payone">
     <!-- Font Awesome 图标库 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Tailwind CSS 框架 -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="icon" type="image/png" href="https://cf.aibomart.com/payone.uk/payone-icon1.png" sizes="16x16">
     <style>
         /* 基础样式重置 */
         * {
@@ -985,6 +994,19 @@
             const cardWidth = document.querySelector('.case-card').offsetWidth + 20; // 卡片宽度 + 间距
             const scrollAmount = direction * cardWidth * (window.innerWidth <= 768 ? 2 : 1); // 移动端每次滚动2张，桌面端每次滚动1张
             slider.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        }
+
+        // PWA 服务工作线程注册
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('Service Worker 注册成功:', registration.scope);
+                    })
+                    .catch(error => {
+                        console.error('Service Worker 注册失败:', error);
+                    });
+            });
         }
     </script>
 </body>
