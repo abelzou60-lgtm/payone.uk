@@ -971,13 +971,13 @@
         }
 
         // 点击模态背景关闭
-        window.onclick = function(event) {
+        window.addEventListener('click', function(event) {
             const wechatModal = document.getElementById('wechatModal');
             
             if (event.target === wechatModal) {
                 closeWechatModal();
             }
-        };
+        });
         
         // 汉堡菜单控制函数
         function toggleMobileMenu() {

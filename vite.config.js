@@ -32,6 +32,7 @@ export default defineConfig({
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
         maximumFileSizeToCacheInBytes: 5000000, // 增加到 5MB
+        navigateFallback: null, // 禁用默认的导航回退行为
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/.+\.css$/i,
