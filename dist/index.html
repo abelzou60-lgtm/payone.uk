@@ -747,13 +747,14 @@
             }
             
             .cases-slider {
-                overflow-x: hidden;
+                overflow-x: auto;
                 overflow-y: hidden;
+                scroll-behavior: smooth;
+                -webkit-overflow-scrolling: touch;
             }
             
             .cases-track {
                 gap: 15px;
-                flex-wrap: wrap;
             }
             
             .case-logo-container {
@@ -898,7 +899,16 @@
                             <h4 class="case-name">爱博·客</h4>
                         </a>
                     </div>
-                    
+                              <!-- 卡片五 -->
+                    <div class="case-card">
+                        <div class="case-category">企业官网</div>
+                        <a href="https://aibomart.com/payments.php" target="_blank" class="case-link">
+                            <div class="case-logo-container">
+                                <img src="https://cf.aibochinese.com/%E7%B4%A0%E6%9D%90%E7%AB%99/itmart.png" alt="ITmart Logo" class="case-logo">
+                            </div>
+                            <h4 class="case-name">HCMFBMA</h4>
+                        </a>
+                    </div>            
                     <!-- 卡片三 -->
                     <div class="case-card">
                         <div class="case-category">教育|课程</div>
@@ -920,7 +930,7 @@
                             <h4 class="case-name">HCMFBMA</h4>
                         </a>
                     </div>
-             
+           
                 </div>
             </div>
             
@@ -991,13 +1001,9 @@
         
         // 合作案例滑块功能
         function scrollCases(direction) {
-            // 在移动端不执行滚动操作，因为使用了网格布局
-            if (window.innerWidth <= 768) {
-                return;
-            }
             const slider = document.querySelector('.cases-slider');
-            const cardWidth = document.querySelector('.case-card').offsetWidth + 20; // 卡片宽度 + 间距
-            const scrollAmount = direction * cardWidth;
+            const cardWidth = document.querySelector('.case-card').offsetWidth + (window.innerWidth <= 768 ? 15 : 20); // 卡片宽度 + 间距
+            const scrollAmount = direction * cardWidth * (window.innerWidth <= 768 ? 2 : 1); // 移动端每次滚动2张，桌面端每次滚动1张
             slider.scrollBy({ left: scrollAmount, behavior: 'smooth' });
         }
 
