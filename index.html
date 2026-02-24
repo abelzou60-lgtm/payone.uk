@@ -314,6 +314,32 @@
             background-position: center;
         }
 
+        /* 悬浮在线客服图标样式 */
+        .chat-float {
+            width: 60px;
+            height: 60px;
+            background-color: #f0f0f0; /* 浅灰色背景 */
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+        }
+
+        .chat-float:hover {
+            transform: scale(1.1);
+        }
+
+        .chat-icon {
+            width: 40px;
+            height: 40px;
+            background-image: url('https://cf.aibochinese.com/%E7%B4%A0%E6%9D%90%E7%AB%99/chat-icon.png'); /* 用户提供的在线客服图标URL */
+            background-size: cover;
+            background-position: center;
+        }
+
         /* WhatsApp悬浮图标样式 */
         .whatsapp-float {
             width: 60px;
@@ -392,6 +418,66 @@
 
         .close-btn:hover {
             background-color: #ff7875;
+        }
+
+        /* 在线客服弹出窗样式 */
+        .chat-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .chat-popup {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .chat-header h3 {
+            margin: 0;
+        }
+
+        .chat-header .close-btn {
+            margin-top: 0;
+        }
+
+        .chat-content {
+            flex: 1;
+            overflow: hidden;
+            min-height: 400px;
+        }
+
+        .chat-content iframe {
+            min-height: 400px;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .chat-popup {
+                width: 95%;
+                max-height: 85vh;
+            }
         }
 
         /* 文本样式类 */
@@ -947,8 +1033,7 @@
             <p>联系我们，打通您的全球收付款渠道吧！</p>
         </div>
     </div>
-
-    <!-- 悬浮客服图标 -->
+         <!-- 悬浮客服图标 -->
     <div class="float-icons-container">
         <!-- 悬浮微信客服图标 -->
         <div class="wechat-float" onclick="toggleWechatModal()">
@@ -959,14 +1044,31 @@
         <a href="https://wa.me/message/QXYAFEGTDWIBE1" target="_blank" rel="noopener noreferrer" class="whatsapp-float">
             <i class="fab fa-whatsapp whatsapp-icon"></i>
         </a>
+        
+        <!-- 悬浮在线客服图标 -->
+        <div class="chat-float" onclick="toggleChatModal()">
+            <div class="chat-icon"></div>
+        </div>
     </div>
-
     <!-- 微信弹出窗 -->
     <div id="wechatModal" class="wechat-modal" onclick="closeWechatModal(event)">
         <div class="wechat-popup" onclick="event.stopPropagation()">
             <h3>微信客服</h3>
             <img src="https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%C2%B7%E5%AE%A2%E5%9B%BE%E7%89%87%E5%BA%93/AIBOBLOG%20WECHAT.png" alt="微信二维码" class="wechat-qr">
             <button class="close-btn" onclick="closeWechatModal()">关闭</button>
+        </div>
+    </div>
+
+    <!-- 在线客服弹出窗 -->
+    <div id="chatModal" class="chat-modal" onclick="closeChatModal(event)">
+        <div class="chat-popup" onclick="event.stopPropagation()">
+            <div class="chat-header">
+                <h3>在线客服</h3>
+                <button class="close-btn" onclick="closeChatModal()">关闭</button>
+            </div>
+            <div class="chat-content">
+                <iframe src="https://aibomart.com/chat_client.php" frameborder="0" width="100%" height="100%"></iframe>
+            </div>
         </div>
     </div>
 
@@ -981,12 +1083,27 @@
             document.getElementById('wechatModal').style.display = 'none';
         }
 
+        // 在线客服弹窗控制函数
+        function toggleChatModal() {
+            const modal = document.getElementById('chatModal');
+            modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function closeChatModal(event) {
+            document.getElementById('chatModal').style.display = 'none';
+        }
+
         // 点击模态背景关闭
         window.addEventListener('click', function(event) {
             const wechatModal = document.getElementById('wechatModal');
+            const chatModal = document.getElementById('chatModal');
             
             if (event.target === wechatModal) {
                 closeWechatModal();
+            }
+            
+            if (event.target === chatModal) {
+                closeChatModal();
             }
         });
         
