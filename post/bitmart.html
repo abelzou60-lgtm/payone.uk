@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BitMart信用卡-国际支付和境外资金安全取现必备</title>
+    <!-- PWA 相关配置 -->
+    <meta name="description" content="BitMart信用卡-国际支付和境外资金安全取现必备">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" type="image/png" href="/payone-logo.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="/payone-logo.png" sizes="32x32">
+    <link rel="apple-touch-icon" href="/payone-logo.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Payone">
+    <!-- Font Awesome 图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tailwind CSS 框架 -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+         <link rel="icon" type="image/png" href="https://cf.aibomart.com/payone.uk/payone-icon1.png" sizes="16x16">
+    <style>
+        /* 基础样式重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Microsoft YaHei", "微软雅黑", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* 悬浮客服图标样式 */
+        .wechat-float {
+            width: 60px;
+            height: 60px;
+            background-color: hsl(148, 45%, 88%); /* 微信绿色 */
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+        }
+
+        .wechat-float:hover {
+            transform: scale(1.1);
+        }
+
+        .wechat-icon {
+            width: 40px;
+            height: 40px;
+            background-image: url('https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%C2%B7%E5%AE%A2%E5%9B%BE%E7%89%87%E5%BA%93/wechaticon.png'); /* 用户提供的微信图标URL */
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* 悬浮在线客服图标样式 */
+        .chat-float {
+            width: 60px;
+            height: 60px;
+            background-color: hsl(0, 0%, 100%); /* 浅灰色背景 */
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+        }
+
+        .chat-float:hover {
+            transform: scale(1.1);
+        }
+
+        .chat-icon {
+            width: 40px;
+            height: 40px;
+            background-image: url('https://cf.aibochinese.com/%E7%B4%A0%E6%9D%90%E7%AB%99/chat-icon.png'); /* 用户提供的在线客服图标URL */
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* WhatsApp悬浮图标样式 */
+        .whatsapp-float {
+            width: 60px;
+            height: 60px;
+            background-color: #25D366; /* WhatsApp绿色 */
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+        }
+
+        .whatsapp-icon {
+            font-size: 30px;
+            color: white;
+        }
+
+        /* 悬浮图标容器 */
+        .float-icons-container {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* 微信弹出窗样式 */
+        .wechat-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .wechat-popup {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            max-width: 300px;
+            width: 90%;
+        }
+
+        .wechat-qr {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 10px;
+            display: block;
+        }
+
+        .close-btn {
+            background-color: #ff4d4f;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        .close-btn:hover {
+            background-color: #ff7875;
+        }
+
+        /* 在线客服弹出窗样式 */
+        .chat-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .chat-popup {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .chat-header h3 {
+            margin: 0;
+        }
+
+        .chat-header .close-btn {
+            margin-top: 0;
+        }
+
+        .chat-content {
+            flex: 1;
+            overflow: hidden;
+            min-height: 400px;
+        }
+
+        .chat-content iframe {
+            min-height: 400px;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .chat-popup {
+                width: 95%;
+                max-height: 85vh;
+            }
+        }
+
+        /* 导航栏样式 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 2000;
+            backdrop-filter: blur(10px);
+        }
+
+        .navbar-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 20px;
+        }
+
+        .navbar-logo img {
+            height: 40px;
+            width: auto;
+        }
+
+        /* 桌面端菜单 */
+        .navbar-menu {
+            display: flex;
+            gap: 15px;
+        }
+
+        /* 导航按钮样式 */
+        .navbar-btn {
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        /* 按钮颜色 */
+        .btn-home {
+            background: rgba(220, 38, 38, 0.8);
+            color: white;
+        }
+
+        .btn-collect {
+            background: rgba(37, 99, 235, 0.8);
+            color: white;
+        }
+
+        .btn-cross {
+            background: rgba(22, 163, 74, 0.8);
+            color: white;
+        }
+
+        .btn-review {
+            background: rgba(202, 138, 4, 0.8);
+            color: white;
+        }
+
+        /* 按钮 hover 效果 */
+        .navbar-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* 移动端汉堡菜单按钮 */
+        .navbar-toggle {
+            display: none;
+            cursor: pointer;
+        }
+
+        .bar {
+            display: block;
+            width: 25px;
+            height: 3px;
+            margin: 5px auto;
+            transition: all 0.3s ease-in-out;
+            background-color: #333;
+        }
+
+        /* 移动端菜单 */
+        .navbar-mobile-menu {
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            width: 50%;
+            margin-left: auto;
+            border-radius: 0 0 0 10px;
+        }
+
+        .navbar-mobile-btn {
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .navbar-menu {
+                display: none;
+            }
+
+            .navbar-toggle {
+                display: block;
+            }
+
+            .navbar-mobile-menu.active {
+                display: flex;
+            }
+
+            /* 汉堡菜单动画 */
+            .navbar-toggle.active .bar:nth-child(2) {
+                opacity: 0;
+            }
+
+            .navbar-toggle.active .bar:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+
+            .navbar-toggle.active .bar:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+        }
+
+        /* 内容区域样式 */
+        .content-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 120px 20px 40px;
+        }
+
+        /* 标题样式 */
+        .page-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #333;
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        /* 第一部分两栏布局 */
+        .first-section {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .left-column {
+            flex: 1;
+            background: #f9f9f9;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .left-column img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .right-column {
+            flex: 1;
+            background: #f9f9f9;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .right-column h3 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .right-column p {
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #1C64F2;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+        }
+
+        .btn:hover {
+            background: #1a56db;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(28, 100, 242, 0.3);
+        }
+
+        .tip-box {
+            background: #FFF3CD;
+            border: 1px solid #FFEEBA;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .tip-box h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #856404;
+            margin-bottom: 10px;
+        }
+
+        .tip-box ul {
+            list-style-type: disc;
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .tip-box li {
+            margin-bottom: 10px;
+        }
+
+        .tip-box a {
+            color: #1C64F2;
+            text-decoration: none;
+        }
+
+        .tip-box a:hover {
+            text-decoration: underline;
+        }
+
+        /* 第二部分 */
+        .second-section {
+            background: #f9f9f9;
+            border-radius: 10px;
+            padding: 40px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .second-section h2 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .card-selection {
+            display: flex;
+            gap: 30px;
+            flex-wrap: nowrap;
+        }
+
+        .card-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .card-images {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+        }
+
+        .card-images > div {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .card-images img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .image-caption {
+            font-size: 14px;
+            color: #666;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .content-container {
+                padding: 100px 20px 40px;
+            }
+
+            .first-section {
+                flex-direction: column;
+            }
+
+            .left-column,
+            .right-column {
+                flex: 1;
+            }
+
+            .card-selection {
+                flex-direction: column;
+            }
+
+            .card-info,
+            .card-images {
+                flex: 1;
+            }
+
+            .card-images {
+                flex-direction: column;
+            }
+
+            .page-title {
+                font-size: 22px;
+            }
+
+            .second-section {
+                padding: 30px 20px;
+            }
+        }
+                  /* 课程列表 */
+        .video-container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: white;
+            border: 3px solid #2196F3;
+            border-radius: 8px;
+            overflow: hidden;
+            height: 80vh;
+            width: 100%;
+        }
+               .video-section {
+            width: 70%;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            border-right: 3px solid #2196F3;
+        }
+
+        .video-title {
+            color: #2196F3;
+            font-size: 15px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .video-player {
+            width: 100%;
+            background-color: #000;
+            border: 2px solid #2196F3;
+            border-radius: 4px;
+        }
+
+        .playlist-section {
+            width: 30%;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .playlist-section::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .playlist-section::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .playlist-section::-webkit-scrollbar-thumb {
+            background: #2196F3;
+            border-radius: 4px;
+        }
+
+        .playlist-section::-webkit-scrollbar-thumb:hover {
+            background: #1976D2;
+        }
+
+        .playlist-header {
+            color: #2196F3;
+            font-size: 18px;
+            margin-bottom: 15px;
+            font-weight: bold;
+            border-bottom: 2px solid #2196F3;
+            padding-bottom: 10px;
+        }
+
+        .video-item {
+            padding: 15px;
+            margin-bottom: 10px;
+            background-color: #f8f9fa;
+            border: 2px solid #e3f2fd;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .video-item:hover {
+            background-color: #e3f2fd;
+            border-color: #2196F3;
+            transform: translateX(5px);
+        }
+
+        .video-item.active {
+            background-color: #2196F3;
+            color: white;
+            border-color: #2196F3;
+        }
+
+        .video-item-title {
+            font-size: 10px;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .video-item-duration {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .video-item.active .video-item-duration {
+            color: #e3f2fd;
+        }
+
+        .chapter-title {
+            color: #2196F3;
+            font-size: 15px;
+            font-weight: bold;
+            margin: 15px 0 10px 0;
+            padding: 8px 10px;
+            background-color: #e3f2fd;
+            border-left: 4px solid #2196F3;
+            border-radius: 4px;
+        }
+
+        .video-section {
+            width: 70%;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            border-right: 3px solid #2196F3;
+        }
+
+        .video-player-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+
+        .video-player {
+            width: 100%;
+            flex: 1;
+            max-height: calc(100% - 60px);
+            background-color: #000;
+            border: 2px solid #2196F3;
+            border-radius: 4px;
+            object-fit: contain;
+        }
+
+        .document-button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            align-self: center;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+            flex-shrink: 0;
+        }
+
+        .document-button:hover {
+            background-color: #1976D2;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+    </style>
+<link rel="manifest" href="/manifest.webmanifest"><script id="vite-plugin-pwa:register-sw" src="/registerSW.js"></script></head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <!-- Logo -->
+            <a href="index.html" class="navbar-logo">
+                <img src="https://cf.aibomart.com/payone.uk/payone-hor-logo.PNG" alt="PayOne Logo">
+            </a>
+            
+            <!-- 桌面端菜单 -->
+            <div class="navbar-menu">
+                <a href="index.html" class="navbar-btn btn-home">首页</a>
+                <a href="https://payone.uk/collect" class="navbar-btn btn-collect">全球收款</a>
+                <a href="apply-vcc.html" class="navbar-btn btn-cross">跨境支付</a>
+                <a href="https://payone.uk/reviews" class="navbar-btn btn-review">评价</a>
+            </div>
+            
+            <!-- 移动端汉堡菜单按钮 -->
+            <div class="navbar-toggle" onclick="toggleMobileMenu()">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+        
+        <!-- 移动端菜单 -->
+        <div class="navbar-mobile-menu">
+            <a href="index.html" class="navbar-mobile-btn btn-home">首页</a>
+            <a href="https://payone.uk/collect" class="navbar-mobile-btn btn-collect">全球收款</a>
+            <a href="apply-vcc.html" class="navbar-mobile-btn btn-cross">跨境支付</a>
+            <a href="https://payone.uk/reviews" class="navbar-mobile-btn btn-review">评价</a>
+        </div>
+    </nav>
+
+    <!-- 内容区域 -->
+    <div class="content-container">
+        <!-- 页面标题 -->
+        <h1 class="page-title">BitMart信用卡-国际支付和境外资金安全取现<span style="background-color: red; color: white; padding: 0 5px;">必备</span></h1>
+
+        <!-- 第一部分 -->
+        <div class="first-section">
+            <!-- 左侧栏 -->
+            <div class="left-column">
+                <img src="https://cf.aibomart.com/%E5%9B%BE%E5%BA%93/BitMart%E5%8D%A1/BitMart-cover.png" alt="BitMart Cover">
+             <p>BitMart平台凭借优秀的生态和应用落地在市场稳占一席之地，获得美国49个州的运营许可以及香港、澳大利亚，加拿大等地的相关牌照！</p>           
+              <p>开卡注册渠道：<a href="https://www.bm-link.com/zh-CN/activity/BitMart-Card-Zouhuanglin" target="_blank" class="btn">点击注册</a></p>
+            </div>
+
+            <!-- 右侧栏 -->
+            <div class="right-column">
+
+                <div class="tip-box">
+                    <h4>温馨提示：</h4>
+                    <p>如注册页面打开受限，2种方案：</p>
+                    <ul>
+                        <li>1.可以在<a href="https://dedicatedlines.top" target="_blank">净连专线</a>免费试用美国IP</li>
+                        <li>2.先下载APK文件<a href="https://drive.aibochinese.com/s/X8eUK" target="_blank" class="btn" style="color: white;">点击下载</a>，安装APP后，无需特别网络</li>
+                    </ul>
+                </div>
+                
+                <p><strong>充值</strong>：自助<a href="https://blog.aibochinese.com/payment/self%20recharge" target="_blank" style="background-color: red; color: white;">教程</a> | <strong>代充</strong>，联系右侧客服[限定场景，不提供除此之外的兑换服务]</p>
+                
+                <p>注册账户后，把UID（用户编码）发送给我（右侧悬浮客服），设置白名单后即可开卡不受地区限制</p>
+            </div>
+        </div>
+
+        <!-- 第二部分 -->
+        <div class="second-section">
+            <h2>如何选卡？</h2>
+                <div class="card-images">
+                    <div>
+                        <img src="https://cf.aibomart.com/%E5%9B%BE%E5%BA%93/BitMart%E5%8D%A1/Card-types.png" alt="Card Types">
+                        <p class="image-caption">卡类型选择参考：如果国内外消费，申请虚拟卡即可；如果境外资金安全回国，ATM（<span style="color: red; font-weight: bold;">Visa-ATM位置查询</span><a href="https://www.visa.com/locator/atm" target="_blank">【点击】</a>）取现，建议铂金实体卡。</p>
+                    </div>
+                    <div>
+                        <img src="https://cf.aibomart.com/%E5%9B%BE%E5%BA%93/BitMart%E5%8D%A1/fee.jpg" alt="Fee Structure">
+                        <p class="image-caption">费用说明</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+     <div class="video-container">
+        <div class="video-section">
+            <div class="video-title" id="currentTitle">视频解说</div>
+            <div class="video-player-container">
+                <video class="video-player" id="videoPlayer" controls>
+                    <source src="https://cf.aibochinese.com/%E8%A7%86%E9%A2%91%E7%A8%BF%E4%BB%B6/2026%E5%B9%B42%E6%9C%88/%E8%B7%A8%E5%A2%83%E4%BA%BA%E7%9A%84%E5%BF%85%E5%A4%87%E4%BF%A1%E7%94%A8%E5%8D%A1%EF%BC%8C%E6%97%A0%E9%9C%80%E9%A2%84%E5%AD%98%EF%BC%8C0%E5%BC%80%E5%8D%A1%E8%B4%B9%EF%BC%8C0%E7%AE%A1%E7%90%86%E8%B4%B9%EF%BC%8C%E6%B6%88%E8%B4%B9%E6%9C%89%E8%BF%94%E7%8E%B0%EF%BC%8C%E6%94%AF%E6%8C%81%E5%AE%9E%E5%8D%A1%E7%94%B3%E8%AF%B7%E5%92%8CATM%E5%8F%96%E7%8E%B0/%E8%B7%A8%E5%A2%83%E4%BA%BA%E7%9A%84%E5%BF%85%E5%A4%87%E4%BF%A1%E7%94%A8%E5%8D%A1%EF%BC%8C%E6%97%A0%E9%9C%80%E9%A2%84%E5%AD%98%EF%BC%8C0%E5%BC%80%E5%8D%A1%E8%B4%B9%EF%BC%8C0%E7%AE%A1%E7%90%86%E8%B4%B9%EF%BC%8C%E6%B6%88%E8%B4%B9%E6%9C%89%E8%BF%94%E7%8E%B0%EF%BC%8C%E6%94%AF%E6%8C%81%E5%AE%9E%E5%8D%A1%E7%94%B3%E8%AF%B7%E5%92%8CATM%E5%8F%96%E7%8E%B0.mp4" type="video/mp4">
+                </video>
+                <button class="document-button">查看相应文档说明</button>
+            </div>
+        </div>
+
+        <div class="playlist-section">
+            <div class="playlist-header">视频列表</div>
+            <div id="playlist"></div>
+        </div>
+    </div>
+
+    <!-- 悬浮客服图标 -->
+    <div class="float-icons-container">
+        <!-- 悬浮微信客服图标 -->
+        <div class="wechat-float" onclick="toggleWechatModal()">
+            <div class="wechat-icon"></div>
+        </div>
+        
+        <!-- 悬浮WhatsApp客服图标 -->
+        <a href="https://wa.me/message/QXYAFEGTDWIBE1" target="_blank" rel="noopener noreferrer" class="whatsapp-float">
+            <i class="fab fa-whatsapp whatsapp-icon"></i>
+        </a>
+        
+        <!-- 悬浮在线客服图标 -->
+        <div class="chat-float" onclick="toggleChatModal()">
+            <div class="chat-icon"></div>
+        </div>
+    </div>
+
+    <!-- 微信弹出窗 -->
+    <div id="wechatModal" class="wechat-modal" onclick="closeWechatModal(event)">
+        <div class="wechat-popup" onclick="event.stopPropagation()">
+            <h3>微信客服</h3>
+            <img src="https://cf.aibochinese.com/%E7%88%B1%E5%8D%9A%C2%B7%E5%AE%A2%E5%9B%BE%E7%89%87%E5%BA%93/AIBOBLOG%20WECHAT.png" alt="微信二维码" class="wechat-qr">
+            <button class="close-btn" onclick="closeWechatModal()">关闭</button>
+        </div>
+    </div>
+
+    <!-- 在线客服弹出窗 -->
+    <div id="chatModal" class="chat-modal" onclick="closeChatModal(event)">
+        <div class="chat-popup" onclick="event.stopPropagation()">
+            <div class="chat-header">
+                <h3>在线客服</h3>
+                <button class="close-btn" onclick="closeChatModal()">关闭</button>
+            </div>
+            <div class="chat-content">
+                <iframe src="https://aibomart.com/chat_client.php" frameborder="0" width="100%" height="100%"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 微信弹窗控制函数
+        function toggleWechatModal() {
+            const modal = document.getElementById('wechatModal');
+            modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function closeWechatModal(event) {
+            document.getElementById('wechatModal').style.display = 'none';
+        }
+
+        // 在线客服弹窗控制函数
+        function toggleChatModal() {
+            const modal = document.getElementById('chatModal');
+            modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function closeChatModal(event) {
+            document.getElementById('chatModal').style.display = 'none';
+        }
+
+        // 点击模态背景关闭
+        window.addEventListener('click', function(event) {
+            const wechatModal = document.getElementById('wechatModal');
+            const chatModal = document.getElementById('chatModal');
+            
+            if (event.target === wechatModal) {
+                closeWechatModal();
+            }
+            
+            if (event.target === chatModal) {
+                closeChatModal();
+            }
+        });
+        
+        // 汉堡菜单控制函数
+        function toggleMobileMenu() {
+            const navbarToggle = document.querySelector('.navbar-toggle');
+            const mobileMenu = document.querySelector('.navbar-mobile-menu');
+            
+            navbarToggle.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+        }
+
+        // PWA 服务工作线程注册
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('Service Worker 注册成功:', registration.scope);
+                    })
+                    .catch(error => {
+                        console.error('Service Worker 注册失败:', error);
+                    });
+            });
+        }
+    </script>
+         <script>
+        const videos = [
+        {
+                chapter: "概述",
+                title: "1.跨境支付和资金安全回国必备Visa卡",
+                url: "https://cf.aibochinese.com/%E8%A7%86%E9%A2%91%E7%A8%BF%E4%BB%B6/2026%E5%B9%B42%E6%9C%88/%E8%B7%A8%E5%A2%83%E4%BA%BA%E7%9A%84%E5%BF%85%E5%A4%87%E4%BF%A1%E7%94%A8%E5%8D%A1%EF%BC%8C%E6%97%A0%E9%9C%80%E9%A2%84%E5%AD%98%EF%BC%8C0%E5%BC%80%E5%8D%A1%E8%B4%B9%EF%BC%8C0%E7%AE%A1%E7%90%86%E8%B4%B9%EF%BC%8C%E6%B6%88%E8%B4%B9%E6%9C%89%E8%BF%94%E7%8E%B0%EF%BC%8C%E6%94%AF%E6%8C%81%E5%AE%9E%E5%8D%A1%E7%94%B3%E8%AF%B7%E5%92%8CATM%E5%8F%96%E7%8E%B0/%E8%B7%A8%E5%A2%83%E4%BA%BA%E7%9A%84%E5%BF%85%E5%A4%87%E4%BF%A1%E7%94%A8%E5%8D%A1%EF%BC%8C%E6%97%A0%E9%9C%80%E9%A2%84%E5%AD%98%EF%BC%8C0%E5%BC%80%E5%8D%A1%E8%B4%B9%EF%BC%8C0%E7%AE%A1%E7%90%86%E8%B4%B9%EF%BC%8C%E6%B6%88%E8%B4%B9%E6%9C%89%E8%BF%94%E7%8E%B0%EF%BC%8C%E6%94%AF%E6%8C%81%E5%AE%9E%E5%8D%A1%E7%94%B3%E8%AF%B7%E5%92%8CATM%E5%8F%96%E7%8E%B0.mp4",
+                duration: "4:34",
+                document: "https://payone.uk/bitmart"
+            },   
+          {
+                chapter: "使用教程",
+                title: "1.手把手教您给Visa卡充值|自助",
+                url: "https://cf.aibochinese.com/%E8%A7%86%E9%A2%91%E7%A8%BF%E4%BB%B6/%E6%89%8B%E6%8A%8A%E6%89%8B%E7%BB%99%E6%82%A8%E6%BC%94%E7%A4%BA%EF%BC%9A%E8%99%9A%E6%8B%9F%E4%BF%A1%E7%94%A8%E5%8D%A1%E5%85%85%E5%80%BCUSDT.mp4",
+                duration: "13:34",
+                document: "hhttps://blog.aibochinese.com/payment/self%20recharge"
+            },           
+        {
+                chapter: "国际收付款业务",
+                title: "1.免费定制聚合收款页面",
+                url: "https://cf.aibochinese.com/%E8%A7%86%E9%A2%91%E7%A8%BF%E4%BB%B6/2026%E5%B9%B41%E6%9C%88/%E5%85%8D%E8%B4%B9%E5%B8%AE%E6%82%A8%E5%81%9A%E4%B8%80%E4%B8%AA%E8%81%9A%E5%90%88%E5%85%A8%E7%90%83%E6%94%B6%E4%BB%98%E6%AC%BE%E9%A1%B5%E9%9D%A2%EF%BC%8C%E5%85%8D%E8%B4%B9%E9%80%81%E5%AD%90%E5%9F%9F%E5%90%88%EF%BC%8C%E6%8C%87%E5%AF%BC%E5%BC%80%E9%80%9A%E6%B8%A0%E9%81%93%E6%B5%81%E7%A8%8B.mp4",
+                duration: "6:34",
+                document: "https://payone.uk/custom-page"
+            }
+
+        ];
+
+        const playlist = document.getElementById('playlist');
+        const videoPlayer = document.getElementById('videoPlayer');
+        const currentTitle = document.getElementById('currentTitle');
+        let currentVideoDocument = ''; // 存储当前视频的文档链接
+
+        // 按章节分组视频
+        const videosByChapter = videos.reduce((acc, video) => {
+            if (!acc[video.chapter]) {
+                acc[video.chapter] = [];
+            }
+            acc[video.chapter].push(video);
+            return acc;
+        }, {});
+
+        // 设置初始视频的文档链接（默认第一个视频）
+        if (videos.length > 0) {
+            currentVideoDocument = videos[0].document;
+        }
+
+        // 渲染视频列表
+        Object.entries(videosByChapter).forEach(([chapter, chapterVideos]) => {
+            // 创建章节标题
+            const chapterTitle = document.createElement('div');
+            chapterTitle.className = 'chapter-title';
+            chapterTitle.textContent = chapter;
+            playlist.appendChild(chapterTitle);
+
+            // 创建该章节下的视频项
+            chapterVideos.forEach((video, index) => {
+                const item = document.createElement('div');
+                item.className = 'video-item';
+                item.innerHTML = `
+                    <div class="video-item-title">${video.title}</div>
+                    <div class="video-item-duration">时长: ${video.duration}</div>
+                `;
+                
+                item.addEventListener('click', () => {
+                    document.querySelectorAll('.video-item').forEach(el => {
+                        el.classList.remove('active');
+                    });
+                    item.classList.add('active');
+                    
+                    videoPlayer.src = video.url;
+                    currentTitle.textContent = video.title;
+                    currentVideoDocument = video.document; // 更新当前视频的文档链接
+                    videoPlayer.play();
+                });
+                
+                playlist.appendChild(item);
+            });
+        });
+
+        // 添加查看文档按钮点击事件
+        const documentButton = document.querySelector('.document-button');
+        documentButton.addEventListener('click', () => {
+            if (currentVideoDocument) {
+                // 使用新窗口打开文档链接
+                window.open(currentVideoDocument, '_blank');
+            } else {
+                alert('当前视频暂无相关文档');
+            }
+        });
+    </script>
+</body>
+</html>
