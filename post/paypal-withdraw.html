@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PayPal提现-2026年最优解 - Payone</title>
-    <!-- PWA 相关配置 -->
     <meta name="description" content="PayPal提现-2026年最优解，提供三种提现方案，前两种可省35美金国际汇款手续费">
     <meta name="theme-color" content="#ffffff">
     <link rel="manifest" href="/manifest.json">
@@ -14,13 +13,10 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Payone">
-    <!-- Font Awesome 图标库 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Tailwind CSS 框架 -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="https://cf.aibomart.com/payone.uk/payone-icon1.png" sizes="16x16">
     <style>
-        /* 基础样式重置 */
         * {
             margin: 0;
             padding: 0;
@@ -35,7 +31,6 @@
             scroll-behavior: smooth;
         }
 
-        /* Hero 区域 */
         .hero {
             min-height: 60vh;
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
@@ -93,14 +88,52 @@
             box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
         }
 
-        /* 内容容器 */
         .content-container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 60px 20px;
         }
 
-        /* 方案卡片样式 */
+        .solutions-grid {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .solutions-grid .solution-card {
+            flex: 1;
+            margin-bottom: 0;
+        }
+
+        @media (min-width: 769px) {
+            .solutions-grid {
+                align-items: stretch;
+            }
+
+            .solutions-grid .solution-card {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .solutions-grid .solution-content {
+                flex: 1;
+            }
+
+            .solutions-grid .solution-card.paysend {
+                border-left: 6px solid #dc2626;
+                border-top: 2px solid #fee2e2;
+                border-right: 2px solid #fee2e2;
+                border-bottom: 2px solid #fee2e2;
+            }
+
+            .solutions-grid .solution-card.krak {
+                border-left: 6px solid #2563eb;
+                border-top: 2px solid #dbeafe;
+                border-right: 2px solid #dbeafe;
+                border-bottom: 2px solid #dbeafe;
+            }
+        }
+
         .solution-card {
             background: white;
             border-radius: 20px;
@@ -270,7 +303,6 @@
             box-shadow: 0 4px 16px rgba(22, 163, 74, 0.4);
         }
 
-        /* 免责声明 */
         .disclaimer {
             background: #fffbeb;
             border: 2px solid #fcd34d;
@@ -295,7 +327,6 @@
             line-height: 1.7;
         }
 
-        /* 悬浮搜索按钮 */
         .search-float {
             width: 60px;
             height: 60px;
@@ -313,7 +344,6 @@
             transform: scale(1.1);
         }
 
-        /* 搜索弹出窗 */
         .search-modal {
             display: none;
             position: fixed;
@@ -342,7 +372,6 @@
             color: #333;
         }
 
-        /* 悬浮客服图标样式 */
         .wechat-float {
             width: 60px;
             height: 60px;
@@ -368,7 +397,6 @@
             background-position: center;
         }
 
-        /* 悬浮在线客服图标样式 */
         .chat-float {
             width: 60px;
             height: 60px;
@@ -394,7 +422,6 @@
             background-position: center;
         }
 
-        /* WhatsApp悬浮图标样式 */
         .whatsapp-float {
             width: 60px;
             height: 60px;
@@ -418,7 +445,6 @@
             color: white;
         }
 
-        /* 悬浮图标容器 */
         .float-icons-container {
             position: fixed;
             right: 20px;
@@ -430,7 +456,6 @@
             gap: 15px;
         }
 
-        /* 微信弹出窗样式 */
         .wechat-modal {
             display: none;
             position: fixed;
@@ -475,7 +500,6 @@
             background-color: #ff7875;
         }
 
-        /* 在线客服弹出窗样式 */
         .chat-modal {
             display: none;
             position: fixed;
@@ -527,7 +551,6 @@
             min-height: 400px;
         }
 
-        /* 文本样式类 */
         .text-white {
             color: white;
         }
@@ -536,7 +559,6 @@
             font-size: 1.5rem;
         }
 
-        /* 导航栏样式 */
         .navbar {
             position: fixed;
             top: 0;
@@ -563,13 +585,11 @@
             width: auto;
         }
 
-        /* 桌面端菜单 */
         .navbar-menu {
             display: flex;
             gap: 15px;
         }
 
-        /* 导航按钮样式 */
         .navbar-btn {
             padding: 10px 20px;
             border-radius: 25px;
@@ -579,7 +599,6 @@
             border: 2px solid transparent;
         }
 
-        /* 按钮颜色 */
         .btn-home {
             background: rgba(220, 38, 38, 0.8);
             color: white;
@@ -600,14 +619,12 @@
             color: white;
         }
 
-        /* 按钮 hover 效果 */
         .navbar-btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
             border-color: rgba(255, 255, 255, 0.5);
         }
 
-        /* 移动端汉堡菜单按钮 */
         .navbar-toggle {
             display: none;
             cursor: pointer;
@@ -622,7 +639,6 @@
             background-color: #333;
         }
 
-        /* 移动端菜单 */
         .navbar-mobile-menu {
             display: none;
             flex-direction: column;
@@ -644,7 +660,6 @@
             transition: all 0.3s ease;
         }
 
-        /* 响应式设计 */
         @media (max-width: 768px) {
             .navbar-menu {
                 display: none;
@@ -658,7 +673,6 @@
                 display: flex;
             }
 
-            /* 汉堡菜单动画 */
             .navbar-toggle.active .bar:nth-child(2) {
                 opacity: 0;
             }
@@ -696,9 +710,12 @@
                 margin-left: 0;
                 margin-top: 10px;
             }
+
+            .solutions-grid {
+                flex-direction: column;
+            }
         }
 
-        /* 搜索样式 */
         .search-container {
             position: relative;
             margin: 0 auto;
@@ -772,31 +789,23 @@
     </style>
 </head>
 <body>
-    <!-- 导航栏 -->
     <nav class="navbar">
         <div class="navbar-container">
-            <!-- Logo -->
             <a href="index.html" class="navbar-logo">
                 <img src="https://cf.aibomart.com/payone.uk/payone-hor-logo.PNG" alt="PayOne Logo">
             </a>
-
-            <!-- 桌面端菜单 -->
             <div class="navbar-menu">
                 <a href="index.html" class="navbar-btn btn-home">首页</a>
                 <a href="https://payone.uk/collect" class="navbar-btn btn-collect">全球收款</a>
                 <a href="apply-vcc.html" class="navbar-btn btn-cross">跨境支付</a>
                 <a href="https://payone.uk/reviews" class="navbar-btn btn-review">评价</a>
             </div>
-
-            <!-- 移动端汉堡菜单按钮 -->
             <div class="navbar-toggle" onclick="toggleMobileMenu()">
                 <span class="bar"></span>
                 <span class="bar"></span>
                 <span class="bar"></span>
             </div>
         </div>
-
-        <!-- 移动端菜单 -->
         <div class="navbar-mobile-menu">
             <a href="index.html" class="navbar-mobile-btn btn-home">首页</a>
             <a href="https://payone.uk/collect" class="navbar-mobile-btn btn-collect">全球收款</a>
@@ -805,7 +814,6 @@
         </div>
     </nav>
 
-    <!-- Hero 区域 -->
     <section class="hero">
         <div class="hero-content">
             <h1 class="main-title">PayPal提现-2026年最优解</h1>
@@ -814,56 +822,54 @@
         </div>
     </section>
 
-    <!-- 内容区域 -->
     <div class="content-container">
-        <!-- 方案一：Paysend -->
-        <div class="solution-card paysend">
-            <div class="solution-header">
-                <div class="solution-number">一</div>
-                <h2 class="solution-title">Paysend 成本最低</h2>
-                <span class="solution-tag">推荐首选</span>
-            </div>
-            <div class="solution-content">
-                <div class="link-item">
-                    <i class="fas fa-user-plus link-icon"></i>
-                    <span class="link-label">注册渠道（免手续费券）：</span>
-                    <span class="link-value"><a href="https://paysend.com/zh/referral/068vdd" target="_blank" rel="noopener noreferrer">点击</a></span>
+        <div class="solutions-grid">
+            <div class="solution-card paysend">
+                <div class="solution-header">
+                    <div class="solution-number">一</div>
+                    <h2 class="solution-title">Paysend 成本最低</h2>
+                    <span class="solution-tag">推荐首选</span>
                 </div>
-                <div class="link-item">
-                    <i class="fas fa-phone link-icon"></i>
-                    <span class="link-label">德国手机号：</span>
-                    <span class="link-value"><a href="https://blog.aibochinese.com/tools/vodafoneesim-0cost" target="_blank" rel="noopener noreferrer">点击</a></span>
+                <div class="solution-content">
+                    <div class="link-item">
+                        <i class="fas fa-user-plus link-icon"></i>
+                        <span class="link-label">注册渠道（免手续费券）：</span>
+                        <span class="link-value"><a href="https://paysend.com/zh/referral/068vdd" target="_blank" rel="noopener noreferrer">点击</a></span>
+                    </div>
+                    <div class="link-item">
+                        <i class="fas fa-phone link-icon"></i>
+                        <span class="link-label">德国手机号：</span>
+                        <span class="link-value"><a href="https://blog.aibochinese.com/tools/vodafoneesim-0cost" target="_blank" rel="noopener noreferrer">点击</a></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="solution-card krak">
+                <div class="solution-header">
+                    <div class="solution-number">二</div>
+                    <h2 class="solution-title">Krak 小额提现成本最低</h2>
+                    <span class="solution-tag">小额优选</span>
+                </div>
+                <div class="solution-content">
+                    <div class="link-item">
+                        <i class="fas fa-book link-icon"></i>
+                        <span class="link-label">注册和使用教程：</span>
+                        <span class="link-value"><a href="https://blog.aibochinese.com/payment/krak" target="_blank" rel="noopener noreferrer">点击</a></span>
+                    </div>
+                    <div class="link-item">
+                        <i class="fas fa-phone link-icon"></i>
+                        <span class="link-label">1、英国手机号：</span>
+                        <span class="link-value"><a href="https://blog.aibochinese.com/tools/kitesim" target="_blank" rel="noopener noreferrer">点击</a></span>
+                    </div>
+                    <div class="link-item">
+                        <i class="fas fa-file-alt link-icon"></i>
+                        <span class="link-label">2、英国地址证明：</span>
+                        <span class="link-value"><a href="https://payone.uk/collect" target="_blank" rel="noopener noreferrer">点击</a></span>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- 方案二：Krak -->
-        <div class="solution-card krak">
-            <div class="solution-header">
-                <div class="solution-number">二</div>
-                <h2 class="solution-title">Krak 小额提现成本最低</h2>
-                <span class="solution-tag">小额优选</span>
-            </div>
-            <div class="solution-content">
-                <div class="link-item">
-                    <i class="fas fa-book link-icon"></i>
-                    <span class="link-label">注册和使用教程：</span>
-                    <span class="link-value"><a href="https://blog.aibochinese.com/payment/krak" target="_blank" rel="noopener noreferrer">点击</a></span>
-                </div>
-                <div class="link-item">
-                    <i class="fas fa-phone link-icon"></i>
-                    <span class="link-label">1、英国手机号：</span>
-                    <span class="link-value"><a href="https://blog.aibochinese.com/tools/kitesim" target="_blank" rel="noopener noreferrer">点击</a></span>
-                </div>
-                <div class="link-item">
-                    <i class="fas fa-file-alt link-icon"></i>
-                    <span class="link-label">2、英国地址证明：</span>
-                    <span class="link-value"><a href="https://payone.uk/collect" target="_blank" rel="noopener noreferrer">点击</a></span>
-                </div>
-            </div>
-        </div>
-
-        <!-- 方案三：Wise -->
         <div class="solution-card wise">
             <div class="solution-header">
                 <div class="solution-number">三</div>
@@ -879,7 +885,6 @@
             </div>
         </div>
 
-        <!-- 免责声明 -->
         <div class="disclaimer">
             <div class="disclaimer-title">
                 <i class="fas fa-exclamation-circle"></i>
@@ -891,30 +896,21 @@
         </div>
     </div>
 
-    <!-- 悬浮客服图标 -->
     <div class="float-icons-container">
-        <!-- 悬浮微信客服图标 -->
         <div class="wechat-float" onclick="toggleWechatModal()">
             <div class="wechat-icon"></div>
         </div>
-
-        <!-- 悬浮WhatsApp客服图标 -->
         <a href="https://wa.me/message/QXYAFEGTDWIBE1" target="_blank" rel="noopener noreferrer" class="whatsapp-float">
             <i class="fab fa-whatsapp whatsapp-icon"></i>
         </a>
-
-        <!-- 悬浮在线客服图标 -->
         <div class="chat-float" onclick="toggleChatModal()">
             <div class="chat-icon"></div>
         </div>
-
-        <!-- 悬浮搜索按钮 -->
         <div class="search-float" onclick="toggleSearchModal()">
             <i class="fa fa-search text-white text-2xl"></i>
         </div>
     </div>
 
-    <!-- 微信弹出窗 -->
     <div id="wechatModal" class="wechat-modal" onclick="closeWechatModal(event)">
         <div class="wechat-popup" onclick="event.stopPropagation()">
             <h3>微信客服</h3>
@@ -923,7 +919,6 @@
         </div>
     </div>
 
-    <!-- 在线客服弹出窗 -->
     <div id="chatModal" class="chat-modal" onclick="closeChatModal(event)">
         <div class="chat-popup" onclick="event.stopPropagation()">
             <div class="chat-header">
@@ -936,7 +931,6 @@
         </div>
     </div>
 
-    <!-- 搜索弹出窗 -->
     <div id="searchModal" class="search-modal" onclick="closeSearchModal(event)">
         <div class="search-popup" onclick="event.stopPropagation()">
             <h3>搜索内容</h3>
@@ -946,7 +940,6 @@
     </div>
 
     <script>
-        // 搜索弹窗控制函数
         function toggleSearchModal() {
             const modal = document.getElementById('searchModal');
             modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
@@ -956,7 +949,6 @@
             document.getElementById('searchModal').style.display = 'none';
         }
 
-        // 微信弹窗控制函数
         function toggleWechatModal() {
             const modal = document.getElementById('wechatModal');
             modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
@@ -966,7 +958,6 @@
             document.getElementById('wechatModal').style.display = 'none';
         }
 
-        // 在线客服弹窗控制函数
         function toggleChatModal() {
             const modal = document.getElementById('chatModal');
             modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
@@ -976,30 +967,24 @@
             document.getElementById('chatModal').style.display = 'none';
         }
 
-        // 点击模态背景关闭
         window.addEventListener('click', function(event) {
             const wechatModal = document.getElementById('wechatModal');
             const chatModal = document.getElementById('chatModal');
-
             if (event.target === wechatModal) {
                 closeWechatModal();
             }
-
             if (event.target === chatModal) {
                 closeChatModal();
             }
         });
 
-        // 汉堡菜单控制函数
         function toggleMobileMenu() {
             const navbarToggle = document.querySelector('.navbar-toggle');
             const mobileMenu = document.querySelector('.navbar-mobile-menu');
-
             navbarToggle.classList.toggle('active');
             mobileMenu.classList.toggle('active');
         }
 
-        // PWA 服务工作线程注册
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/sw.js')
@@ -1013,13 +998,11 @@
         }
     </script>
 
-    <!-- Pagefind 搜索 -->
     <script src="/post/pagefind/pagefind-ui.js"></script>
     <script>
         window.addEventListener('DOMContentLoaded', function () {
             console.log("Initializing Pagefind search...");
             try {
-                // 初始化右侧悬浮搜索弹窗
                 new PagefindUI({
                     element: "#pagefind-search-popup",
                     showImages: false,
@@ -1029,7 +1012,6 @@
                         placeholder: "🔍资源、教程、工具..."
                     }
                 });
-
                 console.log("Pagefind search initialized successfully");
             } catch (error) {
                 console.error("Pagefind search initialization failed:", error);
